@@ -1,0 +1,112 @@
+import { useState, useCallback } from 'react';
+import { CASES } from '../data/cases';
+import {
+  calculateAccuracy,
+  calculateConfidenceCalibration,
+  calculateCategoryAccuracy,
+} from '../utils/scoring';
+
+const STORAGE_KEY = 'design-eye-profile';
+
+function createFreshProfile() {
+  return {
+    coldOpenCompleted: false,
+    casesCompleted: 0,
+    submissions: [],
+    accuracyByCategory: {},
+    overallAccuracy: 0,
+    confidenceCalibration: null,
+  };
+}
+
+function loadProfile() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return createFreshProfile();
+    return JSON.parse(raw);
+  } catch {
+    return createFreshProfile();
+  }
+}
+
+function saveProfile(profile) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
+  } catch {
+    // localStorage unavailable — continue without persistence
+  }
+}
+
+function recomputeStats(profile) {
+  return {
+    ...profile,
+    overallAccuracy: calculateAccuracy(profile.submissions, CASES),
+    confidenceCalibration: calculateConfidenceCalibration(profile.submissions, CASES),
+    accuracyByCategory: calculateCategoryAccuracy(profile.submissions, CASES),
+  };
+}
+
+export function useDesignEye() {
+  const [profile, setProfile] = useState(() => loadProfile());
+
+  const markColdOpenComplete = useCallback(() => {
+    setProfile((prev) => {
+      const next = { ...prev, coldOpenCompleted: true };
+      saveProfile(next);
+      return next;
+    });
+  }, []);
+
+  const recordSubmission = useCallback((submission) => {
+    // submission: { caseId, verdict, evidenceTags, confidence, timestamp }
+    setProfile((prev) => {
+      const alreadySubmitted = prev.submissions.some(
+        (s) => s.caseId === submission.caseId
+      );
+      if (alreadySubmitted) return prev;
+
+      const updated = {
+        ...prev,
+        casesCompleted: prev.casesCompleted + 1,
+        submissions: [...prev.submissions, submission],
+      };
+      const next = recomputeStats(updated);
+      saveProfile(next);
+      return next;
+    });
+  }, []);
+
+  const resetProfile = useCallback(() => {
+    const fresh = createFreshProfile();
+    saveProfile(fresh);
+    setProfile(fresh);
+  }, []);
+
+  const hasSubmittedCase = useCallback(
+    (caseId) => profile.submissions.some((s) => s.caseId === caseId),
+    [profile.submissions]
+  );
+
+  const getSubmission = useCallback(
+    (caseId) => profile.submissions.find((s) => s.caseId === caseId) ?? null,
+    [profile.submissions]
+  );
+
+  // Fires intermission report after cases 3, 6, 9, 12
+  const shouldShowIntermission = profile.casesCompleted > 0 &&
+    profile.casesCompleted % 3 === 0 &&
+    profile.casesCompleted < 15;
+
+  const isComplete = profile.casesCompleted >= 15;
+
+  return {
+    profile,
+    markColdOpenComplete,
+    recordSubmission,
+    resetProfile,
+    hasSubmittedCase,
+    getSubmission,
+    shouldShowIntermission,
+    isComplete,
+  };
+}

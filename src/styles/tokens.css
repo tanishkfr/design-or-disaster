@@ -1,0 +1,101 @@
+:root {
+  /* ─── Backgrounds ─────────────────────────────────── */
+  --bg:              #09080A;
+  --surface:         #111013;
+  --surface-raised:  #18161A;
+  --surface-overlay: #1F1C22;
+
+  /* ─── Borders ─────────────────────────────────────── */
+  --border-subtle:   #211E25;
+  --border-default:  #2E2A34;
+  --border-strong:   #3D3844;
+
+  /* ─── Text ────────────────────────────────────────── */
+  --text-primary:    #F0EAD6;
+  --text-secondary:  #7A7480;
+  --text-tertiary:   #4A4650;
+
+  /* ─── Verdict — Guilty ────────────────────────────── */
+  --guilty:          #C8432A;
+  --guilty-dim:      #3D1510;
+
+  /* ─── Verdict — Clear ─────────────────────────────── */
+  --clear:           #4A8C5C;
+  --clear-dim:       #102416;
+
+  /* ─── Verdict — Mixed ─────────────────────────────── */
+  --mixed:           #B87D2A;
+  --mixed-dim:       #2E1F08;
+
+  /* ─── Accent ──────────────────────────────────────── */
+  --amber:           #F5A623;
+  --amber-dim:       #2A1D08;
+
+  /* ─── Landmark ────────────────────────────────────── */
+  --landmark:        #8B6FC8;
+  --landmark-dim:    #1A1230;
+
+  /* ─── Typography ──────────────────────────────────── */
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-mono:    'IBM Plex Mono', 'Courier New', monospace;
+  --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
+
+  /* ─── Type Scale ──────────────────────────────────── */
+  --t-case-number: 11px;   /* Mono 500 — CASE #007 */
+  --t-label:       12px;   /* Mono 500 — status tags, category codes */
+  --t-body-sm:     13px;   /* Body 400 — meta copy, timestamps */
+  --t-body:        15px;   /* Body 400 — juror reasoning, evidence copy */
+  --t-body-med:    15px;   /* Body 600 — UI labels, navigation */
+  --t-title:       22px;   /* Display 400 italic — case titles */
+  --t-verdict:     32px;   /* Display 400 italic — final verdict text */
+  --t-headline:    48px;   /* Display 400 italic — landing headline */
+
+  /* ─── Letter Spacing ──────────────────────────────── */
+  --ls-mono:  0.08em;
+  --ls-label: 0.06em;
+  --ls-wide:  0.12em;
+
+  /* ─── Spacing (base 4px) ──────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ─── Border Radius ───────────────────────────────── */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-full: 9999px;
+
+  /* ─── Motion ──────────────────────────────────────── */
+  --duration-fast:   150ms;
+  --duration-base:   300ms;
+  --duration-slow:   600ms;
+  --duration-slower: 800ms;
+  --ease-default:    ease;
+  --ease-in:         ease-in;
+  --ease-out:        ease-out;
+}
+
+/* Reduced motion — all transitions collapse to opacity-only at 150ms */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast:   150ms;
+    --duration-base:   150ms;
+    --duration-slow:   150ms;
+    --duration-slower: 150ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 150ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 150ms !important;
+    transition-property: opacity !important;
+  }
+}

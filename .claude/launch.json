@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "design-or-disaster",
+      "runtimeExecutable": "C:\\Program Files\\nodejs\\npm.cmd",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "C:\\Vibe Coding\\Real Stuff\\PORTFOLIO\\Design or Disaster\\design-or-disaster",
+      "port": 5173
+    }
+  ]
+}
