@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useDesignEye } from './hooks/useDesignEye'
 import ColdOpen from './components/ColdOpen/ColdOpen'
 import Archive from './components/Archive/Archive'
+import CaseFile from './components/CaseFile/CaseFile'
 
 export default function App() {
   const designEye = useDesignEye()
@@ -24,8 +25,27 @@ export default function App() {
   }
 
   const handleSelectCase = (caseId) => {
+    designEye.setInProgressCase(caseId)
     setSelectedCaseId(caseId)
     setView('casefile')
+  }
+
+  const handleCaseFileBack = () => {
+    designEye.clearInProgressCase()
+    setView('archive')
+  }
+
+  const handleCaseFileSubmit = ({ caseId, verdict, evidenceTags, confidence }) => {
+    designEye.recordSubmission({
+      caseId,
+      verdict,
+      evidenceTags,
+      confidence,
+      timestamp: Date.now(),
+    })
+    designEye.clearInProgressCase()
+    // Phase 5 — verdict chamber replaces this placeholder
+    setView('verdictchamber')
   }
 
   if (view === 'coldopen') {
@@ -41,8 +61,18 @@ export default function App() {
     )
   }
 
-  // Phase 4 placeholder — CaseFile component replaces this
   if (view === 'casefile') {
+    return (
+      <CaseFile
+        caseId={selectedCaseId}
+        onBack={handleCaseFileBack}
+        onSubmit={handleCaseFileSubmit}
+      />
+    )
+  }
+
+  // Phase 5 placeholder — VerdictChamber replaces this
+  if (view === 'verdictchamber') {
     return (
       <div style={{
         minHeight: '100vh',
@@ -59,7 +89,7 @@ export default function App() {
           color: 'var(--text-tertiary)',
           textTransform: 'uppercase',
         }}>
-          Case File — {selectedCaseId}
+          Verdict Chamber
         </p>
         <p style={{
           fontFamily: 'var(--font-mono)',
@@ -69,7 +99,7 @@ export default function App() {
           textTransform: 'uppercase',
           opacity: 0.5,
         }}>
-          Phase 4 — coming next
+          Phase 5 — coming next
         </p>
         <button
           onClick={() => setView('archive')}
@@ -113,7 +143,7 @@ export default function App() {
     )
   }
 
-  // Phase 6 placeholder — Design Eye component replaces this
+  // Phase 6 placeholder — DesignEye replaces this
   if (view === 'designeye') {
     return (
       <div style={{

@@ -76,6 +76,22 @@ export function useDesignEye() {
     });
   }, []);
 
+  const setInProgressCase = useCallback((caseId) => {
+    setProfile((prev) => {
+      const next = { ...prev, inProgressCaseId: caseId };
+      saveProfile(next);
+      return next;
+    });
+  }, []);
+
+  const clearInProgressCase = useCallback(() => {
+    setProfile((prev) => {
+      const { inProgressCaseId, ...rest } = prev;
+      saveProfile(rest);
+      return rest;
+    });
+  }, []);
+
   const resetProfile = useCallback(() => {
     const fresh = createFreshProfile();
     saveProfile(fresh);
@@ -103,6 +119,8 @@ export function useDesignEye() {
     profile,
     markColdOpenComplete,
     recordSubmission,
+    setInProgressCase,
+    clearInProgressCase,
     resetProfile,
     hasSubmittedCase,
     getSubmission,

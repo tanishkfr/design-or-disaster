@@ -1,0 +1,193 @@
+/* ─── Panel shell ─────────────────────────────────── */
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  padding: var(--space-6);
+  background: var(--surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  transition:
+    transform var(--duration-base) var(--ease-in),
+    opacity var(--duration-base) var(--ease-in);
+}
+
+/* Panel exit — slides right on submission */
+.exiting {
+  transform: translateX(110%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ─── Verdict cards ───────────────────────────────── */
+
+.verdictList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.verdictCard {
+  position: relative;
+  width: 100%;
+  padding: var(--space-4) var(--space-4) var(--space-4) calc(var(--space-4) + 6px);
+  background: var(--bg);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  font-weight: 500;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  text-align: left;
+  overflow: hidden;
+  transition:
+    border-color var(--duration-fast) var(--ease-default),
+    background-color var(--duration-fast) var(--ease-default),
+    color var(--duration-fast) var(--ease-default);
+}
+
+.verdictCard:hover:not(.verdictCardSelected) {
+  border-color: var(--border-strong);
+  color: var(--text-secondary);
+}
+
+.verdictCardSelected {
+  border-color: var(--vc);
+  background-color: var(--vb);
+  color: var(--vc);
+}
+
+/* Left accent bar — draws down on selection */
+.verdictAccent {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background-color: var(--vc, transparent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.verdictCardSelected .verdictAccent {
+  transform: scaleY(1);
+}
+
+/* ─── Dividers ────────────────────────────────────── */
+
+.rule {
+  height: 1px;
+  background: var(--border-subtle);
+  flex-shrink: 0;
+}
+
+/* ─── Evidence tags ───────────────────────────────── */
+
+.tagCloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  color: var(--text-tertiary);
+  background: transparent;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 3px var(--space-2);
+  cursor: pointer;
+  text-transform: uppercase;
+  transition:
+    border-color var(--duration-fast) var(--ease-default),
+    color var(--duration-fast) var(--ease-default),
+    background-color var(--duration-fast) var(--ease-default);
+}
+
+.tag:hover:not(.tagSelected) {
+  border-color: var(--border-strong);
+  color: var(--text-secondary);
+}
+
+.tagSelected {
+  border-color: var(--amber);
+  color: var(--amber);
+  background-color: var(--amber-dim);
+}
+
+@keyframes tagPulse {
+  0%   { opacity: 1; }
+  35%  { opacity: 0.25; }
+  100% { opacity: 1; }
+}
+
+.tagPulse {
+  animation: tagPulse 500ms var(--ease-default) both;
+}
+
+/* ─── Confidence row ──────────────────────────────── */
+
+.confidenceRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+}
+
+.confidenceOption {
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
+  font-weight: 400;
+  color: var(--text-tertiary);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: var(--space-1) 0;
+  cursor: pointer;
+  line-height: 1.4;
+  transition:
+    color var(--duration-fast) var(--ease-default),
+    border-bottom-color var(--duration-fast) var(--ease-default);
+}
+
+.confidenceOption:hover:not(.confidenceSelected) {
+  color: var(--text-secondary);
+}
+
+.confidenceSelected {
+  color: var(--text-primary);
+  border-bottom-color: var(--amber);
+}
+
+/* ─── Submit button ───────────────────────────────── */
+
+.submitBtn {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  background: transparent;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  cursor: not-allowed;
+  transition:
+    background-color var(--duration-fast) var(--ease-default),
+    border-color var(--duration-fast) var(--ease-default),
+    color var(--duration-fast) var(--ease-default);
+}
+
+.submitBtnActive {
+  background-color: var(--amber);
+  border-color: var(--amber);
+  color: var(--bg);
+  cursor: pointer;
+}
