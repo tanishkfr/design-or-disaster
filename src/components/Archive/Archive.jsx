@@ -56,7 +56,7 @@ export default function Archive({ onSelectCase, onDesignEye }) {
     },
     reviewedCases.length > 0 && {
       key: 'reviewed',
-      label: 'REVIEWED',
+      label: 'CLOSED CASES',
       cases: reviewedCases,
       grid: 'default',
     },
@@ -76,6 +76,10 @@ export default function Archive({ onSelectCase, onDesignEye }) {
       {/* ── Archive intro ─────────────────────────────── */}
       <div className={styles.intro}>
         <h1 className={styles.archiveTitle}>Investigation Archive</h1>
+        <p className={styles.subtitle}>
+          Design cases drawn from production interfaces.<br />
+          Each reviewed by a panel of five jurors.
+        </p>
         <p className={styles.stats}>
           {totalCases} {totalCases === 1 ? 'Case' : 'Cases'}
           {' · '}{reviewedCount} Reviewed

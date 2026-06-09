@@ -1,7 +1,13 @@
+@keyframes archiveEnter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
 .root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  animation: archiveEnter 400ms ease-in-out both;
 }
 
 /* ─── Header ──────────────────────────────────────── */
@@ -33,7 +39,7 @@
   font-size: var(--t-case-number);
   font-weight: 500;
   letter-spacing: var(--ls-mono);
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   text-transform: uppercase;
   background: none;
   border: none;
@@ -43,7 +49,7 @@
 }
 
 .designEyeBtn:hover {
-  color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 /* ─── Intro ───────────────────────────────────────── */
@@ -63,6 +69,15 @@
   color: var(--text-primary);
   line-height: 1.05;
   margin: 0 0 var(--space-3);
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0 0 var(--space-4);
 }
 
 .stats {
