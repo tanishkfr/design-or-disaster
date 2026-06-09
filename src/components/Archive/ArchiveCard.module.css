@@ -1,0 +1,111 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  width: 100%;
+  transition:
+    border-color 200ms var(--ease-default),
+    box-shadow 200ms var(--ease-default),
+    opacity 200ms var(--ease-default);
+}
+
+/* Screenshot background — reviewed cards only */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--screenshot, none);
+  background-size: cover;
+  background-position: top center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms var(--ease-default);
+}
+
+.reviewed::before {
+  opacity: 0.08;
+}
+
+.reviewed {
+  opacity: 0.7;
+}
+
+/* Status-specific borders */
+.landmark {
+  border-color: var(--landmark);
+  box-shadow: 0 0 20px rgba(139, 111, 200, 0.1);
+}
+
+.contested {
+  border-color: var(--mixed);
+}
+
+/* Hover — default and pending */
+.card:hover:not(.landmark):not(.contested) {
+  border-color: var(--border-strong);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Hover — landmark keeps its colour, adds lift */
+.landmark:hover {
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.4),
+    0 0 28px rgba(139, 111, 200, 0.2);
+}
+
+/* Hover — contested keeps its colour, adds lift */
+.contested:hover {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Reviewed hover — restore full opacity */
+.reviewed:hover {
+  opacity: 1;
+}
+
+/* ─── Card content ────────────────────────────────── */
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: var(--space-2);
+}
+
+.caseNumber {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--t-title);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text-primary);
+  line-height: 1.2;
+  margin-top: var(--space-1);
+}
+
+.context {
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}

@@ -45,6 +45,7 @@ export default function ColdOpen({ onComplete }) {
           draggable={false}
         />
         <div className={styles.vignette} />
+        <div className={styles.grain} aria-hidden="true" />
         <span className={styles.exhibitLabel}>EXHIBIT A</span>
       </div>
 
@@ -82,7 +83,7 @@ export default function ColdOpen({ onComplete }) {
         onClick={handleSubmit}
         disabled={!selectedVerdict || phase !== 'idle'}
       >
-        Submit verdict
+        File verdict
       </button>
 
       {(phase === 'interstitial' || phase === 'interstitialOut') && (

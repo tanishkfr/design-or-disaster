@@ -6,6 +6,19 @@
   padding: 0 var(--space-6) var(--space-12);
 }
 
+/* ─── Entrance stagger ────────────────────────────── */
+
+@keyframes enterUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ─── Screenshot ──────────────────────────────────── */
 
 .screenshotWrap {
@@ -19,6 +32,8 @@
   overflow: hidden;
   border: 1px solid var(--border-subtle);
   box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.5);
+  animation: enterUp var(--duration-slow) var(--ease-out) both;
+  animation-delay: 0ms;
 }
 
 .screenshot {
@@ -33,6 +48,20 @@
   position: absolute;
   inset: 0;
   background: radial-gradient(ellipse at center, transparent 55%, rgba(9, 8, 10, 0.65) 100%);
+  pointer-events: none;
+}
+
+/* Scanline grain — the only texture in the project */
+.grain {
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    180deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.045) 2px,
+    rgba(0, 0, 0, 0.045) 3px
+  );
   pointer-events: none;
 }
 
@@ -58,6 +87,8 @@
   width: 100%;
   max-width: 560px;
   margin-bottom: var(--space-4);
+  animation: enterUp var(--duration-slow) var(--ease-out) both;
+  animation-delay: 150ms;
 }
 
 .caseNumber {
@@ -88,6 +119,8 @@
   width: 100%;
   max-width: 560px;
   margin-bottom: var(--space-6);
+  animation: enterUp var(--duration-slow) var(--ease-out) both;
+  animation-delay: 280ms;
 }
 
 /* ─── Verdict cards ───────────────────────────────── */
@@ -99,6 +132,8 @@
   max-width: 560px;
   margin-bottom: var(--space-4);
   transition: opacity var(--duration-base) var(--ease-in);
+  animation: enterUp var(--duration-slow) var(--ease-out) both;
+  animation-delay: 400ms;
 }
 
 .verdictRowGone {
@@ -106,17 +141,18 @@
   pointer-events: none;
 }
 
+/* Neutral until selection — all three cards are visually identical before chosen */
 .verdictCard {
   position: relative;
   flex: 1;
   padding: var(--space-4) var(--space-3);
   background: var(--surface);
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-lg);
+  border-radius: 3px;
   font-family: var(--font-body);
   font-size: var(--t-body-med);
   font-weight: 600;
-  color: var(--text-secondary);
+  color: var(--text-tertiary);
   cursor: pointer;
   text-align: center;
   overflow: hidden;
@@ -131,6 +167,7 @@
   color: var(--text-primary);
 }
 
+/* Color activates only on selection — verdict color is earned, not displayed */
 .verdictCardSelected {
   border-color: var(--vc);
   background-color: var(--vb);
@@ -148,7 +185,6 @@
   transform: scaleY(0);
   transform-origin: top;
   transition: transform var(--duration-fast) var(--ease-out);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
 .verdictCardSelected .verdictCardAccent {
@@ -163,12 +199,14 @@
   padding: var(--space-4);
   background: transparent;
   border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   font-family: var(--font-body);
   font-size: var(--t-body-med);
   font-weight: 600;
   color: var(--text-tertiary);
   cursor: not-allowed;
+  animation: enterUp var(--duration-slow) var(--ease-out) both;
+  animation-delay: 400ms;
   transition:
     border-color var(--duration-fast) var(--ease-default),
     background-color var(--duration-fast) var(--ease-default),
@@ -190,6 +228,7 @@
 
 /* ─── Interstitial ────────────────────────────────── */
 
+/* Near-blackout — this is the emotional thesis statement of the experience */
 .interstitial {
   position: fixed;
   inset: 0;
@@ -199,7 +238,7 @@
   justify-content: center;
   gap: var(--space-2);
   pointer-events: none;
-  background: rgba(9, 8, 10, 0.6);
+  background: rgba(9, 8, 10, 0.95);
 }
 
 .interstitial p {

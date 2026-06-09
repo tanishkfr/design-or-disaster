@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import { useDesignEye } from './hooks/useDesignEye'
 import ColdOpen from './components/ColdOpen/ColdOpen'
+import Archive from './components/Archive/Archive'
 
 export default function App() {
   const designEye = useDesignEye()
 
-  // Skip cold open on return visits
   const [view, setView] = useState(
     designEye.profile.coldOpenCompleted ? 'archive' : 'coldopen'
   )
+  const [selectedCaseId, setSelectedCaseId] = useState(null)
 
   const handleColdOpenComplete = ({ verdict, timestamp }) => {
     designEye.recordSubmission({
@@ -22,60 +23,147 @@ export default function App() {
     setView('archive')
   }
 
+  const handleSelectCase = (caseId) => {
+    setSelectedCaseId(caseId)
+    setView('casefile')
+  }
+
   if (view === 'coldopen') {
     return <ColdOpen onComplete={handleColdOpenComplete} />
   }
 
-  // Phase 3 placeholder — Archive component replaces this
-  return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '8px',
-    }}>
-      <p style={{
-        fontFamily: 'var(--font-mono)',
-        fontSize: 'var(--t-case-number)',
-        letterSpacing: 'var(--ls-mono)',
-        color: 'var(--text-tertiary)',
-        textTransform: 'uppercase',
+  if (view === 'archive') {
+    return (
+      <Archive
+        onSelectCase={handleSelectCase}
+        onDesignEye={() => setView('designeye')}
+      />
+    )
+  }
+
+  // Phase 4 placeholder — CaseFile component replaces this
+  if (view === 'casefile') {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '8px',
       }}>
-        Investigation Archive
-      </p>
-      <p style={{
-        fontFamily: 'var(--font-mono)',
-        fontSize: 'var(--t-case-number)',
-        letterSpacing: 'var(--ls-mono)',
-        color: 'var(--text-tertiary)',
-        textTransform: 'uppercase',
-        opacity: 0.5,
-      }}>
-        Phase 3 — coming next
-      </p>
-      <button
-        onClick={() => {
-          designEye.resetProfile()
-          setView('coldopen')
-        }}
-        style={{
-          marginTop: '24px',
+        <p style={{
           fontFamily: 'var(--font-mono)',
           fontSize: 'var(--t-case-number)',
           letterSpacing: 'var(--ls-mono)',
           color: 'var(--text-tertiary)',
           textTransform: 'uppercase',
-          background: 'none',
-          border: '1px solid var(--border-default)',
-          borderRadius: 'var(--radius-sm)',
-          padding: '8px 16px',
-          cursor: 'pointer',
-        }}
-      >
-        Reset (dev only)
-      </button>
-    </div>
-  )
+        }}>
+          Case File — {selectedCaseId}
+        </p>
+        <p style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: 'var(--t-case-number)',
+          letterSpacing: 'var(--ls-mono)',
+          color: 'var(--text-tertiary)',
+          textTransform: 'uppercase',
+          opacity: 0.5,
+        }}>
+          Phase 4 — coming next
+        </p>
+        <button
+          onClick={() => setView('archive')}
+          style={{
+            marginTop: '24px',
+            fontFamily: 'var(--font-mono)',
+            fontSize: 'var(--t-case-number)',
+            letterSpacing: 'var(--ls-mono)',
+            color: 'var(--text-tertiary)',
+            textTransform: 'uppercase',
+            background: 'none',
+            border: '1px solid var(--border-default)',
+            borderRadius: 'var(--radius-sm)',
+            padding: '8px 16px',
+            cursor: 'pointer',
+          }}
+        >
+          ← Archive
+        </button>
+        <button
+          onClick={() => {
+            designEye.resetProfile()
+            setView('coldopen')
+          }}
+          style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 'var(--t-case-number)',
+            letterSpacing: 'var(--ls-mono)',
+            color: 'var(--text-tertiary)',
+            textTransform: 'uppercase',
+            background: 'none',
+            border: '1px solid var(--border-default)',
+            borderRadius: 'var(--radius-sm)',
+            padding: '8px 16px',
+            cursor: 'pointer',
+          }}
+        >
+          Reset (dev only)
+        </button>
+      </div>
+    )
+  }
+
+  // Phase 6 placeholder — Design Eye component replaces this
+  if (view === 'designeye') {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '8px',
+      }}>
+        <p style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: 'var(--t-case-number)',
+          letterSpacing: 'var(--ls-mono)',
+          color: 'var(--text-tertiary)',
+          textTransform: 'uppercase',
+        }}>
+          Design Eye Report
+        </p>
+        <p style={{
+          fontFamily: 'var(--font-mono)',
+          fontSize: 'var(--t-case-number)',
+          letterSpacing: 'var(--ls-mono)',
+          color: 'var(--text-tertiary)',
+          textTransform: 'uppercase',
+          opacity: 0.5,
+        }}>
+          Phase 6 — coming next
+        </p>
+        <button
+          onClick={() => setView('archive')}
+          style={{
+            marginTop: '24px',
+            fontFamily: 'var(--font-mono)',
+            fontSize: 'var(--t-case-number)',
+            letterSpacing: 'var(--ls-mono)',
+            color: 'var(--text-tertiary)',
+            textTransform: 'uppercase',
+            background: 'none',
+            border: '1px solid var(--border-default)',
+            borderRadius: 'var(--radius-sm)',
+            padding: '8px 16px',
+            cursor: 'pointer',
+          }}
+        >
+          ← Archive
+        </button>
+      </div>
+    )
+  }
+
+  return null
 }
