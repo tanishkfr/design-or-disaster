@@ -1,0 +1,242 @@
+.root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 var(--space-6) var(--space-12);
+}
+
+/* ─── Screenshot ──────────────────────────────────── */
+
+.screenshotWrap {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  height: 55vh;
+  margin-top: 40px;
+  margin-bottom: var(--space-8);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.5);
+}
+
+.screenshot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(9, 8, 10, 0.65) 100%);
+  pointer-events: none;
+}
+
+.exhibitLabel {
+  position: absolute;
+  bottom: var(--space-3);
+  left: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  user-select: none;
+}
+
+/* ─── Meta row ────────────────────────────────────── */
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 560px;
+  margin-bottom: var(--space-4);
+}
+
+.caseNumber {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.pendingLabel {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+/* ─── Question ────────────────────────────────────── */
+
+.question {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  width: 100%;
+  max-width: 560px;
+  margin-bottom: var(--space-6);
+}
+
+/* ─── Verdict cards ───────────────────────────────── */
+
+.verdictRow {
+  display: flex;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 560px;
+  margin-bottom: var(--space-4);
+  transition: opacity var(--duration-base) var(--ease-in);
+}
+
+.verdictRowGone {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.verdictCard {
+  position: relative;
+  flex: 1;
+  padding: var(--space-4) var(--space-3);
+  background: var(--surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-body);
+  font-size: var(--t-body-med);
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-align: center;
+  overflow: hidden;
+  transition:
+    border-color var(--duration-fast) var(--ease-default),
+    background-color var(--duration-fast) var(--ease-default),
+    color var(--duration-fast) var(--ease-default);
+}
+
+.verdictCard:hover:not(.verdictCardSelected) {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.verdictCardSelected {
+  border-color: var(--vc);
+  background-color: var(--vb);
+  color: var(--vc);
+}
+
+/* Left accent bar — draws down on selection */
+.verdictCardAccent {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background-color: var(--vc, transparent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--duration-fast) var(--ease-out);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.verdictCardSelected .verdictCardAccent {
+  transform: scaleY(1);
+}
+
+/* ─── Submit button ───────────────────────────────── */
+
+.submitBtn {
+  width: 100%;
+  max-width: 560px;
+  padding: var(--space-4);
+  background: transparent;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: var(--t-body-med);
+  font-weight: 600;
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+  transition:
+    border-color var(--duration-fast) var(--ease-default),
+    background-color var(--duration-fast) var(--ease-default),
+    color var(--duration-fast) var(--ease-default),
+    opacity var(--duration-base) var(--ease-in);
+}
+
+.submitBtnActive {
+  background-color: var(--amber);
+  border-color: var(--amber);
+  color: var(--bg);
+  cursor: pointer;
+}
+
+.submitBtnGone {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ─── Interstitial ────────────────────────────────── */
+
+.interstitial {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  pointer-events: none;
+  background: rgba(9, 8, 10, 0.6);
+}
+
+.interstitial p {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.interstitialIn {
+  animation: fadeIn var(--duration-base) var(--ease-out) forwards;
+}
+
+.interstitialOut {
+  animation: fadeOut var(--duration-base) var(--ease-in) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ─── Responsive ──────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .verdictRow {
+    flex-direction: column;
+  }
+
+  .screenshotWrap {
+    height: 45vh;
+  }
+}

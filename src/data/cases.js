@@ -9,8 +9,7 @@ export const CASES = [
     context: 'Personal finance app, iOS, 2022',
     category: 'Visual Hierarchy',
 
-    // Placeholder: a public-domain UI screenshot or solid colour during dev
-    screenshot: '/screenshots/case-001-placeholder.jpg',
+    screenshot: '/screenshots/case-001-placeholder.svg',
 
     officialVerdict: 'needs_revision',  // "strong_design" | "needs_revision" | "design_disaster"
     caseStatus: 'consensus',            // "consensus" | "contested" | "landmark"
