@@ -102,7 +102,7 @@
 /* ── Closing section ──────────────────────────────── */
 
 .closing {
-  animation: closingEnter var(--duration-slow) var(--ease-out) 400ms both;
+  animation: closingEnter var(--duration-slow) var(--ease-out) 500ms both;
 }
 
 @keyframes closingEnter {
@@ -144,7 +144,7 @@
   margin-top: var(--space-12);
   padding-top: var(--space-8);
   border-top: 1px solid var(--border-subtle);
-  animation: closingEnter var(--duration-slow) var(--ease-out) 4000ms both;
+  animation: closingEnter var(--duration-slow) var(--ease-out) 1600ms both;
 }
 
 .backBtn {
@@ -195,5 +195,5 @@
   text-transform: uppercase;
   margin: var(--space-6) 0 0;
   opacity: 0.7;
-  animation: closingEnter var(--duration-slow) var(--ease-out) 5500ms both;
+  animation: closingEnter var(--duration-slow) var(--ease-out) 2200ms both;
 }

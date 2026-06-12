@@ -11,10 +11,10 @@
   border-left: 2px solid transparent;
   padding: var(--space-4) var(--space-6);
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(20px);
   transition:
     opacity var(--duration-base) var(--ease-out),
-    transform var(--duration-base) var(--ease-out);
+    transform var(--duration-slow) var(--ease-out);
 }
 
 .arrived {

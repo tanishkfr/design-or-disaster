@@ -14,8 +14,9 @@
   width: 100%;
   min-height: 150px;
   transition:
-    border-color 200ms var(--ease-default),
-    box-shadow 200ms var(--ease-default),
+    border-color 180ms var(--ease-out),
+    background-color 180ms var(--ease-out),
+    box-shadow 200ms var(--ease-out),
     opacity 200ms var(--ease-default),
     transform 200ms var(--ease-out);
 }
@@ -58,21 +59,24 @@
 /* Hover — default and pending */
 .card:hover:not(.landmark):not(.contested) {
   border-color: var(--border-strong);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  background-color: var(--surface-raised);
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.45);
   transform: translateY(-2px);
 }
 
 /* Hover — landmark keeps its colour, adds lift */
 .landmark:hover {
+  background-color: var(--surface-raised);
   box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.4),
-    0 0 28px rgba(139, 111, 200, 0.2);
+    0 6px 28px rgba(0, 0, 0, 0.45),
+    0 0 32px rgba(139, 111, 200, 0.22);
   transform: translateY(-2px);
 }
 
 /* Hover — contested keeps its colour, adds lift */
 .contested:hover {
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  background-color: var(--surface-raised);
+  box-shadow: 0 6px 28px rgba(0, 0, 0, 0.45);
   transform: translateY(-2px);
 }
 

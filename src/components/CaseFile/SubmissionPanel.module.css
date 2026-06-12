@@ -176,7 +176,7 @@
   color: var(--text-tertiary);
   background: none;
   border: none;
-  border-bottom: 1px solid transparent;
+  border-bottom: 2px solid transparent;
   padding: var(--space-2) 0;
   cursor: pointer;
   text-align: left;
@@ -196,8 +196,6 @@
 .confidenceSelected {
   color: var(--text-primary);
   border-bottom-color: var(--amber);
-  border-bottom-width: 2px;
-  padding-bottom: 0;
 }
 
 /* ─── Finding record ──────────────────────────────── */

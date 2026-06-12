@@ -7,9 +7,9 @@ import styles from './VerdictChamber.module.css'
 
 // ─── Timing constants ──────────────────────────────────
 // All in ms, measured from phase transitions (not absolute mount time)
-const ENTER_TO_ANNOTATE     = 600   // screenshot+header settle before annotations begin
+const ENTER_TO_ANNOTATE     = 350   // screenshot+header settle before annotations begin
 const ANNOTATION_STAGGER    = 80    // ms between each annotation appearing
-const ANNOTATION_SETTLE     = 400   // buffer after last annotation before jurors start
+const ANNOTATION_SETTLE     = 250   // buffer after last annotation before jurors start
 const JUROR_STAGGER         = 400   // between each juror arrival
 const POST_JURORS_PAUSE     = 1400  // silence after last juror before verdict (or split)
 const SPLIT_DURATION        = 1100  // split animation (500ms) + settle buffer (600ms)

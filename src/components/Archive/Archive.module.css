@@ -26,7 +26,7 @@
 
 .wordmark {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 22px;
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.01em;
@@ -136,11 +136,8 @@
   flex-direction: column;
   gap: var(--space-4);
   animation: enterSection var(--duration-slow) var(--ease-out) both;
+  /* Delay driven entirely by inline animationDelay style prop — no nth-child overrides */
 }
-
-.section:nth-child(1) { animation-delay: 0ms; }
-.section:nth-child(2) { animation-delay: 80ms; }
-.section:nth-child(3) { animation-delay: 160ms; }
 
 /* ─── Section header ──────────────────────────────── */
 
