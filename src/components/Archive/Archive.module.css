@@ -26,7 +26,7 @@
 
 .wordmark {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 28px;
   font-style: italic;
   font-weight: 400;
   letter-spacing: -0.01em;
@@ -37,7 +37,7 @@
 .headerRight {
   display: flex;
   align-items: center;
-  gap: var(--space-5);
+  gap: var(--space-6);
 }
 
 .headerProgress {
@@ -69,6 +69,33 @@
 .designEyeBtn:hover {
   border-color: var(--amber);
   color: var(--amber);
+}
+
+.resetBtn {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  background: none;
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  cursor: pointer;
+  padding: 5px var(--space-4);
+  transition:
+    border-color var(--duration-fast) var(--ease-default),
+    color var(--duration-fast) var(--ease-default);
+}
+
+.resetBtn:hover {
+  border-color: var(--guilty);
+  color: var(--guilty);
+}
+
+.resetBtnConfirm {
+  border-color: var(--guilty);
+  color: var(--guilty);
 }
 
 /* ─── Intro ───────────────────────────────────────── */

@@ -1,3 +1,4 @@
+import { useState, useRef } from 'react'
 import { useDesignEye } from '../../hooks/useDesignEye'
 import { CASES } from '../../data/cases'
 import ArchiveCard from './ArchiveCard'
@@ -7,8 +8,21 @@ function getCaseById(id) {
   return CASES.find(c => c.id === id) ?? null
 }
 
-export default function Archive({ onSelectCase, onDesignEye }) {
+export default function Archive({ onSelectCase, onDesignEye, onReset }) {
   const { profile, hasSubmittedCase } = useDesignEye()
+  const [confirmingReset, setConfirmingReset] = useState(false)
+  const confirmTimer = useRef(null)
+
+  const handleResetClick = () => {
+    if (confirmingReset) {
+      clearTimeout(confirmTimer.current)
+      setConfirmingReset(false)
+      onReset()
+    } else {
+      setConfirmingReset(true)
+      confirmTimer.current = setTimeout(() => setConfirmingReset(false), 3000)
+    }
+  }
 
   // Curated section order:
   // Landmark cases are always surfaced first — editorially significant regardless of review state
@@ -72,6 +86,12 @@ export default function Archive({ onSelectCase, onDesignEye }) {
           <span className={styles.headerProgress}>{reviewedCount} / {totalCases}</span>
           <button className={styles.designEyeBtn} onClick={onDesignEye}>
             Design Eye ▸
+          </button>
+          <button
+            className={`${styles.resetBtn} ${confirmingReset ? styles.resetBtnConfirm : ''}`}
+            onClick={handleResetClick}
+          >
+            {confirmingReset ? 'Confirm?' : 'Reset'}
           </button>
         </div>
       </header>

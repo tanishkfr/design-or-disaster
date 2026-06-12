@@ -102,6 +102,7 @@ export default function App() {
         <Archive
           onSelectCase={handleSelectCase}
           onDesignEye={() => navigate('designeye')}
+          onReset={handleRestart}
         />
       </div>
     )
