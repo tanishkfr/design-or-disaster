@@ -1,13 +1,11 @@
 /* ─── Panel shell ─────────────────────────────────── */
+/* Open workspace — no border, no surface bg, no widget feel */
 
 .panel {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
-  padding: var(--space-6);
-  background: var(--surface);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-lg);
+  gap: var(--space-8);
+  padding: var(--space-2) 0 0;
   transition:
     transform var(--duration-base) var(--ease-in),
     opacity var(--duration-base) var(--ease-in);
@@ -25,15 +23,16 @@
 .verdictList {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-3);
 }
 
+/* Base state — dormant, waiting for a position to emerge */
 .verdictCard {
   position: relative;
   width: 100%;
-  padding: var(--space-4) var(--space-4) var(--space-4) calc(var(--space-4) + 6px);
-  background: var(--bg);
-  border: 1px solid var(--border-default);
+  padding: var(--space-4) var(--space-4) var(--space-4) calc(var(--space-4) + 8px);
+  background: transparent;
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   font-family: var(--font-body);
   font-size: var(--t-body);
@@ -43,20 +42,40 @@
   text-align: left;
   overflow: hidden;
   transition:
+    opacity var(--duration-base) var(--ease-default),
     border-color var(--duration-fast) var(--ease-default),
     background-color var(--duration-fast) var(--ease-default),
     color var(--duration-fast) var(--ease-default);
 }
 
-.verdictCard:hover:not(.verdictCardSelected) {
-  border-color: var(--border-strong);
+.verdictCard:hover:not(.verdictCardSelected):not(.verdictCardDimmed) {
+  border-color: var(--border-default);
   color: var(--text-secondary);
 }
 
+.verdictCard:active {
+  transform: scale(0.97);
+}
+
+/* Selected — this is the position taken */
 .verdictCardSelected {
   border-color: var(--vc);
   background-color: var(--vb);
   color: var(--vc);
+  opacity: 1;
+}
+
+/* Dimmed — the two alternatives recede when a verdict is chosen */
+.verdictCardDimmed {
+  opacity: 0.2;
+  border-color: var(--border-subtle);
+  color: var(--text-tertiary);
+}
+
+.verdictCardDimmed:hover {
+  opacity: 0.45;
+  border-color: var(--border-default);
+  color: var(--text-secondary);
 }
 
 /* Left accent bar — draws down on selection */
@@ -64,7 +83,7 @@
   position: absolute;
   left: 0;
   top: 0;
-  width: 3px;
+  width: 4px;
   height: 100%;
   background-color: var(--vc, transparent);
   transform: scaleY(0);
@@ -76,14 +95,6 @@
   transform: scaleY(1);
 }
 
-/* ─── Dividers ────────────────────────────────────── */
-
-.rule {
-  height: 1px;
-  background: var(--border-subtle);
-  flex-shrink: 0;
-}
-
 /* ─── Evidence tags ───────────────────────────────── */
 
 .tagCloud {
@@ -92,38 +103,54 @@
   gap: var(--space-2);
 }
 
+/* Title case, not all-caps — evidence labels, not system categories */
 .tag {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 500;
   letter-spacing: var(--ls-label);
   color: var(--text-tertiary);
   background: transparent;
-  border: 1px solid var(--border-default);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
   padding: 3px var(--space-2);
   cursor: pointer;
-  text-transform: uppercase;
   transition:
     border-color var(--duration-fast) var(--ease-default),
     color var(--duration-fast) var(--ease-default),
-    background-color var(--duration-fast) var(--ease-default);
+    background-color var(--duration-fast) var(--ease-default),
+    transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
 }
 
 .tag:hover:not(.tagSelected) {
-  border-color: var(--border-strong);
+  border-color: var(--border-default);
   color: var(--text-secondary);
 }
 
+.tag:active {
+  transform: scale(0.97) translateY(0);
+}
+
+/* Selected — evidence surfaced, not a filter checked */
 .tagSelected {
   border-color: var(--amber);
   color: var(--amber);
   background-color: var(--amber-dim);
+  transform: translateY(-1px);
+  /* Outer amber ring locks in with a brief delay — evidence deposited */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--amber);
+  animation: tagDeposit 250ms 60ms var(--ease-out) both;
+}
+
+@keyframes tagDeposit {
+  from { box-shadow: 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0px var(--amber); }
+  to   { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--amber); }
 }
 
 @keyframes tagPulse {
   0%   { opacity: 1; }
-  35%  { opacity: 0.25; }
+  35%  { opacity: 0.2; }
   100% { opacity: 1; }
 }
 
@@ -131,25 +158,28 @@
   animation: tagPulse 500ms var(--ease-default) both;
 }
 
-/* ─── Confidence row ──────────────────────────────── */
+/* ─── Confidence column ───────────────────────────── */
+/* Instrument Serif italic — this is personal judgment, not a rating scale */
 
-.confidenceRow {
+.confidenceColumn {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1) var(--space-4);
+  flex-direction: column;
+  gap: 6px;
 }
 
 .confidenceOption {
-  font-family: var(--font-body);
-  font-size: var(--t-body-sm);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 16px;
   font-weight: 400;
+  line-height: 1.4;
   color: var(--text-tertiary);
   background: none;
   border: none;
-  border-bottom: 2px solid transparent;
-  padding: var(--space-1) 0;
+  border-bottom: 1px solid transparent;
+  padding: var(--space-2) 0;
   cursor: pointer;
-  line-height: 1.4;
+  text-align: left;
   transition:
     color var(--duration-fast) var(--ease-default),
     border-bottom-color var(--duration-fast) var(--ease-default);
@@ -159,35 +189,84 @@
   color: var(--text-secondary);
 }
 
+.confidenceOption:active {
+  transform: scale(0.98);
+}
+
 .confidenceSelected {
   color: var(--text-primary);
   border-bottom-color: var(--amber);
+  border-bottom-width: 2px;
+  padding-bottom: 0;
 }
 
-/* ─── Submit button ───────────────────────────────── */
+/* ─── Finding record ──────────────────────────────── */
 
-.submitBtn {
-  width: 100%;
-  padding: var(--space-3) var(--space-4);
-  background: transparent;
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-sm);
+.findingSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.findingRule {
+  height: 1px;
+  background: var(--border-subtle);
+}
+
+.findingStatement {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.5;
+  min-height: 24px;
+  margin: 0;
+  color: var(--text-tertiary);
+  opacity: 0;
+  transition:
+    color var(--duration-base) var(--ease-out),
+    opacity var(--duration-base) var(--ease-out);
+}
+
+.findingPartial {
+  opacity: 1;
+  color: var(--text-tertiary);
+}
+
+.findingComplete {
+  opacity: 1;
+  color: var(--text-primary);
+}
+
+.recordAction {
   font-family: var(--font-mono);
   font-size: var(--t-case-number);
   font-weight: 500;
   letter-spacing: var(--ls-mono);
-  color: var(--text-tertiary);
   text-transform: uppercase;
-  cursor: not-allowed;
+  color: var(--text-tertiary);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  padding: var(--space-2) var(--space-4);
+  cursor: default;
+  text-align: left;
+  opacity: 0;
+  align-self: flex-start;
   transition:
-    background-color var(--duration-fast) var(--ease-default),
+    opacity var(--duration-base) var(--ease-out),
+    color var(--duration-fast) var(--ease-default),
     border-color var(--duration-fast) var(--ease-default),
-    color var(--duration-fast) var(--ease-default);
+    background-color var(--duration-fast) var(--ease-default);
 }
 
-.submitBtnActive {
-  background-color: var(--amber);
-  border-color: var(--amber);
-  color: var(--bg);
+.recordActionReady {
+  opacity: 1;
   cursor: pointer;
+  color: var(--amber);
+  border-color: var(--amber);
+}
+
+.recordActionReady:hover {
+  background-color: var(--amber-dim);
 }

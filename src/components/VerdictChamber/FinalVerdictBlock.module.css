@@ -1,0 +1,271 @@
+@keyframes blockSlideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── Block shell ─────────────────────────────────── */
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  animation: blockSlideUp var(--duration-slow) var(--ease-out) both;
+}
+
+/* ─── Consensus: vote count ───────────────────────── */
+
+.voteCount {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* ─── Verdict text ────────────────────────────────── */
+
+.verdictLine {
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out);
+  padding: var(--space-3) 0;
+}
+
+.verdictLine.visible {
+  opacity: 1;
+}
+
+@keyframes verdictLand {
+  from {
+    transform: translateY(14px) scale(0.97);
+  }
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.verdictText {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text-primary);
+  line-height: 1.05;
+  display: block;
+  padding-bottom: 4px;
+}
+
+.verdictLine.visible .verdictText {
+  animation: verdictLand var(--duration-slow) var(--ease-out) both;
+}
+
+/* Contested verdict gets mixed colour accent */
+.contestedVerdict {
+  color: var(--mixed);
+}
+
+/* ─── Contested: jury split header ────────────────── */
+
+.jurySplitHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.jurySplitLabel {
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: var(--ls-wide);
+  color: var(--mixed);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+
+/* ─── Contested: split vote rows ──────────────────── */
+
+.splitVotes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.splitVotes.visible {
+  opacity: 1;
+}
+
+.splitVoteRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.splitCount {
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-secondary);
+  min-width: 36px;
+}
+
+.splitSeparator {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+.splitVerdict {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text-primary);
+}
+
+/* ─── Contested: body copy ────────────────────────── */
+
+.contestedBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.contestedBody.visible {
+  opacity: 1;
+}
+
+.contestedRule {
+  height: 1px;
+  background: var(--border-default);
+}
+
+.contestedSummary,
+.contestedClose {
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.65;
+}
+
+.contestedClose {
+  font-style: italic;
+  color: var(--text-tertiary);
+}
+
+/* ─── Rule ────────────────────────────────────────── */
+
+.rule {
+  height: 1px;
+  background: var(--border-default);
+}
+
+/* ─── Personal comparison ─────────────────────────── */
+
+.comparison {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.comparison.visible {
+  opacity: 1;
+}
+
+.yourVerdict {
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.correct {
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
+  font-weight: 600;
+  color: var(--clear);
+}
+
+.incorrect {
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+/* ─── Status prose ────────────────────────────────── */
+
+.statusRow {
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.statusRow.visible {
+  opacity: 1;
+}
+
+.statusProse {
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text-tertiary);
+}
+
+/* ─── Completion line (final case only) ───────────── */
+
+.completionLine {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  margin: 0;
+  animation: nextBtnEnter var(--duration-base) var(--ease-out) both;
+}
+
+/* ─── Next case button ────────────────────────────── */
+
+@keyframes nextBtnEnter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.nextBtn {
+  align-self: flex-end;
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-secondary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-transform: uppercase;
+  transition: color var(--duration-fast) var(--ease-default);
+  animation: nextBtnEnter var(--duration-base) var(--ease-out) both;
+}
+
+.nextBtn:hover {
+  color: var(--text-primary);
+}

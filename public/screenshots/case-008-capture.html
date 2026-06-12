@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=680">
+<style>
+
+/* ════════════════════════════════════════════════════════════════
+   STRIPE ONBOARDING — Case #008
+   680×510 — desktop, 4/3
+
+   EXHIBIT PREMISE:
+   The form and the proof of value occupy the same frame.
+   Three fields on the left. Working API access on the right.
+   The design trusts the user before asking anything significant
+   of them. The exhibit must communicate excellence before
+   annotations appear.
+
+   THE DEFENSE (visible before annotations):
+   — Three fields only; every comparable alternative requires more
+   — Inline validation without submission; password strength
+     indicator with no requirements wall; the form doesn't lecture
+   — The right panel shows what these three fields purchase:
+     production-ready payment infrastructure, accessible now
+   — No asterisks, no "required field" labels, no enthusiasm
+     performance; restraint is the hospitality
+
+   THE CHARGE (requires investigation):
+   — No progress indicator; the user cannot see that this is
+     step 1 of a multi-step process whose compliance depth
+     is not proportional to the form's apparent simplicity
+   — The code panel assumes developer literacy; a non-technical
+     founder filling in the same form receives visual noise
+   — "Company name" will later need to match legal registration;
+     the form's silence about this is precision failure, not restraint
+   ════════════════════════════════════════════════════════════════ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 680px;
+  height: 510px;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Browser chrome ─────────────────────────────────────────── */
+.chrome {
+  height: 28px;
+  background: #1c1c1e;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  gap: 8px;
+}
+.chrome-dots { display: flex; gap: 5px; }
+.chrome-dot { width: 9px; height: 9px; border-radius: 50%; }
+.chrome-dot-r { background: #ff5f57; }
+.chrome-dot-y { background: #febc2e; }
+.chrome-dot-g { background: #28c840; }
+.chrome-url {
+  flex: 1;
+  height: 18px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 5px;
+}
+.chrome-url-lock { font-size: 9px; opacity: 0.6; color: #fff; }
+.chrome-url-text { font-size: 11px; color: rgba(255,255,255,0.55); letter-spacing: -0.1px; }
+.chrome-url-domain { font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 500; }
+
+/* ── Split layout ────────────────────────────────────────────── */
+.split {
+  display: flex;
+  height: 482px; /* 510 - 28 chrome */
+}
+
+/* ══════════════════════════════════════════════════════════════
+   LEFT PANEL — the form
+   This is the primary evidence. The exhibit's argument lives here.
+
+   What must be visible before annotations:
+   1. Three fields — radical sparsity vs. competitors
+   2. Password field with strength indicator — inline feedback,
+      no requirements checklist, no lecturing
+   3. Labels above fields (not placeholder-only) — correct practice
+   4. Submit button proportioned and named honestly
+   5. Breathing room throughout — the form is not performing urgency
+   ══════════════════════════════════════════════════════════════ */
+.form-panel {
+  width: 368px;
+  flex-shrink: 0;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 44px;
+  position: relative;
+}
+
+/* Stripe wordmark */
+.stripe-logo {
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.stripe-logo-mark {
+  width: 30px;
+  height: 30px;
+  background: #635BFF;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stripe-logo-word {
+  font-size: 21px;
+  font-weight: 700;
+  color: #0a2540;
+  letter-spacing: -0.5px;
+}
+
+.form-title {
+  font-size: 21px;
+  font-weight: 700;
+  color: #0a2540;
+  letter-spacing: -0.4px;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+.form-subtitle {
+  font-size: 13px;
+  font-weight: 400;
+  color: #697c8d;
+  margin-bottom: 18px;
+  letter-spacing: -0.1px;
+  line-height: 1.4;
+}
+
+/* ── Field group ────────────────────────────────────────────── */
+.field {
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+.field-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #425466;
+  letter-spacing: -0.1px;
+  margin-bottom: 6px;
+}
+
+/*
+  INPUT FIELD DESIGN — key evidence:
+  - Labels above, not as placeholders
+  - Generous internal padding (12px vertical / 14px horizontal)
+  - Clean border with subtle radius
+  - Focus state uses Stripe's indigo (#635BFF) — single accent color throughout
+  - No asterisk, no "required" label — the form trusts the user
+*/
+.field-input {
+  width: 100%;
+  height: 42px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 7px;
+  padding: 0 14px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #0a2540;
+  background: #fff;
+  outline: none;
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.1px;
+}
+.field-input.focused {
+  border-color: #635BFF;
+  box-shadow: 0 0 0 3px rgba(99, 91, 255, 0.14);
+}
+.field-input.filled {
+  color: #0a2540;
+}
+.field-input-text {
+  font-size: 14px;
+  color: #0a2540;
+  letter-spacing: -0.1px;
+}
+.field-input-placeholder {
+  font-size: 14px;
+  color: #9ca3af;
+  letter-spacing: -0.1px;
+}
+
+/* Password field: shows filled state with masked characters */
+.field-input.password {
+  letter-spacing: 0.18em;
+  font-size: 16px;
+  color: #0a2540;
+}
+
+/*
+  PASSWORD STRENGTH INDICATOR — the most important evidence element.
+  This is inline validation without submission.
+  No requirements checklist. No "must contain uppercase".
+  Just: your password is strong. That's all.
+  This is the form treating the user as capable.
+*/
+.pw-strength {
+  margin-top: 7px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pw-bars {
+  display: flex;
+  gap: 3px;
+  flex: 1;
+}
+.pw-bar {
+  height: 3px;
+  flex: 1;
+  border-radius: 2px;
+  background: #e5e7eb;
+}
+.pw-bar.active { background: #10b981; }
+.pw-label {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #10b981;
+  white-space: nowrap;
+  letter-spacing: -0.1px;
+}
+
+/* ── Submit button ──────────────────────────────────────────── */
+/*
+  Button design decisions:
+  - Full width — form-aligned, no ambiguity about which element submits
+  - Height 44px — generous touch target even on desktop
+  - Color: Stripe's #635BFF — one accent color, used only here and on focus
+  - Copy: "Create account" — direct, no marketing ("Start free trial" / "Begin journey")
+  - No loading state shown — the exhibit is a moment, not a flow
+*/
+.submit-btn {
+  width: 100%;
+  height: 44px;
+  flex-shrink: 0;
+  background: #635BFF;
+  border: none;
+  border-radius: 7px;
+  color: #fff;
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.1px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6px;
+  box-shadow: 0 2px 8px rgba(99, 91, 255, 0.28);
+}
+
+.form-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+.form-footer-text {
+  font-size: 12.5px;
+  color: #697c8d;
+  letter-spacing: -0.1px;
+}
+.form-footer-link {
+  color: #635BFF;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.form-terms {
+  position: absolute;
+  bottom: 22px;
+  left: 48px;
+  right: 48px;
+  font-size: 11px;
+  color: #9ca3af;
+  text-align: center;
+  letter-spacing: -0.1px;
+  line-height: 1.5;
+}
+.form-terms a { color: #635BFF; }
+
+/* ══════════════════════════════════════════════════════════════
+   RIGHT PANEL — context and value demonstration
+   Dark background. Code example.
+
+   THE DEFENSE: this is what three fields purchases.
+   Working payment API, accessible before the registration
+   page is closed. The developer evaluates the product
+   while registering for it.
+
+   THE CHARGE: this panel assumes developer literacy.
+   A non-technical founder filling in the same form
+   sees syntax. The form and its context are optimized
+   for one user type and neutral to the other.
+   ══════════════════════════════════════════════════════════════ */
+.code-panel {
+  flex: 1;
+  background: #0a2540;
+  display: flex;
+  flex-direction: column;
+  padding: 36px 32px;
+  overflow: hidden;
+}
+
+.code-panel-heading {
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: -0.2px;
+  margin-bottom: 4px;
+}
+.code-panel-sub {
+  font-size: 12.5px;
+  color: #697c8d;
+  margin-bottom: 22px;
+  letter-spacing: -0.1px;
+}
+
+/* ── Code block ────────────────────────────────────────────── */
+.code-block {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 18px 20px;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Tab bar for the code block */
+.code-tabs {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding-bottom: 12px;
+}
+.code-tab {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.35);
+  padding: 3px 10px;
+  border-radius: 4px;
+  letter-spacing: -0.1px;
+}
+.code-tab.active {
+  color: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.08);
+}
+
+/* Code text — syntax highlighted */
+.code-line {
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', 'Monaco', monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  white-space: pre;
+  letter-spacing: 0;
+}
+.c-comment { color: #4a7891; }
+.c-keyword  { color: #7dd3fc; } /* light blue */
+.c-string   { color: #86efac; } /* light green */
+.c-number   { color: #fbbf24; } /* amber */
+.c-method   { color: #c4b5fd; } /* light purple */
+.c-default  { color: #cbd5e1; } /* light slate */
+.c-punct    { color: #64748b; } /* muted slate */
+.c-name     { color: #e2e8f0; } /* near-white */
+
+/* Test mode badge at bottom */
+.code-panel-footer {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.test-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  border-radius: 5px;
+}
+.test-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #fbbf24;
+}
+.test-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: #fbbf24;
+  letter-spacing: 0.02em;
+}
+.test-desc {
+  font-size: 11px;
+  color: #4a7891;
+  letter-spacing: -0.1px;
+}
+
+</style>
+</head>
+<body>
+
+<!-- Browser chrome -->
+<div class="chrome">
+  <div class="chrome-dots">
+    <div class="chrome-dot chrome-dot-r"></div>
+    <div class="chrome-dot chrome-dot-y"></div>
+    <div class="chrome-dot chrome-dot-g"></div>
+  </div>
+  <div class="chrome-url">
+    <span class="chrome-url-lock">🔒</span>
+    <span class="chrome-url-text">stripe.com / </span>
+    <span class="chrome-url-domain">register</span>
+  </div>
+</div>
+
+<div class="split">
+
+  <!-- ╔══════════════════════════════════════════════════════╗ -->
+  <!-- ║  LEFT: FORM                                           ║ -->
+  <!-- ╚══════════════════════════════════════════════════════╝ -->
+  <div class="form-panel">
+
+    <!-- Stripe wordmark -->
+    <div class="stripe-logo">
+      <div class="stripe-logo-mark">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <!-- Simplified Stripe 'S' glyph -->
+          <path d="M7.2 5.2c0-.8.7-1.1 1.8-1.1 1.6 0 3.6.5 5 1.3V1.4C12.6.5 11 .1 9 .1 5.4.1 3 2 3 5.4c0 5.2 7.2 4.4 7.2 6.6 0 .9-.8 1.2-2 1.2-1.7 0-3.9-.7-5.6-1.6V16c1.9.8 3.7 1.2 5.6 1.2 3.7 0 6.2-1.8 6.2-5.3C14.4 6.4 7.2 7.4 7.2 5.2z" fill="white"/>
+        </svg>
+      </div>
+      <span class="stripe-logo-word">stripe</span>
+    </div>
+
+    <h1 class="form-title">Create your Stripe account</h1>
+    <p class="form-subtitle">Start accepting payments today.</p>
+
+    <!-- Email field — filled state -->
+    <div class="field">
+      <label class="field-label">Email address</label>
+      <div class="field-input filled">
+        <span class="field-input-text">alex@acme.co</span>
+      </div>
+    </div>
+
+    <!-- Password field — filled with strength indicator -->
+    <!--
+      THE KEY EVIDENCE: inline validation without submission.
+      The password has been entered; the form immediately communicates
+      "Strong" without a requirements checklist.
+      This is what good progressive disclosure looks like at field level.
+    -->
+    <div class="field">
+      <label class="field-label">Password</label>
+      <div class="field-input password filled">
+        <span class="field-input-text" style="letter-spacing:0.18em;font-size:16px;">●●●●●●●●●</span>
+      </div>
+      <div class="pw-strength">
+        <div class="pw-bars">
+          <div class="pw-bar active"></div>
+          <div class="pw-bar active"></div>
+          <div class="pw-bar active"></div>
+          <div class="pw-bar active"></div>
+        </div>
+        <span class="pw-label">Strong</span>
+      </div>
+    </div>
+
+    <!-- Company name — active/focused state (cursor is here) -->
+    <!--
+      THE CHARGE — not visible without annotation:
+      "Company name" will later need to match legal business
+      registration exactly. A mismatch costs real time when
+      KYC triggers. The field's silence is not restraint —
+      it is a precision failure dressed as simplicity.
+    -->
+    <div class="field" style="margin-bottom:20px;">
+      <label class="field-label">Company or individual name</label>
+      <div class="field-input focused">
+        <span class="field-input-text">Acme Inc</span>
+      </div>
+    </div>
+
+    <!-- Submit button -->
+    <div class="submit-btn">Create account</div>
+
+    <!-- Footer -->
+    <div class="form-footer">
+      <span class="form-footer-text">Already have an account? </span>
+      <a class="form-footer-link">Sign in</a>
+    </div>
+
+
+  </div>
+  <!-- ╚ end form panel ╝ -->
+
+  <!-- ╔══════════════════════════════════════════════════════╗ -->
+  <!-- ║  RIGHT: CODE PANEL                                    ║ -->
+  <!-- ║  What these three fields purchase.                    ║ -->
+  <!-- ╚══════════════════════════════════════════════════════╝ -->
+  <div class="code-panel">
+
+    <div class="code-panel-heading">Your first charge in minutes</div>
+    <div class="code-panel-sub">API key available immediately after signup</div>
+
+    <div class="code-block">
+
+      <div class="code-tabs">
+        <div class="code-tab active">Node.js</div>
+        <div class="code-tab">Python</div>
+        <div class="code-tab">Ruby</div>
+        <div class="code-tab">Go</div>
+      </div>
+
+      <!-- Syntax-highlighted code — authentic Stripe API usage -->
+      <div class="code-line"><span class="c-comment">// Create a PaymentIntent</span></div>
+      <div class="code-line"><span class="c-keyword">const</span> <span class="c-name">stripe</span> <span class="c-punct">=</span> <span class="c-method">require</span><span class="c-punct">(</span><span class="c-string">'stripe'</span><span class="c-punct">)(</span><span class="c-name">process</span><span class="c-punct">.</span><span class="c-name">env</span><span class="c-punct">.</span><span class="c-name">STRIPE_SECRET_KEY</span><span class="c-punct">);</span></div>
+      <div class="code-line"></div>
+      <div class="code-line"><span class="c-keyword">const</span> <span class="c-name">paymentIntent</span> <span class="c-punct">=</span> <span class="c-keyword">await</span> <span class="c-name">stripe</span></div>
+      <div class="code-line">  <span class="c-punct">.</span><span class="c-method">paymentIntents</span><span class="c-punct">.</span><span class="c-method">create</span><span class="c-punct">({</span></div>
+      <div class="code-line">    <span class="c-name">amount</span><span class="c-punct">:</span> <span class="c-number">2000</span><span class="c-punct">,</span>     <span class="c-comment">// $20.00</span></div>
+      <div class="code-line">    <span class="c-name">currency</span><span class="c-punct">:</span> <span class="c-string">'usd'</span><span class="c-punct">,</span></div>
+      <div class="code-line">    <span class="c-name">automatic_payment_methods</span><span class="c-punct">:</span> <span class="c-punct">{</span></div>
+      <div class="code-line">      <span class="c-name">enabled</span><span class="c-punct">:</span> <span class="c-keyword">true</span><span class="c-punct">,</span></div>
+      <div class="code-line">    <span class="c-punct">},</span></div>
+      <div class="code-line">  <span class="c-punct">});</span></div>
+      <div class="code-line"></div>
+      <div class="code-line"><span class="c-comment">// client_secret → frontend to confirm</span></div>
+      <div class="code-line"><span class="c-keyword">return</span> <span class="c-name">paymentIntent</span><span class="c-punct">.</span><span class="c-name">client_secret</span><span class="c-punct">;</span></div>
+
+    </div>
+
+    <!-- Test mode indicator — authentic Stripe detail -->
+    <!--
+      "Test mode enabled by default" is a key design decision:
+      the developer can test without going live, without entering
+      real payment details, without risk. This supports the defense:
+      the API is accessible before any compliance is required.
+    -->
+    <div class="code-panel-footer">
+      <div class="test-badge">
+        <div class="test-dot"></div>
+        <span class="test-label">TEST MODE</span>
+      </div>
+      <span class="test-desc">No real charges until you activate your account</span>
+    </div>
+
+  </div>
+  <!-- ╚ end code panel ╝ -->
+
+</div>
+
+</body>
+</html>

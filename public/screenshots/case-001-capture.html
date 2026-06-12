@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=375">
+<style>
+
+/* ════════════════════════════════════════════════════════════════
+   MOBILE BANKING DASHBOARD — Case #001
+   375×812 — iPhone portrait
+
+   EXHIBIT PREMISE (stress-test revision):
+   "The restraint is correct. The trust signal is correct.
+   The repeat-user model is correct. The first-use experience
+   pays a cost for those decisions."
+
+   This interface should read as a competent financial product
+   before any annotation appears. The defense is visible in
+   the overall quality. The charges require investigation.
+   ════════════════════════════════════════════════════════════════ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  width: 375px;
+  height: 812px;
+  overflow: hidden;
+  background: #f3f4f6;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: #111827;
+}
+
+/* ── Status bar ──────────────────────────────────────────────── */
+.status-bar {
+  height: 44px;
+  background: #fff;
+  padding: 14px 20px 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.status-time {
+  font-size: 15px;
+  font-weight: 600;
+  color: #000;
+  letter-spacing: -0.3px;
+}
+.status-icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ── Navigation bar ──────────────────────────────────────────── */
+.navbar {
+  height: 44px;
+  background: #fff;
+  border-bottom: 0.5px solid rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  position: relative;
+}
+.nav-back {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: #1a56db;
+  font-size: 15px;
+  font-weight: 400;
+}
+.nav-title {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+  letter-spacing: -0.2px;
+}
+.nav-more {
+  margin-left: auto;
+  color: #1a56db;
+  font-size: 19px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+/* ── Account card ────────────────────────────────────────────────
+   THE DEFENSE (visible before annotations):
+   Calm, professional, restrained.
+   The balance reads as confirmation, not announcement.
+   The dark card against the light background signals trust
+   through material quality, not through performance.
+   This is the interface of a product that holds something real.
+   ─────────────────────────────────────────────────────────────── */
+.account-wrap {
+  padding: 14px 16px 0;
+}
+.account-card {
+  background: linear-gradient(150deg, #1e3a8a 0%, #1d4ed8 55%, #3b82f6 100%);
+  border-radius: 18px;
+  padding: 18px 20px 20px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(29, 78, 216, 0.22);
+}
+.account-card::before {
+  content: '';
+  position: absolute;
+  top: -50px; right: -40px;
+  width: 170px; height: 170px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 50%;
+}
+.account-card::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: -30px;
+  width: 130px; height: 130px;
+  background: rgba(255,255,255,0.045);
+  border-radius: 50%;
+}
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 18px;
+}
+.card-account-info {}
+.card-account-name {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: -0.1px;
+  margin-bottom: 3px;
+}
+.card-number {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.08em;
+}
+.card-type-badge {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.12);
+  padding: 4px 9px;
+  border-radius: 20px;
+}
+
+.card-balance-section { position: relative; z-index: 1; }
+.card-balance-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 5px;
+}
+.card-balance {
+  font-size: 36px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -2px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.card-balance .pence {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.8px;
+}
+.card-sub {
+  margin-top: 10px;
+  display: flex;
+  gap: 16px;
+}
+.card-sub-item { }
+.card-sub-label {
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.42);
+  margin-bottom: 2px;
+}
+.card-sub-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: -0.3px;
+}
+
+/* ── Action row ──────────────────────────────────────────────────
+   THE CORE EVIDENCE.
+
+   WHAT THE EXHIBIT MUST SHOW:
+
+   Defense (visible on inspection):
+   Four items in a spatial grid. Organized. Clean. After three
+   sessions the positions are memorized and the visual search
+   stops happening. The equal weight is the repeat-use model.
+
+   Charge (requires investigation):
+   No visual hierarchy across the four actions. Send Money —
+   the primary task for most users — carries the same visual
+   weight as Manage Cards, which most users open quarterly.
+   On day one, without prior spatial memory, there is no map.
+   ─────────────────────────────────────────────────────────────── */
+.actions-section {
+  margin: 10px 16px 0;
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px 4px 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+.actions-row {
+  display: flex;
+  justify-content: space-around;
+}
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  width: 76px;
+}
+.action-icon-bg {
+  width: 50px;
+  height: 50px;
+  background: #eff6ff;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1d4ed8;
+}
+.action-label {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #374151;
+  text-align: center;
+  letter-spacing: -0.15px;
+  line-height: 1.25;
+}
+
+/* ── Transactions ─────────────────────────────────────────────────
+   The interface doing its primary job well.
+   Recent activity, clearly organized, scannable.
+
+   THE SECONDARY CONTRAST ISSUE lives in .tx-meta:
+   color: #9ca3af on #fff ≈ 2.5:1 contrast ratio.
+   Fails WCAG AA (min 4.5:1 for body text).
+   Functional in optimal conditions; a real cost for users
+   with reduced contrast sensitivity or bright-light environments.
+   This is a documented, checkable technical failure.
+   ─────────────────────────────────────────────────────────────── */
+.tx-section {
+  margin: 10px 16px 0;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+.tx-header {
+  padding: 14px 16px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.tx-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  letter-spacing: -0.2px;
+}
+.tx-view-all {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1d4ed8;
+}
+
+.tx-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  border-top: 0.5px solid #f3f4f6;
+}
+.tx-avatar {
+  width: 40px; height: 40px;
+  border-radius: 12px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+}
+.tx-body { flex: 1; min-width: 0; }
+.tx-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  letter-spacing: -0.15px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tx-meta {
+  /*
+    CONTRAST ISSUE — annotation target:
+    #9ca3af on white = ~2.5:1 contrast.
+    Fails WCAG AA (4.5:1 required for < 18pt text).
+    This is the specific technical cost documented in the audit.
+  */
+  font-size: 12px;
+  font-weight: 400;
+  color: #9ca3af;
+  letter-spacing: -0.1px;
+  margin-top: 1px;
+}
+.tx-amount {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+.debit { color: #111827; }
+.credit { color: #059669; }
+
+/* ── Tab bar ─────────────────────────────────────────────────── */
+.tab-bar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 82px;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 0.5px solid rgba(0,0,0,0.1);
+  display: flex;
+  padding: 8px 0 0;
+}
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.tab-icon-wrap {
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  color: #9ca3af;
+}
+.tab-item.active .tab-icon-wrap { color: #1d4ed8; }
+.tab-label {
+  font-size: 10px;
+  font-weight: 500;
+  color: #9ca3af;
+  letter-spacing: -0.1px;
+}
+.tab-item.active .tab-label { color: #1d4ed8; }
+
+</style>
+</head>
+<body>
+
+<!-- Status bar -->
+<div class="status-bar">
+  <span class="status-time">9:41</span>
+  <div class="status-icons">
+    <!-- Signal bars -->
+    <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+      <rect x="0" y="8" width="3" height="4" rx="0.5" fill="#000" opacity="0.9"/>
+      <rect x="4.5" y="5.5" width="3" height="6.5" rx="0.5" fill="#000" opacity="0.9"/>
+      <rect x="9" y="3" width="3" height="9" rx="0.5" fill="#000" opacity="0.9"/>
+      <rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="#000" opacity="0.3"/>
+    </svg>
+    <!-- WiFi -->
+    <svg width="16" height="12" viewBox="0 0 16 12" fill="none">
+      <path d="M8 9.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" fill="#000" opacity="0.9"/>
+      <path d="M4.2 7.2C5.2 6.2 6.5 5.5 8 5.5s2.8.7 3.8 1.7" stroke="#000" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.9"/>
+      <path d="M1.5 4.5C3.1 2.9 5.4 2 8 2s4.9.9 6.5 2.5" stroke="#000" stroke-width="1.2" stroke-linecap="round" fill="none" opacity="0.3"/>
+    </svg>
+    <!-- Battery -->
+    <svg width="25" height="12" viewBox="0 0 25 12" fill="none">
+      <rect x="0.5" y="0.5" width="21" height="11" rx="3" stroke="#000" stroke-width="1" opacity="0.35" fill="none"/>
+      <rect x="2" y="2" width="15" height="8" rx="1.5" fill="#000" opacity="0.9"/>
+      <path d="M23 4.5v3c.8-.4 1.4-1 1.4-1.5S23.8 4.9 23 4.5z" fill="#000" opacity="0.4"/>
+    </svg>
+  </div>
+</div>
+
+<!-- Nav bar -->
+<div class="navbar">
+  <div class="nav-back">
+    <svg width="10" height="16" viewBox="0 0 10 16" fill="none">
+      <path d="M8 2L2 8L8 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span style="margin-left:2px;">Accounts</span>
+  </div>
+  <div class="nav-title">Current Account</div>
+  <div class="nav-more">···</div>
+</div>
+
+<!-- Account card -->
+<div class="account-wrap">
+  <div class="account-card">
+    <div class="card-top">
+      <div class="card-account-info">
+        <div class="card-account-name">Current Account</div>
+        <div class="card-number">····  ····  ····  4521</div>
+      </div>
+      <div class="card-type-badge">Visa Debit</div>
+    </div>
+    <div class="card-balance-section">
+      <div class="card-balance-label">Available balance</div>
+      <div class="card-balance">£2,847<span class="pence">.50</span></div>
+      <div class="card-sub">
+        <div class="card-sub-item">
+          <div class="card-sub-label">Spent today</div>
+          <div class="card-sub-value">£54.24</div>
+        </div>
+        <div class="card-sub-item">
+          <div class="card-sub-label">Pending</div>
+          <div class="card-sub-value">£12.00</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Action row — four equal-weight actions -->
+<div class="actions-section">
+  <div class="actions-row">
+
+    <!-- Send Money — primary action for most users; same visual weight as the other three -->
+    <div class="action-item">
+      <div class="action-icon-bg">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M11 17V5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M5 11l6-6 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="action-label">Send<br>Money</span>
+    </div>
+
+    <!-- Add Money -->
+    <div class="action-item">
+      <div class="action-icon-bg">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M11 5v12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M17 11l-6 6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="action-label">Add<br>Money</span>
+    </div>
+
+    <!-- Pay Bills -->
+    <div class="action-item">
+      <div class="action-icon-bg">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <rect x="4" y="3" width="14" height="16" rx="2.5" stroke="currentColor" stroke-width="1.8" fill="none"/>
+          <line x1="7" y1="8" x2="15" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="7" y1="11.5" x2="15" y2="11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="7" y1="15" x2="11" y2="15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="action-label">Pay<br>Bills</span>
+    </div>
+
+    <!-- Manage Cards -->
+    <div class="action-item">
+      <div class="action-icon-bg">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <rect x="2" y="5" width="18" height="12" rx="2.5" stroke="currentColor" stroke-width="1.8" fill="none"/>
+          <line x1="2" y1="9.5" x2="20" y2="9.5" stroke="currentColor" stroke-width="2"/>
+          <rect x="5" y="13" width="5" height="2" rx="1" fill="currentColor" opacity="0.6"/>
+        </svg>
+      </div>
+      <span class="action-label">Manage<br>Cards</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- Transactions -->
+<div class="tx-section">
+  <div class="tx-header">
+    <span class="tx-title">Recent transactions</span>
+    <span class="tx-view-all">See all</span>
+  </div>
+
+  <!-- Amazon — shopping -->
+  <div class="tx-item">
+    <div class="tx-avatar" style="background:#FF9900;">A</div>
+    <div class="tx-body">
+      <div class="tx-name">Amazon</div>
+      <!-- tx-meta uses #9ca3af — contrast failure annotation target -->
+      <div class="tx-meta">Shopping · Yesterday</div>
+    </div>
+    <div class="tx-amount debit">−£47.99</div>
+  </div>
+
+  <!-- Salary -->
+  <div class="tx-item">
+    <div class="tx-avatar" style="background:#059669;">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M9 14V4" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+        <path d="M4 9l5 5 5-5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="tx-body">
+      <div class="tx-name">Salary — Acme Ltd</div>
+      <div class="tx-meta">Bank transfer · 1 Jan</div>
+    </div>
+    <div class="tx-amount credit">+£2,850.00</div>
+  </div>
+
+  <!-- Pret A Manger -->
+  <div class="tx-item">
+    <div class="tx-avatar" style="background:#8B2234;">P</div>
+    <div class="tx-body">
+      <div class="tx-name">Pret A Manger</div>
+      <div class="tx-meta">Coffee & dining · Today</div>
+    </div>
+    <div class="tx-amount debit">−£6.25</div>
+  </div>
+
+  <!-- Netflix -->
+  <div class="tx-item">
+    <div class="tx-avatar" style="background:#E50914;">N</div>
+    <div class="tx-body">
+      <div class="tx-name">Netflix</div>
+      <div class="tx-meta">Subscriptions · 28 Dec</div>
+    </div>
+    <div class="tx-amount debit">−£15.99</div>
+  </div>
+
+</div>
+
+<!-- Tab bar -->
+<div class="tab-bar">
+
+  <div class="tab-item active">
+    <div class="tab-icon-wrap">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <path d="M3 9.5L11 3l8 6.5V19a1 1 0 0 1-1 1H14v-5h-6v5H4a1 1 0 0 1-1-1V9.5z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <span class="tab-label">Home</span>
+  </div>
+
+  <div class="tab-item">
+    <div class="tab-icon-wrap">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <rect x="2" y="4" width="18" height="5" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/>
+        <rect x="2" y="13" width="18" height="5" rx="2" stroke="currentColor" stroke-width="1.6" fill="none"/>
+      </svg>
+    </div>
+    <span class="tab-label">Accounts</span>
+  </div>
+
+  <div class="tab-item">
+    <div class="tab-icon-wrap">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <path d="M7 5l-4 4 4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 9h10a6 6 0 0 1 0 12H3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <span class="tab-label">Payments</span>
+  </div>
+
+  <div class="tab-item">
+    <div class="tab-icon-wrap">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <circle cx="11" cy="8" r="4" stroke="currentColor" stroke-width="1.6" fill="none"/>
+        <path d="M3 19c0-3.3 3.6-6 8-6s8 2.7 8 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <span class="tab-label">Profile</span>
+  </div>
+
+</div>
+
+</body>
+</html>

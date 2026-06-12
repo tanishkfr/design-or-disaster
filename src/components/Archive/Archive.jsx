@@ -68,9 +68,12 @@ export default function Archive({ onSelectCase, onDesignEye }) {
       {/* ── Header ───────────────────────────────────── */}
       <header className={styles.header}>
         <span className={styles.wordmark}>D/D</span>
-        <button className={styles.designEyeBtn} onClick={onDesignEye}>
-          Design Eye ▸
-        </button>
+        <div className={styles.headerRight}>
+          <span className={styles.headerProgress}>{reviewedCount} / {totalCases}</span>
+          <button className={styles.designEyeBtn} onClick={onDesignEye}>
+            Design Eye ▸
+          </button>
+        </div>
       </header>
 
       {/* ── Archive intro ─────────────────────────────── */}

@@ -48,3 +48,19 @@ ol {
 h1, h2, h3, h4, h5, h6 {
   font: inherit;
 }
+
+/* ─── Focus visible — keyboard navigation ─────────── */
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+button:focus-visible {
+  outline-offset: 4px;
+}

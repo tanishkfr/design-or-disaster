@@ -1,0 +1,199 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-8);
+  background: var(--surface);
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  padding: var(--space-16) 0 var(--space-16);
+  animation: pageEnter var(--duration-slow) var(--ease-out) both;
+  border-left: 2px solid var(--border-subtle);
+  padding-left: var(--space-8);
+}
+
+@media (max-width: 680px) {
+  .container {
+    border-left: none;
+    padding-left: 0;
+  }
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Document header ──────────────────────────────── */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin-bottom: var(--space-12);
+  padding-top: var(--space-6);
+  border-top: 2px solid var(--border-default);
+}
+
+.docLabel {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+.docMeta {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  opacity: 0.5;
+  text-transform: uppercase;
+}
+
+/* ── Opening statement ────────────────────────────── */
+
+.opening {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.65;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-8);
+}
+
+/* ── Body blocks ──────────────────────────────────── */
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.prose {
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  line-height: 1.75;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ── Section divider ──────────────────────────────── */
+
+.rule {
+  width: 100%;
+  height: 1px;
+  background: var(--border-subtle);
+  margin: var(--space-8) 0;
+}
+
+/* ── Closing section ──────────────────────────────── */
+
+.closing {
+  animation: closingEnter var(--duration-slow) var(--ease-out) 400ms both;
+}
+
+@keyframes closingEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.closingLine {
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  line-height: 1.75;
+  color: var(--text-tertiary);
+  margin: 0;
+}
+
+.question {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-primary);
+  line-height: 1.4;
+  margin: 0;
+  padding-bottom: 2px;
+}
+
+/* ── Actions ──────────────────────────────────────── */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  margin-top: var(--space-12);
+  padding-top: var(--space-8);
+  border-top: 1px solid var(--border-subtle);
+  animation: closingEnter var(--duration-slow) var(--ease-out) 4000ms both;
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  padding: 0;
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+.backBtn:hover {
+  color: var(--text-secondary);
+}
+
+.restartBtn {
+  background: none;
+  border: 1px solid var(--border-default);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  transition:
+    border-color var(--duration-fast) var(--ease-default),
+    color var(--duration-fast) var(--ease-default);
+}
+
+.restartBtn:hover {
+  border-color: var(--border-strong);
+  color: var(--text-secondary);
+}
+
+/* ── Closure stamp ────────────────────────────────── */
+
+.stamp {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  margin: var(--space-6) 0 0;
+  opacity: 0.7;
+  animation: closingEnter var(--duration-slow) var(--ease-out) 5500ms both;
+}

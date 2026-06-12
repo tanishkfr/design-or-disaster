@@ -12,7 +12,7 @@
 
   /* ─── Text ────────────────────────────────────────── */
   --text-primary:    #F0EAD6;
-  --text-secondary:  #7A7480;
+  --text-secondary:  #9A949F;
   --text-tertiary:   #4A4650;
 
   /* ─── Verdict — Guilty ────────────────────────────── */
@@ -76,26 +76,26 @@
   --duration-base:   300ms;
   --duration-slow:   600ms;
   --duration-slower: 800ms;
-  --ease-default:    ease;
-  --ease-in:         ease-in;
-  --ease-out:        ease-out;
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in:      cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Reduced motion — all transitions collapse to opacity-only at 150ms */
+/* Reduced motion — collapse all durations to near-zero so final states snap in instantly */
 @media (prefers-reduced-motion: reduce) {
   :root {
-    --duration-fast:   150ms;
-    --duration-base:   150ms;
-    --duration-slow:   150ms;
-    --duration-slower: 150ms;
+    --duration-fast:   1ms;
+    --duration-base:   1ms;
+    --duration-slow:   1ms;
+    --duration-slower: 1ms;
   }
 
   *,
   *::before,
   *::after {
-    animation-duration: 150ms !important;
+    animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 150ms !important;
-    transition-property: opacity !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

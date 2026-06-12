@@ -103,6 +103,34 @@
   text-transform: uppercase;
 }
 
+/* ─── Curator note ────────────────────────────────── */
+
+.curatorNote {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.curatorNoteLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+.curatorNoteText {
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
 /* ─── Right column — sticky panel ────────────────── */
 
 .right {

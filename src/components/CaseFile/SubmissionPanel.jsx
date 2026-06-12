@@ -19,12 +19,33 @@ const EVIDENCE_TAGS = [
   'Cognitive Load',
 ]
 
+// Confidence as a personal register — italic serif, not a rating scale
 const CONFIDENCE_OPTIONS = [
-  { key: 'guessing',       label: 'Guessing' },
-  { key: 'somewhat_sure',  label: 'Somewhat Sure' },
-  { key: 'confident',      label: 'Confident' },
-  { key: 'very_confident', label: 'Very Confident' },
+  { key: 'guessing',       label: 'With reservation.'  },
+  { key: 'somewhat_sure',  label: 'On balance.'         },
+  { key: 'confident',      label: 'I stand by this.'    },
+  { key: 'very_confident', label: 'Without reservation.' },
 ]
+
+const VERDICT_PHRASE = {
+  strong_design:   'sound',
+  needs_revision:  'flawed',
+  design_disaster: 'a failure',
+}
+
+const CONFIDENCE_PHRASE = {
+  guessing:       'With reservation.',
+  somewhat_sure:  'On balance.',
+  confident:      'I stand by this.',
+  very_confident: 'Without reservation.',
+}
+
+function buildFinding(v, c) {
+  const vp = VERDICT_PHRASE[v] ?? v
+  if (!c) return `I read this as ${vp}.`
+  const cp = CONFIDENCE_PHRASE[c] ?? c
+  return `I read this as ${vp}. ${cp}`
+}
 
 export default function SubmissionPanel({ exiting, onSubmit }) {
   const [verdict, setVerdict] = useState(null)
@@ -32,7 +53,8 @@ export default function SubmissionPanel({ exiting, onSubmit }) {
   const [confidence, setConfidence] = useState(null)
   const [tagsPulsing, setTagsPulsing] = useState(false)
 
-  const isComplete = verdict !== null && evidenceTags.length >= 1 && confidence !== null
+  const isComplete = verdict !== null && confidence !== null
+  const someVerdictSelected = verdict !== null
 
   const handleTagToggle = (tag) => {
     if (evidenceTags.includes(tag)) {
@@ -40,7 +62,6 @@ export default function SubmissionPanel({ exiting, onSubmit }) {
     } else if (evidenceTags.length < 3) {
       setEvidenceTags([...evidenceTags, tag])
     } else {
-      // 4th selection attempt — pulse all unselected chips once
       setTagsPulsing(true)
       setTimeout(() => setTagsPulsing(false), 500)
     }
@@ -54,14 +75,19 @@ export default function SubmissionPanel({ exiting, onSubmit }) {
   return (
     <div className={`${styles.panel} ${exiting ? styles.exiting : ''}`}>
 
-      {/* ── Position — three verdict options ─────────── */}
+      {/* ── Position — rule out until one remains ────── */}
       <div className={styles.verdictList} role="group" aria-label="Your position on this design">
         {VERDICT_OPTIONS.map(({ key, label, color, bg }) => {
           const selected = verdict === key
+          const dimmed = someVerdictSelected && !selected
           return (
             <button
               key={key}
-              className={`${styles.verdictCard} ${selected ? styles.verdictCardSelected : ''}`}
+              className={[
+                styles.verdictCard,
+                selected ? styles.verdictCardSelected : '',
+                dimmed   ? styles.verdictCardDimmed   : '',
+              ].filter(Boolean).join(' ')}
               style={selected ? { '--vc': color, '--vb': bg } : {}}
               onClick={() => setVerdict(key)}
               aria-pressed={selected}
@@ -73,13 +99,11 @@ export default function SubmissionPanel({ exiting, onSubmit }) {
         })}
       </div>
 
-      <div className={styles.rule} aria-hidden="true" />
-
-      {/* ── Evidence — which principles did you identify ─ */}
+      {/* ── Evidence — surface what you identified ────── */}
       <div
         className={styles.tagCloud}
         role="group"
-        aria-label="Evidence — select 1 to 3 design principles"
+        aria-label="Evidence — optional, select up to 3 design principles"
       >
         {EVIDENCE_TAGS.map(tag => {
           const selected = evidenceTags.includes(tag)
@@ -89,8 +113,8 @@ export default function SubmissionPanel({ exiting, onSubmit }) {
               key={tag}
               className={[
                 styles.tag,
-                selected ? styles.tagSelected : '',
-                shouldPulse ? styles.tagPulse : '',
+                selected    ? styles.tagSelected : '',
+                shouldPulse ? styles.tagPulse    : '',
               ].filter(Boolean).join(' ')}
               onClick={() => handleTagToggle(tag)}
               aria-pressed={selected}
@@ -101,11 +125,9 @@ export default function SubmissionPanel({ exiting, onSubmit }) {
         })}
       </div>
 
-      <div className={styles.rule} aria-hidden="true" />
-
-      {/* ── Confidence — how certain are you ─────────── */}
+      {/* ── Confidence — a personal notation ─────────── */}
       <div
-        className={styles.confidenceRow}
+        className={styles.confidenceColumn}
         role="group"
         aria-label="Confidence level"
       >
@@ -121,15 +143,31 @@ export default function SubmissionPanel({ exiting, onSubmit }) {
         ))}
       </div>
 
-      {/* ── Submit ────────────────────────────────────── */}
-      <button
-        className={`${styles.submitBtn} ${isComplete && !exiting ? styles.submitBtnActive : ''}`}
-        onClick={handleSubmit}
-        disabled={!isComplete || exiting}
-        aria-label="File your verdict"
-      >
-        File verdict
-      </button>
+      {/* ── Finding — the authored record ─────────────── */}
+      <div className={styles.findingSection}>
+        <div className={styles.findingRule} aria-hidden="true" />
+        <p
+          className={[
+            styles.findingStatement,
+            verdict && !confidence ? styles.findingPartial : '',
+            verdict && confidence  ? styles.findingComplete : '',
+          ].filter(Boolean).join(' ')}
+          aria-live="polite"
+        >
+          {verdict ? buildFinding(verdict, confidence) : ''}
+        </p>
+        <button
+          className={[
+            styles.recordAction,
+            isComplete && !exiting ? styles.recordActionReady : '',
+          ].filter(Boolean).join(' ')}
+          onClick={handleSubmit}
+          disabled={!isComplete || exiting}
+          aria-label="Record your finding"
+        >
+          Record finding →
+        </button>
+      </div>
 
     </div>
   )

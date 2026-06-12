@@ -12,13 +12,15 @@
   cursor: pointer;
   overflow: hidden;
   width: 100%;
+  min-height: 150px;
   transition:
     border-color 200ms var(--ease-default),
     box-shadow 200ms var(--ease-default),
-    opacity 200ms var(--ease-default);
+    opacity 200ms var(--ease-default),
+    transform 200ms var(--ease-out);
 }
 
-/* Screenshot background — reviewed cards only */
+/* Screenshot background — reveals on hover for all cards */
 .card::before {
   content: '';
   position: absolute;
@@ -31,8 +33,12 @@
   transition: opacity 200ms var(--ease-default);
 }
 
+.card:hover::before {
+  opacity: 0.15;
+}
+
 .reviewed::before {
-  opacity: 0.08;
+  opacity: 0.06;
 }
 
 .reviewed {
@@ -53,6 +59,7 @@
 .card:hover:not(.landmark):not(.contested) {
   border-color: var(--border-strong);
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
 }
 
 /* Hover — landmark keeps its colour, adds lift */
@@ -60,11 +67,13 @@
   box-shadow:
     0 4px 24px rgba(0, 0, 0, 0.4),
     0 0 28px rgba(139, 111, 200, 0.2);
+  transform: translateY(-2px);
 }
 
 /* Hover — contested keeps its colour, adds lift */
 .contested:hover {
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  transform: translateY(-2px);
 }
 
 /* Reviewed hover — restore full opacity */
@@ -98,7 +107,7 @@
   font-weight: 400;
   font-style: italic;
   color: var(--text-primary);
-  line-height: 1.2;
+  line-height: 1.35;
   margin-top: var(--space-1);
 }
 

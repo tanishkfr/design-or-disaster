@@ -1,16 +1,36 @@
-import { useState } from 'react'
+import { useState, useCallback, useRef } from 'react'
+import styles from './App.module.css'
 import { useDesignEye } from './hooks/useDesignEye'
+import { getCaseById, CASES } from './data/cases'
+import { deriveLeadInsight } from './utils/reportInsights'
 import ColdOpen from './components/ColdOpen/ColdOpen'
 import Archive from './components/Archive/Archive'
 import CaseFile from './components/CaseFile/CaseFile'
+import VerdictChamber from './components/VerdictChamber/VerdictChamber'
+import IntermissionReport from './components/DesignEye/IntermissionReport'
+import FinalReport from './components/DesignEye/FinalReport'
+import DesignEyeIntro from './components/DesignEye/DesignEyeIntro'
 
 export default function App() {
   const designEye = useDesignEye()
 
-  const [view, setView] = useState(
-    designEye.profile.coldOpenCompleted ? 'archive' : 'coldopen'
-  )
+  const [view, setView] = useState(designEye.profile.coldOpenCompleted ? 'archive' : 'coldopen')
+  const [exiting, setExiting] = useState(false)
+  const exitTimer = useRef(null)
   const [selectedCaseId, setSelectedCaseId] = useState(null)
+  const [lastSubmission, setLastSubmission] = useState(null)
+  // Track which casesCompleted milestone has already triggered an intermission
+  const [lastIntermissionAt, setLastIntermissionAt] = useState(null)
+
+  const navigate = useCallback((newView, updateFn) => {
+    if (exitTimer.current) clearTimeout(exitTimer.current)
+    setExiting(true)
+    exitTimer.current = setTimeout(() => {
+      if (updateFn) updateFn()
+      setView(newView)
+      setExiting(false)
+    }, 200)
+  }, [])
 
   const handleColdOpenComplete = ({ verdict, timestamp }) => {
     designEye.recordSubmission({
@@ -21,176 +41,129 @@ export default function App() {
       timestamp,
     })
     designEye.markColdOpenComplete()
-    setView('archive')
+    navigate('archive')
   }
 
   const handleSelectCase = (caseId) => {
-    designEye.setInProgressCase(caseId)
-    setSelectedCaseId(caseId)
-    setView('casefile')
+    navigate('casefile', () => {
+      designEye.setInProgressCase(caseId)
+      setSelectedCaseId(caseId)
+    })
   }
 
   const handleCaseFileBack = () => {
-    designEye.clearInProgressCase()
-    setView('archive')
+    navigate('archive', () => designEye.clearInProgressCase())
   }
 
   const handleCaseFileSubmit = ({ caseId, verdict, evidenceTags, confidence }) => {
-    designEye.recordSubmission({
-      caseId,
-      verdict,
-      evidenceTags,
-      confidence,
-      timestamp: Date.now(),
+    const submission = { caseId, verdict, evidenceTags, confidence, timestamp: Date.now() }
+    navigate('verdictchamber', () => {
+      setLastSubmission(submission)
+      designEye.recordSubmission(submission)
+      designEye.clearInProgressCase()
     })
-    designEye.clearInProgressCase()
-    // Phase 5 — verdict chamber replaces this placeholder
-    setView('verdictchamber')
   }
 
+  const handleVerdictChamberNext = () => {
+    // Full investigation complete — interstitial reveals the lead insight before the report
+    if (designEye.isComplete) {
+      navigate('designeye-intro')
+      return
+    }
+    // Intermission milestone reached and not yet shown for this count
+    if (
+      designEye.shouldShowIntermission &&
+      lastIntermissionAt !== designEye.profile.casesCompleted
+    ) {
+      navigate('intermission', () => setLastIntermissionAt(designEye.profile.casesCompleted))
+      return
+    }
+    navigate('archive')
+  }
+
+  const handleRestart = () => {
+    navigate('coldopen', () => {
+      designEye.resetProfile()
+      setSelectedCaseId(null)
+      setLastSubmission(null)
+      setLastIntermissionAt(null)
+    })
+  }
+
+  const wrapClass = `${styles.viewWrap}${exiting ? ` ${styles.viewExiting}` : ''}`
+
   if (view === 'coldopen') {
-    return <ColdOpen onComplete={handleColdOpenComplete} />
+    return <div className={wrapClass}><ColdOpen onComplete={handleColdOpenComplete} /></div>
   }
 
   if (view === 'archive') {
     return (
-      <Archive
-        onSelectCase={handleSelectCase}
-        onDesignEye={() => setView('designeye')}
-      />
+      <div className={wrapClass}>
+        <Archive
+          onSelectCase={handleSelectCase}
+          onDesignEye={() => navigate('designeye')}
+        />
+      </div>
     )
   }
 
   if (view === 'casefile') {
     return (
-      <CaseFile
-        caseId={selectedCaseId}
-        onBack={handleCaseFileBack}
-        onSubmit={handleCaseFileSubmit}
-      />
-    )
-  }
-
-  // Phase 5 placeholder — VerdictChamber replaces this
-  if (view === 'verdictchamber') {
-    return (
-      <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '8px',
-      }}>
-        <p style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: 'var(--t-case-number)',
-          letterSpacing: 'var(--ls-mono)',
-          color: 'var(--text-tertiary)',
-          textTransform: 'uppercase',
-        }}>
-          Verdict Chamber
-        </p>
-        <p style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: 'var(--t-case-number)',
-          letterSpacing: 'var(--ls-mono)',
-          color: 'var(--text-tertiary)',
-          textTransform: 'uppercase',
-          opacity: 0.5,
-        }}>
-          Phase 5 — coming next
-        </p>
-        <button
-          onClick={() => setView('archive')}
-          style={{
-            marginTop: '24px',
-            fontFamily: 'var(--font-mono)',
-            fontSize: 'var(--t-case-number)',
-            letterSpacing: 'var(--ls-mono)',
-            color: 'var(--text-tertiary)',
-            textTransform: 'uppercase',
-            background: 'none',
-            border: '1px solid var(--border-default)',
-            borderRadius: 'var(--radius-sm)',
-            padding: '8px 16px',
-            cursor: 'pointer',
-          }}
-        >
-          ← Archive
-        </button>
-        <button
-          onClick={() => {
-            designEye.resetProfile()
-            setView('coldopen')
-          }}
-          style={{
-            fontFamily: 'var(--font-mono)',
-            fontSize: 'var(--t-case-number)',
-            letterSpacing: 'var(--ls-mono)',
-            color: 'var(--text-tertiary)',
-            textTransform: 'uppercase',
-            background: 'none',
-            border: '1px solid var(--border-default)',
-            borderRadius: 'var(--radius-sm)',
-            padding: '8px 16px',
-            cursor: 'pointer',
-          }}
-        >
-          Reset (dev only)
-        </button>
+      <div className={wrapClass}>
+        <CaseFile
+          caseId={selectedCaseId}
+          onBack={handleCaseFileBack}
+          onSubmit={handleCaseFileSubmit}
+        />
       </div>
     )
   }
 
-  // Phase 6 placeholder — DesignEye replaces this
+  if (view === 'verdictchamber' && selectedCaseId && lastSubmission) {
+    return (
+      <div className={wrapClass}>
+        <VerdictChamber
+          caseData={getCaseById(selectedCaseId)}
+          submission={lastSubmission}
+          onNext={handleVerdictChamberNext}
+          onBack={() => navigate('archive')}
+          isFinalCase={designEye.isComplete}
+        />
+      </div>
+    )
+  }
+
+  if (view === 'designeye-intro') {
+    const insight = deriveLeadInsight(designEye.profile, CASES)
+    return (
+      <div className={wrapClass}>
+        <DesignEyeIntro
+          headline={insight.headline}
+          onComplete={() => navigate('designeye')}
+        />
+      </div>
+    )
+  }
+
+  if (view === 'intermission') {
+    return (
+      <div className={wrapClass}>
+        <IntermissionReport
+          profile={designEye.profile}
+          onContinue={() => navigate('archive')}
+        />
+      </div>
+    )
+  }
+
   if (view === 'designeye') {
     return (
-      <div style={{
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '8px',
-      }}>
-        <p style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: 'var(--t-case-number)',
-          letterSpacing: 'var(--ls-mono)',
-          color: 'var(--text-tertiary)',
-          textTransform: 'uppercase',
-        }}>
-          Design Eye Report
-        </p>
-        <p style={{
-          fontFamily: 'var(--font-mono)',
-          fontSize: 'var(--t-case-number)',
-          letterSpacing: 'var(--ls-mono)',
-          color: 'var(--text-tertiary)',
-          textTransform: 'uppercase',
-          opacity: 0.5,
-        }}>
-          Phase 6 — coming next
-        </p>
-        <button
-          onClick={() => setView('archive')}
-          style={{
-            marginTop: '24px',
-            fontFamily: 'var(--font-mono)',
-            fontSize: 'var(--t-case-number)',
-            letterSpacing: 'var(--ls-mono)',
-            color: 'var(--text-tertiary)',
-            textTransform: 'uppercase',
-            background: 'none',
-            border: '1px solid var(--border-default)',
-            borderRadius: 'var(--radius-sm)',
-            padding: '8px 16px',
-            cursor: 'pointer',
-          }}
-        >
-          ← Archive
-        </button>
+      <div className={wrapClass}>
+        <FinalReport
+          profile={designEye.profile}
+          onRestart={handleRestart}
+          onBack={() => navigate('archive')}
+        />
       </div>
     )
   }

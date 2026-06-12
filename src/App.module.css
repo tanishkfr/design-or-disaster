@@ -1,0 +1,11 @@
+.viewWrap {
+  transition:
+    opacity 200ms var(--ease-in),
+    transform 200ms var(--ease-in);
+}
+
+.viewExiting {
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+}

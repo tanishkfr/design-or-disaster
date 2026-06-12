@@ -49,12 +49,21 @@ export default function CaseFile({ caseId, onBack, onSubmit }) {
 
         {/* Left — evidence: screenshot + case identity */}
         <div className={styles.left}>
-          <ScreenshotViewer src={caseData.screenshot} />
+          <ScreenshotViewer
+            src={caseData.screenshot}
+            aspectRatio={caseData.screenshotAspect ?? '4/3'}
+          />
           <div className={styles.caseIdentity}>
             <h1 className={styles.caseTitle}>{caseData.title}</h1>
             <p className={styles.caseContext}>{caseData.context}</p>
             {/* category intentionally withheld — revealed in verdict chamber */}
           </div>
+          {caseData.curatorNote && (
+            <div className={styles.curatorNote}>
+              <span className={styles.curatorNoteLabel}>── Case Note</span>
+              <p className={styles.curatorNoteText}>{caseData.curatorNote}</p>
+            </div>
+          )}
         </div>
 
         {/* Right — submission panel, sticky */}
