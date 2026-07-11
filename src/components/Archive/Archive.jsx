@@ -8,7 +8,7 @@ function getCaseById(id) {
   return CASES.find(c => c.id === id) ?? null
 }
 
-export default function Archive({ onSelectCase, onDesignEye, onReset }) {
+export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset }) {
   const { profile, hasSubmittedCase, getSubmission } = useDesignEye()
   const [confirmingReset, setConfirmingReset] = useState(false)
   const confirmTimer = useRef(null)
@@ -76,6 +76,9 @@ export default function Archive({ onSelectCase, onDesignEye, onReset }) {
         <span className={styles.wordmark}>D/D</span>
         <div className={styles.headerRight}>
           <span className={styles.headerProgress}>{reviewedCount} / {totalCases}</span>
+          <button className={styles.designEyeBtn} onClick={onAbout}>
+            About
+          </button>
           <button className={styles.designEyeBtn} onClick={onDesignEye}>
             Design Eye ▸
           </button>

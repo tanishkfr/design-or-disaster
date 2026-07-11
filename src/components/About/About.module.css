@@ -1,0 +1,168 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: var(--space-8);
+  background: var(--surface);
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  padding: var(--space-16) 0 var(--space-16);
+  animation: pageEnter var(--duration-slow) var(--ease-out) both;
+  border-left: 2px solid var(--border-subtle);
+  padding-left: var(--space-8);
+}
+
+@media (max-width: 680px) {
+  .container {
+    border-left: none;
+    padding-left: 0;
+  }
+}
+
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Header ────────────────────────────────────────── */
+
+.header {
+  padding-top: var(--space-6);
+  border-top: 2px solid var(--border-default);
+  margin-bottom: var(--space-8);
+}
+
+.docLabel {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--t-headline);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-primary);
+  line-height: 1.15;
+  margin: 0 0 var(--space-6);
+}
+
+.opening {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.65;
+  color: var(--text-primary);
+  margin: 0 0 var(--space-10);
+}
+
+/* ── Blocks ────────────────────────────────────────── */
+
+.block {
+  margin-bottom: var(--space-10);
+}
+
+.sectionLabel {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  margin: 0 0 var(--space-4);
+}
+
+.prose {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ── Juror list ────────────────────────────────────── */
+
+.jurorList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.jurorLine {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.jurorTitle {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+.jurorFocus {
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
+  color: var(--text-tertiary);
+}
+
+/* ── Rule + actions ────────────────────────────────── */
+
+.rule {
+  width: 100%;
+  height: 1px;
+  background: var(--border-subtle);
+  margin: var(--space-8) 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.backBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  padding: 0;
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+.backBtn:hover {
+  color: var(--text-secondary);
+}
+
+.footerLink {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-decoration: none;
+  text-transform: lowercase;
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+.footerLink:hover {
+  color: var(--text-secondary);
+}

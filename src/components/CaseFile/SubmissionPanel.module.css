@@ -57,11 +57,50 @@
   transform: scale(0.97);
 }
 
-/* Selected — this is the position taken */
+/* Selected — this is the position taken. No background fill —
+   the card stays neutral, the mark is structural. */
 .verdictCardSelected {
   border-color: var(--vc);
-  background-color: var(--vb);
   color: var(--vc);
+  opacity: 1;
+  animation: cardLock 220ms var(--ease-out);
+}
+
+@keyframes cardLock {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+
+/* Corner-lock bracket — a viewfinder reticle snapping onto the chosen verdict */
+.verdictCard::before,
+.verdictCard::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: var(--vc, transparent);
+  opacity: 0;
+  transition: width 150ms var(--ease-out), height 150ms var(--ease-out), opacity 150ms var(--ease-out);
+}
+
+.verdictCard::before {
+  height: 2px;
+  width: 0;
+}
+
+.verdictCard::after {
+  width: 2px;
+  height: 0;
+}
+
+.verdictCardSelected::before {
+  width: 14px;
+  opacity: 1;
+}
+
+.verdictCardSelected::after {
+  height: 14px;
   opacity: 1;
 }
 

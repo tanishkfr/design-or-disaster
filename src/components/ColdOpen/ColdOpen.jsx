@@ -37,6 +37,8 @@ export default function ColdOpen({ onComplete }) {
 
   return (
     <div className={styles.root}>
+      <span className={styles.wordmark} aria-hidden="true">D/D</span>
+
       <div className={styles.screenshotWrap}>
         <img
           src={caseData.screenshot}

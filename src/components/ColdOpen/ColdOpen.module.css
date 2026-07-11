@@ -49,6 +49,25 @@
   text-transform: uppercase;
 }
 
+/* ─── Wordmark ────────────────────────────────────── */
+/* Quiet, non-interactive — same register as EXHIBIT A. Present, not navigation. */
+
+.wordmark {
+  position: fixed;
+  top: var(--space-4);
+  left: var(--space-6);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  user-select: none;
+  opacity: 0;
+  animation: enterUp var(--duration-slow) var(--ease-out) both;
+  animation-delay: 0ms;
+}
+
 /* ─── Screenshot ──────────────────────────────────── */
 
 .screenshotWrap {
@@ -203,11 +222,18 @@
   color: var(--text-primary);
 }
 
-/* Color activates only on selection — verdict color is earned, not displayed */
+/* Color activates only on selection — verdict color is earned, not displayed.
+   No background fill — the card stays neutral, the mark is structural. */
 .verdictCardSelected {
   border-color: var(--vc);
-  background-color: var(--vb);
   color: var(--vc);
+  animation: cardLock 220ms var(--ease-out);
+}
+
+@keyframes cardLock {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(0.97); }
+  100% { transform: scale(1); }
 }
 
 /* Left accent bar — draws down on selection */
@@ -225,6 +251,38 @@
 
 .verdictCardSelected .verdictCardAccent {
   transform: scaleY(1);
+}
+
+/* Corner-lock bracket — a viewfinder reticle snapping onto the chosen verdict */
+.verdictCard::before,
+.verdictCard::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background-color: var(--vc, transparent);
+  opacity: 0;
+  transition: width 150ms var(--ease-out), height 150ms var(--ease-out), opacity 150ms var(--ease-out);
+}
+
+.verdictCard::before {
+  height: 2px;
+  width: 0;
+}
+
+.verdictCard::after {
+  width: 2px;
+  height: 0;
+}
+
+.verdictCardSelected::before {
+  width: 14px;
+  opacity: 1;
+}
+
+.verdictCardSelected::after {
+  height: 14px;
+  opacity: 1;
 }
 
 /* ─── Submit button ───────────────────────────────── */

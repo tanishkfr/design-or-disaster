@@ -8,6 +8,7 @@ import Archive from './components/Archive/Archive'
 import CaseFile from './components/CaseFile/CaseFile'
 import VerdictChamber from './components/VerdictChamber/VerdictChamber'
 import MeetThePanel from './components/MeetThePanel/MeetThePanel'
+import About from './components/About/About'
 import IntermissionReport from './components/DesignEye/IntermissionReport'
 import FinalReport from './components/DesignEye/FinalReport'
 import DesignEyeIntro from './components/DesignEye/DesignEyeIntro'
@@ -106,6 +107,7 @@ export default function App() {
         <Archive
           onSelectCase={handleSelectCase}
           onDesignEye={() => navigate('designeye')}
+          onAbout={() => navigate('about')}
           onReset={handleRestart}
         />
       </div>
@@ -165,6 +167,14 @@ export default function App() {
           profile={designEye.profile}
           onContinue={() => navigate('archive')}
         />
+      </div>
+    )
+  }
+
+  if (view === 'about') {
+    return (
+      <div className={wrapClass}>
+        <About onBack={() => navigate('archive')} />
       </div>
     )
   }
