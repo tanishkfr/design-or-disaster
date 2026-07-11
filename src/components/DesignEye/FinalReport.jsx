@@ -1,5 +1,6 @@
 import { CASES } from '../../data/cases'
 import { generateFinalReportContent } from '../../utils/reportInsights'
+import { proficiencyLabel } from '../../utils/scoring'
 import styles from './FinalReport.module.css'
 
 const closedDate = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
@@ -29,7 +30,8 @@ export default function FinalReport({ profile, onRestart, onBack }) {
     )
   }
 
-  const { opening, paragraphs, closingLine, question, total, correctCount } = content
+  const { opening, paragraphs, closingLine, question, total, correctCount, rulingQuote, sealedRuling, accuracy } = content
+  const proficiency = proficiencyLabel(accuracy)
 
   return (
     <div className={styles.page}>
@@ -38,9 +40,21 @@ export default function FinalReport({ profile, onRestart, onBack }) {
         <header className={styles.header}>
           <span className={styles.docLabel}>Design Eye · Investigation Record</span>
           <span className={styles.docMeta}>
-            {total === 15 ? 'Investigation Complete' : `${total} of 15 Cases`} · {correctCount} correct
+            {total >= CASES.length - 1 ? 'Investigation Complete' : `${total} scored`} · {closedDate}
           </span>
         </header>
+
+        {/* ── Verdict card — the shareable summary ────────── */}
+        <div className={styles.verdictCard}>
+          <span className={styles.cardLabel}>Your Design Eye</span>
+          <div className={styles.cardFigure}>
+            <span className={styles.cardAccuracy}>{accuracy}%</span>
+            <span className={styles.cardProficiency}>{proficiency}</span>
+          </div>
+          <p className={styles.cardMeta}>
+            {correctCount} of {total} cases aligned with jury consensus
+          </p>
+        </div>
 
         <p className={styles.opening}>{opening}</p>
 
@@ -49,6 +63,36 @@ export default function FinalReport({ profile, onRestart, onBack }) {
             <p key={i} className={styles.prose}>{p}</p>
           ))}
         </section>
+
+        {/* ── Quote-back — the record was listening ───────── */}
+        {rulingQuote && (
+          <>
+            <div className={styles.rule} />
+            <section className={styles.quoteBack}>
+              <span className={styles.quoteLabel}>
+                On {rulingQuote.caseNumber}, {rulingQuote.caseTitle}, you wrote
+              </span>
+              <blockquote className={styles.quote}>"{rulingQuote.text}"</blockquote>
+              <p className={styles.quoteOutcome}>
+                {rulingQuote.agreed ? 'The panel agreed.' : 'The panel saw it differently.'}
+              </p>
+            </section>
+          </>
+        )}
+
+        {/* ── Sealed ruling — the finale that stands alone ── */}
+        {sealedRuling && (
+          <>
+            <div className={styles.rule} />
+            <section className={styles.quoteBack}>
+              <span className={styles.quoteLabel}>
+                On {sealedRuling.caseNumber}, {sealedRuling.caseTitle}, the panel entered no verdict. You ruled
+              </span>
+              <blockquote className={styles.quote}>"{sealedRuling.text}"</blockquote>
+              <p className={styles.quoteOutcome}>Yours is the only ruling on record.</p>
+            </section>
+          </>
+        )}
 
         <div className={styles.rule} />
 
@@ -67,7 +111,7 @@ export default function FinalReport({ profile, onRestart, onBack }) {
         </div>
 
         <p className={styles.stamp}>
-          Investigation closed · {total} {total === 1 ? 'case' : 'cases'} · {closedDate}
+          Investigation closed · {total} scored · {closedDate}
         </p>
 
       </div>

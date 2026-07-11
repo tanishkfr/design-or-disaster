@@ -122,3 +122,28 @@
   color: var(--text-secondary);
   line-height: 1.4;
 }
+
+/* The archive remembers how you ruled */
+.ruledLine {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: var(--ls-label);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  margin-top: auto;
+  padding-top: var(--space-3);
+}
+
+/* Sealed case — amber edge, the finale */
+.sealed {
+  border-color: var(--amber);
+}
+
+.sealed:hover {
+  background-color: var(--surface-raised);
+  box-shadow:
+    0 6px 28px rgba(0, 0, 0, 0.45),
+    0 0 32px rgba(245, 166, 35, 0.15);
+  transform: translateY(-2px);
+}

@@ -62,14 +62,69 @@
   text-transform: uppercase;
 }
 
+/* ── Verdict card — shareable summary ─────────────── */
+
+.verdictCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-8);
+  margin-bottom: var(--space-12);
+  background: var(--bg);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  animation: closingEnter var(--duration-slow) var(--ease-out) 200ms both;
+}
+
+.cardLabel {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+.cardFigure {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+}
+
+.cardAccuracy {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--text-primary);
+}
+
+.cardProficiency {
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--amber);
+  text-transform: uppercase;
+}
+
+.cardMeta {
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
 /* ── Opening statement ────────────────────────────── */
 
 .opening {
   font-family: var(--font-body);
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
   letter-spacing: -0.01em;
-  line-height: 1.65;
+  line-height: 1.6;
   color: var(--text-primary);
   margin: 0 0 var(--space-8);
 }
@@ -84,9 +139,45 @@
 
 .prose {
   font-family: var(--font-body);
-  font-size: var(--t-body);
+  font-size: 16px;
   line-height: 1.75;
   color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ── Quote-back — the record quotes you ───────────── */
+
+.quoteBack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.quoteLabel {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+.quote {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--text-primary);
+  margin: 0;
+  padding-bottom: 2px;
+}
+
+.quoteOutcome {
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  font-weight: 500;
+  color: var(--amber);
   margin: 0;
 }
 

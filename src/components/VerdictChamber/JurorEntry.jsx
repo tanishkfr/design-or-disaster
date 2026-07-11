@@ -6,7 +6,7 @@ const RULING_LABEL = {
   mixed:     'Mixed',
 }
 
-export default function JurorEntry({ juror, ruling, reasoning, arrived, splitOffset }) {
+export default function JurorEntry({ juror, ruling, reasoning, arrived, splitOffset, isInvestigator = false }) {
   return (
     <div
       className={styles.wrapper}
@@ -21,6 +21,7 @@ export default function JurorEntry({ juror, ruling, reasoning, arrived, splitOff
           styles.entry,
           arrived ? styles.arrived : '',
           styles[ruling],
+          isInvestigator ? styles.investigator : '',
         ].filter(Boolean).join(' ')}
       >
         {/* Header row: lens · title ——————————— RULING ● */}

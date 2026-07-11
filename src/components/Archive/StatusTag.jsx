@@ -5,6 +5,7 @@ const STATUS_CONFIG = {
   contested: { icon: '◐', label: 'Contested' },
   landmark:  { icon: '◆', label: 'Landmark' },
   pending:   { icon: '○', label: 'Pending' },
+  sealed:    { icon: '◈', label: 'Sealed' },
 }
 
 export default function StatusTag({ status }) {

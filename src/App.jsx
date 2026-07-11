@@ -7,6 +7,7 @@ import ColdOpen from './components/ColdOpen/ColdOpen'
 import Archive from './components/Archive/Archive'
 import CaseFile from './components/CaseFile/CaseFile'
 import VerdictChamber from './components/VerdictChamber/VerdictChamber'
+import MeetThePanel from './components/MeetThePanel/MeetThePanel'
 import IntermissionReport from './components/DesignEye/IntermissionReport'
 import FinalReport from './components/DesignEye/FinalReport'
 import DesignEyeIntro from './components/DesignEye/DesignEyeIntro'
@@ -19,8 +20,6 @@ export default function App() {
   const exitTimer = useRef(null)
   const [selectedCaseId, setSelectedCaseId] = useState(null)
   const [lastSubmission, setLastSubmission] = useState(null)
-  // Track which casesCompleted milestone has already triggered an intermission
-  const [lastIntermissionAt, setLastIntermissionAt] = useState(null)
 
   const navigate = useCallback((newView, updateFn) => {
     if (exitTimer.current) clearTimeout(exitTimer.current)
@@ -55,8 +54,12 @@ export default function App() {
     navigate('archive', () => designEye.clearInProgressCase())
   }
 
-  const handleCaseFileSubmit = ({ caseId, verdict, evidenceTags, confidence }) => {
-    const submission = { caseId, verdict, evidenceTags, confidence, timestamp: Date.now() }
+  const handleCaseFileSubmit = ({ caseId, verdict, evidenceTags, confidence, confidenceInferred, elapsedMs, writtenRuling }) => {
+    const submission = {
+      caseId, verdict, evidenceTags, confidence,
+      confidenceInferred, elapsedMs, writtenRuling,
+      timestamp: Date.now(),
+    }
     navigate('verdictchamber', () => {
       setLastSubmission(submission)
       designEye.recordSubmission(submission)
@@ -70,12 +73,14 @@ export default function App() {
       navigate('designeye-intro')
       return
     }
-    // Intermission milestone reached and not yet shown for this count
-    if (
-      designEye.shouldShowIntermission &&
-      lastIntermissionAt !== designEye.profile.casesCompleted
-    ) {
-      navigate('intermission', () => setLastIntermissionAt(designEye.profile.casesCompleted))
+    // After the third case closes: meet the panel (once)
+    if (designEye.shouldMeetPanel) {
+      navigate('meetpanel', () => designEye.markPanelMet())
+      return
+    }
+    // Single midpoint intermission, after Movement II closes
+    if (designEye.shouldShowIntermission) {
+      navigate('intermission')
       return
     }
     navigate('archive')
@@ -86,7 +91,6 @@ export default function App() {
       designEye.resetProfile()
       setSelectedCaseId(null)
       setLastSubmission(null)
-      setLastIntermissionAt(null)
     })
   }
 
@@ -142,6 +146,14 @@ export default function App() {
           headline={insight.headline}
           onComplete={() => navigate('designeye')}
         />
+      </div>
+    )
+  }
+
+  if (view === 'meetpanel') {
+    return (
+      <div className={wrapClass}>
+        <MeetThePanel onContinue={() => navigate('archive')} />
       </div>
     )
   }

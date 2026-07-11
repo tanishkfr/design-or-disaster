@@ -1,3 +1,5 @@
+/* ─── View transitions ────────────────────────────── */
+
 @keyframes viewEnter {
   from {
     opacity: 0;

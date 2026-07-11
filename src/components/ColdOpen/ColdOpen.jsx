@@ -37,11 +37,6 @@ export default function ColdOpen({ onComplete }) {
 
   return (
     <div className={styles.root}>
-      <div className={styles.projectHeader}>
-        <span className={styles.projectLabel}>Design or Disaster</span>
-        <span className={styles.projectSub}>A design judgment exercise</span>
-      </div>
-
       <div className={styles.screenshotWrap}>
         <img
           src={caseData.screenshot}

@@ -20,15 +20,19 @@ export function isVerdictCorrect(submittedVerdict, officialVerdict) {
  * Returns a number 0–100.
  */
 export function calculateAccuracy(submissions, cases) {
-  if (submissions.length === 0) return 0;
-
-  const correct = submissions.filter((sub) => {
+  // Sealed cases carry no panel verdict — they are excluded from accuracy entirely
+  const scoreable = submissions.filter((sub) => {
     const caseData = cases.find((c) => c.id === sub.caseId);
-    if (!caseData) return false;
+    return caseData && caseData.officialVerdict;
+  });
+  if (scoreable.length === 0) return 0;
+
+  const correct = scoreable.filter((sub) => {
+    const caseData = cases.find((c) => c.id === sub.caseId);
     return isVerdictCorrect(sub.verdict, caseData.officialVerdict);
   });
 
-  return Math.round((correct.length / submissions.length) * 100);
+  return Math.round((correct.length / scoreable.length) * 100);
 }
 
 /**
@@ -36,15 +40,16 @@ export function calculateAccuracy(submissions, cases) {
  * Returns null if the user has never submitted with high confidence.
  */
 export function calculateConfidenceCalibration(submissions, cases) {
-  const highConfidenceSubs = submissions.filter((sub) =>
-    HIGH_CONFIDENCE.has(sub.confidence)
-  );
+  const highConfidenceSubs = submissions.filter((sub) => {
+    if (!HIGH_CONFIDENCE.has(sub.confidence)) return false;
+    const caseData = cases.find((c) => c.id === sub.caseId);
+    return caseData && caseData.officialVerdict;
+  });
 
   if (highConfidenceSubs.length === 0) return null;
 
   const correct = highConfidenceSubs.filter((sub) => {
     const caseData = cases.find((c) => c.id === sub.caseId);
-    if (!caseData) return false;
     return isVerdictCorrect(sub.verdict, caseData.officialVerdict);
   });
 
@@ -60,7 +65,7 @@ export function calculateCategoryAccuracy(submissions, cases) {
 
   for (const sub of submissions) {
     const caseData = cases.find((c) => c.id === sub.caseId);
-    if (!caseData) continue;
+    if (!caseData || !caseData.officialVerdict) continue;
 
     const cat = caseData.category;
     if (!byCategory[cat]) {

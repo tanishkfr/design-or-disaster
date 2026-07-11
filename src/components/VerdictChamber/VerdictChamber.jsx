@@ -29,6 +29,13 @@ const SPLIT_OFFSET = {
   mixed:       0,
 }
 
+// The investigator's verdict maps onto the jury's ruling vocabulary
+const VERDICT_TO_RULING = {
+  strong_design:   'not_guilty',
+  needs_revision:  'mixed',
+  design_disaster: 'guilty',
+}
+
 export default function VerdictChamber({ caseData, submission, onNext, onBack, isFinalCase }) {
   // phases: entering → annotating → deliberating → (splitting?) → verdicting → complete
   const [phase,       setPhase]       = useState('entering')
@@ -37,9 +44,15 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
   const [splitActive,  setSplitActive]  = useState(false)
   const [showTint,     setShowTint]     = useState(false)
 
-  const isContested   = caseData.caseStatus === 'contested'
+  const isSealed      = caseData.caseStatus === 'sealed'
+  const isContested   = caseData.caseStatus === 'contested' || isSealed
   const annotations   = caseData.annotations ?? []
   const jurorRulings  = caseData.jurorRulings
+
+  // The investigator files as the sixth juror when a written ruling exists
+  const hasInvestigator = Boolean(submission?.writtenRuling)
+  const totalEntries    = jurorRulings.length + (hasInvestigator ? 1 : 0)
+  const investigatorRuling = VERDICT_TO_RULING[submission?.verdict] ?? 'mixed'
 
   // ── Phase 1: entering → annotating ──────────────────
   useEffect(() => {
@@ -55,7 +68,7 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
     return () => clearTimeout(t)
   }, [phase, annotations.length])
 
-  // ── Phase 3: jurors arrive one by one ───────────────
+  // ── Phase 3: jurors arrive one by one, then the investigator ──
   useEffect(() => {
     if (phase !== 'deliberating') return
 
@@ -68,12 +81,19 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
       }, i * JUROR_STAGGER)
     )
 
-    return () => timers.forEach(clearTimeout)
-  }, [phase, jurorRulings])
+    // The sixth entry: your own ruling, filed into the same record
+    if (hasInvestigator) {
+      timers.push(
+        setTimeout(() => setArrivedCount(jurorRulings.length + 1), jurorRulings.length * JUROR_STAGGER + 200)
+      )
+    }
 
-  // ── Phase 4: after all jurors — split or verdict ─────
+    return () => timers.forEach(clearTimeout)
+  }, [phase, jurorRulings, hasInvestigator])
+
+  // ── Phase 4: after all entries — split or verdict ─────
   useEffect(() => {
-    if (arrivedCount < 5) return
+    if (arrivedCount < totalEntries) return
 
     if (isContested) {
       const t1 = setTimeout(() => setSplitActive(true), POST_JURORS_PAUSE)
@@ -89,7 +109,7 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
       setShowTint(true)
     }, POST_JURORS_PAUSE)
     return () => clearTimeout(t)
-  }, [arrivedCount, isContested])
+  }, [arrivedCount, isContested, totalEntries])
 
   // ── Phase 5: verdicting → complete ───────────────────
   useEffect(() => {
@@ -193,6 +213,19 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
                 splitOffset={splitActive ? SPLIT_OFFSET[ruling.ruling] : 0}
               />
             ))}
+
+            {/* The sixth juror — the investigator's own ruling joins the record,
+                and shifts with its camp when the jury splits */}
+            {hasInvestigator && (
+              <JurorEntry
+                juror={{ lens: 'you', title: 'The Investigator' }}
+                ruling={investigatorRuling}
+                reasoning={submission.writtenRuling}
+                arrived={arrivedCount >= totalEntries}
+                splitOffset={splitActive ? SPLIT_OFFSET[investigatorRuling] : 0}
+                isInvestigator
+              />
+            )}
           </div>
 
         </section>

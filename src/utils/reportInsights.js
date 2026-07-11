@@ -7,15 +7,21 @@ const HIGH_CONFIDENCE = new Set(['confident', 'very_confident']);
  */
 export function generateFinalReportContent(profile, cases) {
   const subs = profile?.submissions ?? []
-  const total = subs.length
-  if (total === 0) return null
+  if (subs.length === 0) return null
 
-  const results = subs.map(s => {
+  const allResults = subs.map(s => {
     const c = cases.find(c => c.id === s.caseId)
     if (!c) return null
     const confRank = { guessing: 1, somewhat_sure: 2, confident: 3, very_confident: 4 }[s.confidence] ?? 0
-    return { sub: s, case: c, correct: s.verdict === c.officialVerdict, confRank }
+    return { sub: s, case: c, correct: c.officialVerdict && s.verdict === c.officialVerdict, confRank, sealed: !c.officialVerdict }
   }).filter(Boolean)
+
+  // Sealed cases carry no panel verdict — excluded from accuracy entirely
+  const sealedResult = allResults.find(r => r.sealed) ?? null
+  const results = allResults.filter(r => !r.sealed)
+  const total = results.length
+
+  if (total === 0) return null
 
   const correctCount = results.filter(r => r.correct).length
   const accuracy = Math.round((correctCount / total) * 100)
@@ -133,7 +139,31 @@ export function generateFinalReportContent(profile, cases) {
     question    = "You held your position when the jury split. Most don't."
   }
 
-  return { opening, paragraphs, closingLine, question, total, correctCount }
+  // Quote-back — the record was listening. Surface one of the investigator's
+  // own written rulings, priority: a case they got right, else any with text.
+  const withRuling = results.filter(r => r.sub.writtenRuling && r.sub.writtenRuling.trim())
+  const rightWithRuling = withRuling.filter(r => r.correct)
+  const quoteSource = rightWithRuling[0] ?? withRuling[withRuling.length - 1] ?? null
+  const rulingQuote = quoteSource
+    ? {
+        text: quoteSource.sub.writtenRuling.trim(),
+        caseTitle: quoteSource.case.title,
+        caseNumber: quoteSource.case.number,
+        agreed: quoteSource.correct,
+      }
+    : null
+
+  // The sealed case — the finale, where their ruling is the only ruling
+  const sealedRuling = sealedResult && sealedResult.sub.writtenRuling
+    ? {
+        text: sealedResult.sub.writtenRuling.trim(),
+        caseTitle: sealedResult.case.title,
+        caseNumber: sealedResult.case.number,
+        verdict: sealedResult.sub.verdict,
+      }
+    : null
+
+  return { opening, paragraphs, closingLine, question, total, correctCount, rulingQuote, sealedRuling, accuracy }
 }
 
 

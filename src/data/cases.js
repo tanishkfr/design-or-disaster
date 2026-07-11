@@ -1,5 +1,14 @@
 // cases.js — Design or Disaster
 //
+// Ten cases in four movements:
+//   Movement I   — Consensus (3): the lenses are learned on cases the jury agreed on
+//   Movement II  — The Divide (3): contested cases; the safety net is removed
+//   Movement III — The Landmarks (3): cases with documented public consequences
+//   Finale       — The Sealed Case (1): no panel verdict is entered; yours is the ruling of record
+//
+// crowd: seeded verdict distributions (percentages) shown after ruling.
+// These are authored projections, not live telemetry — declared in the methodology note.
+//
 // All product names are fictional to avoid brand references.
 // Annotations coordinates (x, y, width, height as % of image dimensions).
 //
@@ -20,6 +29,8 @@ export const CASES = [
     title: 'Mobile Banking Dashboard',
     context: 'Personal finance app, iOS, 2022',
     category: 'Visual Hierarchy',
+    movement: 1,
+    crowd: { strong_design: 22, needs_revision: 58, design_disaster: 20 },
 
     screenshot: '/screenshots/case-001.jpg',
     screenshotAspect: '9/16',
@@ -92,172 +103,17 @@ export const CASES = [
   },
 
 
-  // ─── CASE #002 ───────────────────────────────────────────────────────────────
-  // Landmark. A social messaging app merged friend Stories with Discover content
-  // into a single algorithmically sorted feed. A user petition reached over a
-  // million signatures. The company partially reversed the redesign months later.
-  {
-    id: 'case-002',
-    number: 'CASE #002',
-    title: "Flare's 2018 Redesign",
-    context: 'Social messaging, iOS, 2018',
-    category: 'Wildcard / Controversial',
-
-    screenshot: '/screenshots/case-002.jpg',
-    screenshotAspect: '9/16',
-
-    officialVerdict: 'design_disaster',
-    caseStatus: 'landmark',
-    contestedSummary: null,
-
-    curatorNote: 'One of the few cases where a design decision produced a public measurable response — over a million signatures, a partial reversal, and a documented decline in daily active users. Included not because the design was straightforwardly wrong, but because the jury\'s minority position deserves a fair hearing: the redesign was trying to solve a real problem about separating personal content from media content, and the failure was in the execution, not necessarily the intention.',
-
-    jurorRulings: [
-      {
-        juror: 'hierarchy',
-        ruling: 'guilty',
-        reasoning:
-          'The original spatial grammar encoded social distance directly — friends left, world right, camera centre — and the redesign replaced that legible axis with a single algorithmically sorted stream where friend content and media content competed without distinction.',
-      },
-      {
-        juror: 'accessibility',
-        ruling: 'guilty',
-        reasoning:
-          'Algorithmic ranking applied to a peer-content feed introduces systemic inequality: users with smaller networks see their content deprioritised, and the people most likely to feel abandoned first are the casual users who kept the platform social.',
-      },
-      {
-        juror: 'usability',
-        ruling: 'guilty',
-        reasoning:
-          'Users had accumulated precise spatial memory across years of use — swipe left, swipe right, camera centre; invalidating that vocabulary without a migration path is not a redesign cost, it is a relearning tax levied on every existing user at once.',
-      },
-      {
-        juror: 'trust',
-        ruling: 'guilty',
-        reasoning:
-          'Flare stated the redesign would separate friends from media content, then applied algorithmic ranking — the primary mechanism of media distribution — to the friends feed, making the stated rationale and the implemented system direct contradictions.',
-      },
-      {
-        juror: 'delight',
-        ruling: 'mixed',
-        reasoning:
-          'The original platform understood ephemerality as an intimacy mechanism — not a feature but a social contract between people who trusted each other with unpolished moments; the redesign was trying to protect that contract, and the failure deserves more considered reading than the petition gave it.',
-      },
-    ],
-
-    annotations: [
-      {
-        x: 5, y: 12, width: 90, height: 32,
-        label: 'Friend messages merged with media content — algorithmic ranking applied where social proximity had previously determined order; the signal of who sent this is structurally equivalent to the signal of what Discover recommends',
-        juror: 'hierarchy',
-        type: 'guilty',
-      },
-      {
-        x: 5, y: 62, width: 90, height: 20,
-        label: 'Story update merged with direct messages — broadcast content treated as chat; the original spatial separation of these two modes was the product\'s core navigational argument, encoded into left-right swipe vocabulary built over years',
-        juror: 'usability',
-        type: 'guilty',
-      },
-    ],
-  },
-
-
-  // ─── CASE #003 ───────────────────────────────────────────────────────────────
-  // The checkout that gates purchase behind mandatory account creation.
-  // One of the most widely documented conversion failures in e-commerce.
-  {
-    id: 'case-003',
-    number: 'CASE #003',
-    title: 'The Forced Account',
-    context: 'E-commerce checkout, desktop web, 2021',
-    category: 'Forms & Inputs',
-
-    screenshot: '/screenshots/case-003.jpg',
-    screenshotAspect: '4/3',
-
-    officialVerdict: 'needs_revision',
-    caseStatus: 'consensus',
-    contestedSummary: null,
-
-    curatorNote: 'The forced account registration pattern has been studied extensively. A 2009 usability study found that removing the account requirement produced a 45% increase in purchases in the first year. This case exists in the archive as institutional memory: a pattern that costs measurably, taught a lesson decades ago, and persists in production anyway. The question worth asking is why.',
-
-    jurorRulings: [
-      {
-        juror: 'hierarchy',
-        ruling: 'guilty',
-        reasoning:
-          'The checkout presents a registration form as its entry point — before a basket summary, before a price confirmation — so the visual hierarchy leads with an obligation rather than a transaction.',
-      },
-      {
-        juror: 'accessibility',
-        ruling: 'mixed',
-        reasoning:
-          'Account creation provides genuine long-term value to users who return — order history, saved addresses, faster future checkout — but the timing of the request, before any purchase has been completed, presents the trade-off as settled for users who have not yet decided whether to return.',
-      },
-      {
-        juror: 'usability',
-        ruling: 'guilty',
-        reasoning:
-          'The task is completing a purchase; a guest checkout completes that task; the registration gate inserts a separate, prerequisite task — account creation — before the primary task is permitted to begin.',
-      },
-      {
-        juror: 'trust',
-        ruling: 'guilty',
-        reasoning:
-          'The company receives a permanent customer record from every buyer; the user receives an order history they could have tracked by saving the confirmation email; the exchange looks symmetric and is not.',
-      },
-      {
-        juror: 'delight',
-        ruling: 'guilty',
-        reasoning:
-          "A transaction that begins with 'create an account before we'll help you' has already communicated what kind of relationship this will be.",
-      },
-    ],
-
-    annotations: [
-      {
-        x: 2, y: 22, width: 63, height: 10,
-        label: 'The checkout presents the company\'s objective — "Create Your Account" — as the page heading; the user\'s objective — completing a purchase — is named nowhere in the primary column; the visual hierarchy leads with what the company requires before confirming what the user will receive',
-        juror: 'hierarchy',
-        type: 'guilty',
-      },
-      {
-        x: 2, y: 37, width: 63, height: 47,
-        label: 'Three fields gate the transaction — email, password, confirm password; completing this form is a prerequisite task before the primary task is permitted to begin; the user came to buy something; the system requires them to register first; guest checkout is present but requires scrolling past the form to locate it',
-        juror: 'usability',
-        type: 'guilty',
-      },
-      {
-        x: 0, y: 15, width: 100, height: 82,
-        label: 'The company receives a permanent customer record — email address, purchase history, behavioural data — from every buyer who completes this form; the user receives an order history they could have tracked with a confirmation email; the two-column layout encodes this exchange: the company\'s requirement occupies the dominant column, the user\'s goal occupies the secondary one',
-        juror: 'trust',
-        type: 'guilty',
-      },
-      {
-        x: 3, y: 87, width: 58, height: 7,
-        label: 'Guest checkout is available — it appears below an "or" divider in smaller text, styled as a link rather than a button; its visual treatment communicates the desired direction before the user has evaluated the exchange; users who read the link\'s subordinated weight as a less legitimate option pay the cost of a registration form they had no obligation to complete',
-        juror: 'accessibility',
-        type: 'mixed',
-      },
-      {
-        x: 65, y: 62, width: 33, height: 14,
-        label: 'The order summary states: shipping address and payment details will be entered after completing account setup; the user\'s actual checkout steps — the thing they came here to do — are explicitly deferred until the company\'s data collection requirement has been satisfied; the sequence is not incidental; it is the design\'s stated priority',
-        juror: 'delight',
-        type: 'guilty',
-      },
-    ],
-  },
-
-
   // ─── CASE #004 ───────────────────────────────────────────────────────────────
   // A benchmark in editorial hierarchy for news applications.
   // The type scale is doing navigational work.
   {
     id: 'case-004',
-    number: 'CASE #004',
+    number: 'CASE #002',
     title: 'The Broadsheet App',
     context: 'Editorial news application, iOS, 2022',
     category: 'Visual Hierarchy',
+    movement: 1,
+    crowd: { strong_design: 61, needs_revision: 31, design_disaster: 8 },
 
     screenshot: '/screenshots/case-004.jpg',
     screenshotAspect: '9/16',
@@ -336,16 +192,107 @@ export const CASES = [
   },
 
 
+  // ─── CASE #006 ───────────────────────────────────────────────────────────────
+  // A welfare application form where the people most likely to use it are
+  // the most poorly served by its design.
+  {
+    id: 'case-006',
+    number: 'CASE #003',
+    title: 'The Benefits Form',
+    context: 'Government welfare services, desktop web, 2022',
+    category: 'Accessibility',
+    movement: 1,
+    crowd: { strong_design: 4, needs_revision: 27, design_disaster: 69 },
+
+    screenshot: '/screenshots/case-006.jpg',
+    screenshotAspect: '4/3',
+
+    officialVerdict: 'design_disaster',
+    caseStatus: 'consensus',
+    contestedSummary: null,
+
+    curatorNote: 'The session timeout was set by the IT security team for a legitimate reason: preventing data exposure on shared public computers in libraries and job centres. The form was designed by a different team. No integration specification existed to reconcile the two requirements. This case was included not as an example of bad intention, but as a study in what happens when design responsibility is distributed without coordination across an organisation.',
+
+    jurorRulings: [
+      {
+        juror: 'hierarchy',
+        ruling: 'guilty',
+        reasoning:
+          'The form distributes forty-three input fields across a continuous scroll without semantic grouping, visual progress indication, or any spatial signal of how much of the task remains.',
+      },
+      {
+        juror: 'accessibility',
+        ruling: 'guilty',
+        reasoning:
+          'The people this form exists to serve — those in financial crisis, with elevated cognitive load, potentially navigating it in a second language or without prior experience of government digital systems — encounter its highest barriers: no inline validation, no contextual help, no ability to save and return.',
+      },
+      {
+        juror: 'usability',
+        ruling: 'guilty',
+        reasoning:
+          'The session timeout is shorter than the time the form requires to complete; a user who is interrupted, pauses to gather a document, or simply reads slowly loses their work and must begin again.',
+      },
+      {
+        juror: 'trust',
+        ruling: 'guilty',
+        reasoning:
+          'A welfare application that discourages completion through design complexity reduces the number of successful claims without requiring an explicit policy decision to do so; the interface performs administrative work that policy cannot.',
+      },
+      {
+        juror: 'delight',
+        ruling: 'guilty',
+        reasoning:
+          'There is nothing in this form that acknowledges the person filling it in — no indication that the institution understands what it is asking or from whom; the design communicates bureaucratic indifference as a visual fact.',
+      },
+    ],
+
+    annotations: [
+      {
+        x: 0, y: 13, width: 100, height: 6,
+        label: 'Session expires in 8 minutes — a 43-field welfare application takes 19 to 26 minutes to complete; the timeout was configured by IT security to protect session data on shared computers in libraries and job centres; the form was designed by a different team; no integration test documented whether the two requirements were compatible',
+        juror: 'usability',
+        type: 'guilty',
+      },
+      {
+        x: 6, y: 24, width: 88, height: 7,
+        label: 'No progress indicator — the form names the task but not its scope; at this point the applicant has completed 6 of 43 required fields; this information is not available anywhere in the interface; on a second submission attempt with 8 minutes remaining the applicant cannot calculate whether completing the form is achievable before session expiry',
+        juror: 'hierarchy',
+        type: 'guilty',
+      },
+      {
+        x: 6, y: 34, width: 88, height: 21,
+        label: '9 errors surface simultaneously at the moment of first submission — none appeared during entry; the error summary satisfies WCAG 2.1 SC 3.3.1 Error Identification; it does not satisfy the purpose of that requirement; inline validation at the point of entry is the accessible pattern; deferring all errors to submission concentrates the correction task at the moment of maximum session pressure and minimum remaining time',
+        juror: 'accessibility',
+        type: 'guilty',
+      },
+      {
+        x: 6, y: 57, width: 88, height: 29,
+        label: 'Each error requires the applicant to locate the field, read the requirement, and re-enter valid data; the intersection of 9 simultaneous errors with 8 minutes on the clock is not the outcome of a policy decision; it is the residue of separate decisions made by separate teams with no shared specification; the interface performs administrative filtering that no policy document explicitly authorised',
+        juror: 'trust',
+        type: 'guilty',
+      },
+      {
+        x: 6, y: 88, width: 88, height: 5,
+        label: '37 more fields below — the form does not distinguish between a routine renewal and a first application submitted by someone in acute financial distress; it processes both identically; the clinical efficiency is not restraint; it is the design\'s failure to consider the range of people it was built to serve',
+        juror: 'delight',
+        type: 'guilty',
+      },
+    ],
+  },
+
+
   // ─── CASE #005 ───────────────────────────────────────────────────────────────
   // Contested. A full-featured travel booking site using a hamburger menu as its
   // primary navigation on desktop. The jury is 3/2 on whether the convention
   // justifies the hidden structure.
   {
     id: 'case-005',
-    number: 'CASE #005',
+    number: 'CASE #004',
     title: 'The Hamburger Navigation',
     context: 'Travel booking, desktop web, 2020',
     category: 'Navigation',
+    movement: 2,
+    crowd: { strong_design: 33, needs_revision: 44, design_disaster: 23 },
 
     screenshot: '/screenshots/case-005.jpg',
     screenshotAspect: '4/3',
@@ -426,353 +373,18 @@ export const CASES = [
   },
 
 
-  // ─── CASE #006 ───────────────────────────────────────────────────────────────
-  // A welfare application form where the people most likely to use it are
-  // the most poorly served by its design.
-  {
-    id: 'case-006',
-    number: 'CASE #006',
-    title: 'The Benefits Form',
-    context: 'Government welfare services, desktop web, 2022',
-    category: 'Accessibility',
-
-    screenshot: '/screenshots/case-006.jpg',
-    screenshotAspect: '4/3',
-
-    officialVerdict: 'design_disaster',
-    caseStatus: 'consensus',
-    contestedSummary: null,
-
-    curatorNote: 'The session timeout was set by the IT security team for a legitimate reason: preventing data exposure on shared public computers in libraries and job centres. The form was designed by a different team. No integration specification existed to reconcile the two requirements. This case was included not as an example of bad intention, but as a study in what happens when design responsibility is distributed without coordination across an organisation.',
-
-    jurorRulings: [
-      {
-        juror: 'hierarchy',
-        ruling: 'guilty',
-        reasoning:
-          'The form distributes forty-three input fields across a continuous scroll without semantic grouping, visual progress indication, or any spatial signal of how much of the task remains.',
-      },
-      {
-        juror: 'accessibility',
-        ruling: 'guilty',
-        reasoning:
-          'The people this form exists to serve — those in financial crisis, with elevated cognitive load, potentially navigating it in a second language or without prior experience of government digital systems — encounter its highest barriers: no inline validation, no contextual help, no ability to save and return.',
-      },
-      {
-        juror: 'usability',
-        ruling: 'guilty',
-        reasoning:
-          'The session timeout is shorter than the time the form requires to complete; a user who is interrupted, pauses to gather a document, or simply reads slowly loses their work and must begin again.',
-      },
-      {
-        juror: 'trust',
-        ruling: 'guilty',
-        reasoning:
-          'A welfare application that discourages completion through design complexity reduces the number of successful claims without requiring an explicit policy decision to do so; the interface performs administrative work that policy cannot.',
-      },
-      {
-        juror: 'delight',
-        ruling: 'guilty',
-        reasoning:
-          'There is nothing in this form that acknowledges the person filling it in — no indication that the institution understands what it is asking or from whom; the design communicates bureaucratic indifference as a visual fact.',
-      },
-    ],
-
-    annotations: [
-      {
-        x: 0, y: 13, width: 100, height: 6,
-        label: 'Session expires in 8 minutes — a 43-field welfare application takes 19 to 26 minutes to complete; the timeout was configured by IT security to protect session data on shared computers in libraries and job centres; the form was designed by a different team; no integration test documented whether the two requirements were compatible',
-        juror: 'usability',
-        type: 'guilty',
-      },
-      {
-        x: 6, y: 24, width: 88, height: 7,
-        label: 'No progress indicator — the form names the task but not its scope; at this point the applicant has completed 6 of 43 required fields; this information is not available anywhere in the interface; on a second submission attempt with 8 minutes remaining the applicant cannot calculate whether completing the form is achievable before session expiry',
-        juror: 'hierarchy',
-        type: 'guilty',
-      },
-      {
-        x: 6, y: 34, width: 88, height: 21,
-        label: '9 errors surface simultaneously at the moment of first submission — none appeared during entry; the error summary satisfies WCAG 2.1 SC 3.3.1 Error Identification; it does not satisfy the purpose of that requirement; inline validation at the point of entry is the accessible pattern; deferring all errors to submission concentrates the correction task at the moment of maximum session pressure and minimum remaining time',
-        juror: 'accessibility',
-        type: 'guilty',
-      },
-      {
-        x: 6, y: 57, width: 88, height: 29,
-        label: 'Each error requires the applicant to locate the field, read the requirement, and re-enter valid data; the intersection of 9 simultaneous errors with 8 minutes on the clock is not the outcome of a policy decision; it is the residue of separate decisions made by separate teams with no shared specification; the interface performs administrative filtering that no policy document explicitly authorised',
-        juror: 'trust',
-        type: 'guilty',
-      },
-      {
-        x: 6, y: 88, width: 88, height: 5,
-        label: '37 more fields below — the form does not distinguish between a routine renewal and a first application submitted by someone in acute financial distress; it processes both identically; the clinical efficiency is not restraint; it is the design\'s failure to consider the range of people it was built to serve',
-        juror: 'delight',
-        type: 'guilty',
-      },
-    ],
-  },
-
-
-  // ─── CASE #007 ───────────────────────────────────────────────────────────────
-  // University digital services built around departmental structure
-  // rather than student tasks. A classic inside-out information architecture.
-  {
-    id: 'case-007',
-    number: 'CASE #007',
-    title: 'University Digital Services',
-    context: 'University enrollment portal, desktop web, 2023',
-    category: 'Information Architecture',
-
-    screenshot: '/screenshots/case-007.jpg',
-    screenshotAspect: '4/3',
-
-    officialVerdict: 'design_disaster',
-    caseStatus: 'consensus',
-    contestedSummary: null,
-
-    curatorNote: 'The information architecture accurately mirrors the institution\'s organisational chart. This is the case, precisely. Systems built around internal structure rather than user tasks are not a design failure — they are an organisational failure expressed through design. The portal is doing exactly what the institution asked of it. The question the jury is actually answering is whether that is an acceptable answer.',
-
-    jurorRulings: [
-      {
-        juror: 'hierarchy',
-        ruling: 'guilty',
-        reasoning:
-          "The navigation maps the institution's departmental structure rather than any user's task; a student registering for a module passes through four distinct sites, each with its own navigation system, none of which acknowledge the others.",
-      },
-      {
-        juror: 'accessibility',
-        ruling: 'guilty',
-        reasoning:
-          'Students who most need institutional support — those with disabilities, those in their first term, those from under-represented backgrounds navigating an unfamiliar system — are most likely to encounter these services under time pressure and without the familiarity that makes the fragmentation workable.',
-      },
-      {
-        juror: 'usability',
-        ruling: 'guilty',
-        reasoning:
-          'Enrolling in a single module requires visiting three systems, creating credentials in two, and locating documentation in a fourth — this is not a task with friction, it is four separate tasks that have been presented as one.',
-      },
-      {
-        juror: 'trust',
-        ruling: 'guilty',
-        reasoning:
-          "The fragmented architecture accurately reflects an organisation in which departments control their own digital infrastructure and the student's end-to-end experience is no single team's responsibility; this is the system working as designed.",
-      },
-      {
-        juror: 'delight',
-        ruling: 'guilty',
-        reasoning:
-          'The structure of this digital estate tells the student exactly what the institution believes about them: that they are a series of administrative transactions, distributed across the offices that process them.',
-      },
-    ],
-
-    annotations: [
-      {
-        x: 0, y: 5, width: 100, height: 10,
-        label: 'The portal accurately represents an institution in which departments control their own digital infrastructure and no single team owns the student\'s end-to-end experience; this is the design working correctly; the accuracy of the representation is the indictment',
-        juror: 'trust',
-        type: 'guilty',
-      },
-      {
-        x: 2, y: 15, width: 82, height: 9,
-        label: 'The navigation labels name six departments — Registrar\'s Office, Academic Services, Finance & Fees, IT Services, Faculty Portal; a student who arrives needing to enrol in a module cannot determine from these labels which tab to enter; the hierarchy is the institution\'s organisational chart presented as a student interface',
-        juror: 'hierarchy',
-        type: 'guilty',
-      },
-      {
-        x: 2, y: 24, width: 64, height: 14,
-        label: 'The student most likely to fail here is the one with no institutional literacy — first term, unfamiliar with departmental structure, operating under a registration deadline; the portal offers institutional welcome language and no task orientation; the cost of this taxonomy is paid most heavily by the user who most needs guidance',
-        juror: 'accessibility',
-        type: 'guilty',
-      },
-      {
-        x: 2, y: 45, width: 65, height: 6,
-        label: 'The portal offers four quick links: Academic Records, Pay Fees, IT Support, Student Welfare; each names an administrative category; none names a student action; the word \'enrol\' does not appear anywhere in the visible surface; the student is present in this system as the subject of processes, not as the person who has come here to do something',
-        juror: 'delight',
-        type: 'guilty',
-      },
-      {
-        x: 1, y: 57, width: 98, height: 41,
-        label: 'Each card offers a different login path — Log In to Registrar, Access Portal, Go to Finance, Open IT Services, Faculty Login, Student Support — communicating that these are separate systems with separate entry mechanisms; module enrolment requires visiting three of them; the portal presents this as a single unified service',
-        juror: 'usability',
-        type: 'guilty',
-      },
-    ],
-  },
-
-
-  // ─── CASE #008 ───────────────────────────────────────────────────────────────
-  // A rare case where the form is designed for the user, not around the
-  // company's data requirements. Progressive disclosure in practice.
-  {
-    id: 'case-008',
-    number: 'CASE #008',
-    title: "Relay's Onboarding",
-    context: 'Payment infrastructure, desktop web, 2022',
-    category: 'Forms & Inputs',
-
-    screenshot: '/screenshots/case-008.jpg',
-    screenshotAspect: '4/3',
-
-    officialVerdict: 'strong_design',
-    caseStatus: 'consensus',
-    contestedSummary: null,
-
-    curatorNote: 'Three fields to first API key. The comparison is instructive: most comparable payment infrastructure products require business registration, compliance documentation, or identity verification before any value is demonstrated. The Skeptic\'s minority position is worth holding alongside the majority verdict: the simplicity is front-loaded, and the full compliance requirements arrive after integration when switching cost is real.',
-
-    jurorRulings: [
-      {
-        juror: 'hierarchy',
-        ruling: 'not_guilty',
-        reasoning:
-          'The form presents three fields on first load; every comparable payment infrastructure requires business registration, VAT details, or KYC documentation at signup; the right panel shows what these three fields purchase before the user has submitted them — form and evidence occupy the same viewport.',
-      },
-      {
-        juror: 'accessibility',
-        ruling: 'not_guilty',
-        reasoning:
-          'The password field responds with a strength indicator rather than a requirements checklist; feedback communicates outcome rather than obligation; there are no asterisks, no mandatory-field warnings, no error walls at submission — the form distributes the cost of correction across the process rather than concentrating it at the end.',
-      },
-      {
-        juror: 'usability',
-        ruling: 'not_guilty',
-        reasoning:
-          'A developer reaches a working API key within the time it takes to read the documentation displayed on the same page; test mode is enabled by default so no real charges occur during evaluation; the form does not ask for information before demonstrating why that information is needed.',
-      },
-      {
-        juror: 'trust',
-        ruling: 'mixed',
-        reasoning:
-          'The three-field form is accurate as far as it goes; the full compliance requirements — business verification, bank account, beneficial owner identity, payout activation — are extensive, deferred, and arrive after integration when switching cost is real; the simplicity is front-loaded, not representative of the complete process.',
-      },
-      {
-        juror: 'delight',
-        ruling: 'not_guilty',
-        reasoning:
-          'This is the rare onboarding that treats the person filling it in as capable — it does not over-explain, does not request confirmation of things already confirmed, and declines to perform enthusiasm; the button says "Create account", not "Start your free journey"; the restraint is the hospitality.',
-      },
-    ],
-
-    annotations: [
-      {
-        x: 0, y: 21, width: 54, height: 68,
-        label: 'Three fields to first API key — email, password, company name; every comparable payment infrastructure requires business registration, VAT details, or KYC documentation at signup; this form\'s entire ask fits on a single screen',
-        juror: 'usability',
-        type: 'not_guilty',
-      },
-      {
-        x: 0, y: 63, width: 54, height: 5,
-        label: 'Inline strength indicator without a requirements wall — the form responds to what the user did, not what they must do next; "Strong" communicates outcome, not obligation; this is the design trusting the user before asking anything significant of them',
-        juror: 'accessibility',
-        type: 'not_guilty',
-      },
-      {
-        x: 0, y: 68, width: 54, height: 14,
-        label: '"Company or individual name" — this field will later require an exact match to legal business registration for KYC compliance; the form\'s silence here is not restraint; it is the simplicity being front-loaded; the compliance wall arrives after integration when switching cost is real',
-        juror: 'trust',
-        type: 'mixed',
-      },
-      {
-        x: 54, y: 5, width: 46, height: 90,
-        label: 'Proof of value in the same frame as the form — the developer sees what three fields purchase before submitting them; the API code is accessible immediately after registration; test mode is on by default; form and evidence occupy the same viewport',
-        juror: 'hierarchy',
-        type: 'not_guilty',
-      },
-    ],
-  },
-
-
-  // ─── CASE #009 ───────────────────────────────────────────────────────────────
-  // Landmark. A mobile OS design overhaul that removed skeuomorphism entirely.
-  // The industry's most significant visual shift in mobile design history.
-  // The problems were real. The direction was right.
-  {
-    id: 'case-009',
-    number: 'CASE #009',
-    title: 'Nova OS 7',
-    context: 'Mobile operating system, 2013',
-    category: 'Visual Hierarchy',
-
-    screenshot: '/screenshots/case-009.jpg',
-    screenshotAspect: '9/16',
-
-    officialVerdict: 'needs_revision',
-    caseStatus: 'landmark',
-    contestedSummary: null,
-
-    curatorNote: 'Included as a landmark because it is the case where the verdict most requires temporal context. Evaluating a 2013 design decision against current standards misses the argument: at the time of release, this was the most significant visual shift in mobile operating system design in a decade. The industry\'s wholesale adoption of the flat visual language in the years that followed confirmed the direction was right even where the first execution was not.',
-
-    jurorRulings: [
-      {
-        juror: 'hierarchy',
-        ruling: 'guilty',
-        reasoning:
-          'The transition to a flat visual language removed the depth cues that had distinguished interactive elements from static content — buttons, labels, and navigation items became visually equivalent, and the surface offered no information about which elements responded to touch.',
-      },
-      {
-        juror: 'accessibility',
-        ruling: 'guilty',
-        reasoning:
-          'The ultralight typeface at small sizes in outdoor and high-ambient-light conditions produced contrast failures across multiple core applications; the manufacturer issued a system-wide type weight and size correction within six months of release.',
-      },
-      {
-        juror: 'usability',
-        ruling: 'guilty',
-        reasoning:
-          'Users had to develop an entirely new model of interface legibility — any text element might also be a button — which is a high interpretive cost distributed simultaneously across every person using an operating system serving hundreds of millions of devices.',
-      },
-      {
-        juror: 'trust',
-        ruling: 'mixed',
-        reasoning:
-          "The manufacturer shipped a visual language that required an OS-level accessibility correction within six months; whether this reflects inadequate real-world testing or a decision to ship and revise is a question the timeline raises without answering.",
-      },
-      {
-        juror: 'delight',
-        ruling: 'not_guilty',
-        reasoning:
-          'Nova OS 7 dismantled a visual language that had become a shared vernacular and replaced it with something genuinely new; the problems were real, the courage was also real, and the industry\'s wholesale adoption of the flat visual language in the years that followed confirmed the direction was right even where the first execution was not.',
-      },
-    ],
-
-    annotations: [
-      {
-        x: 0, y: 0, width: 100, height: 3,
-        label: 'Status bar — rendered at the same ultralight weight as every icon label below it; the typography makes no distinction between system status and tap-target identifiers',
-        juror: 'hierarchy',
-        type: 'guilty',
-      },
-      {
-        x: 4, y: 3, width: 92, height: 82,
-        label: 'Flat icon grid — twenty tap targets with no shadow, bevel, or gloss; nothing visually distinguishes interactive elements from the static wallpaper behind them',
-        juror: 'hierarchy',
-        type: 'guilty',
-      },
-      {
-        x: 4, y: 17, width: 92, height: 54,
-        label: 'Systematic colour language — twenty objects sharing grammar, palette, and squircle form. The industry adopted this visual direction wholesale within two years.',
-        juror: 'delight',
-        type: 'not_guilty',
-      },
-      {
-        x: 4, y: 78, width: 92, height: 7,
-        label: 'Ultralight labels at 11px — contrast failure in ambient and outdoor conditions; the manufacturer issued an OS-level type correction within six months of release',
-        juror: 'accessibility',
-        type: 'guilty',
-      },
-    ],
-  },
-
-
   // ─── CASE #010 ───────────────────────────────────────────────────────────────
   // Contested. A personal designer portfolio built with scroll-jacking, custom
   // cursor, and entrance animations on every section. The jury is 3/2 on whether
   // technical sophistication constitutes professional judgment.
   {
     id: 'case-010',
-    number: 'CASE #010',
+    number: 'CASE #005',
     title: 'The Animated Portfolio',
     context: 'Personal designer portfolio, desktop, 2023',
     category: 'Delight vs Usability Tradeoffs',
+    movement: 2,
+    crowd: { strong_design: 29, needs_revision: 38, design_disaster: 33 },
 
     screenshot: '/screenshots/case-010.jpg',
     screenshotAspect: '4/3',
@@ -847,10 +459,12 @@ export const CASES = [
   // as its user, and what happens when that model is wrong.
   {
     id: 'case-011',
-    number: 'CASE #011',
+    number: 'CASE #006',
     title: 'The Identity Form',
     context: 'Dating platform profile setup, mobile, 2014',
     category: 'Accessibility',
+    movement: 2,
+    crowd: { strong_design: 47, needs_revision: 41, design_disaster: 12 },
 
     screenshot: '/screenshots/case-011.jpg',
     screenshotAspect: '16/9',
@@ -912,22 +526,180 @@ export const CASES = [
   },
 
 
+  // ─── CASE #002 ───────────────────────────────────────────────────────────────
+  // Landmark. A social messaging app merged friend Stories with Discover content
+  // into a single algorithmically sorted feed. A user petition reached over a
+  // million signatures. The company partially reversed the redesign months later.
+  {
+    id: 'case-002',
+    number: 'CASE #007',
+    title: "Flare's 2018 Redesign",
+    context: 'Social messaging, iOS, 2018',
+    category: 'Wildcard / Controversial',
+    movement: 3,
+    crowd: { strong_design: 9, needs_revision: 33, design_disaster: 58 },
+
+    screenshot: '/screenshots/case-002.jpg',
+    screenshotAspect: '9/16',
+
+    officialVerdict: 'design_disaster',
+    caseStatus: 'landmark',
+    contestedSummary: null,
+
+    curatorNote: 'One of the few cases where a design decision produced a public measurable response — over a million signatures, a partial reversal, and a documented decline in daily active users. Included not because the design was straightforwardly wrong, but because the jury\'s minority position deserves a fair hearing: the redesign was trying to solve a real problem about separating personal content from media content, and the failure was in the execution, not necessarily the intention.',
+
+    jurorRulings: [
+      {
+        juror: 'hierarchy',
+        ruling: 'guilty',
+        reasoning:
+          'The original spatial grammar encoded social distance directly — friends left, world right, camera centre — and the redesign replaced that legible axis with a single algorithmically sorted stream where friend content and media content competed without distinction.',
+      },
+      {
+        juror: 'accessibility',
+        ruling: 'guilty',
+        reasoning:
+          'Algorithmic ranking applied to a peer-content feed introduces systemic inequality: users with smaller networks see their content deprioritised, and the people most likely to feel abandoned first are the casual users who kept the platform social.',
+      },
+      {
+        juror: 'usability',
+        ruling: 'guilty',
+        reasoning:
+          'Users had accumulated precise spatial memory across years of use — swipe left, swipe right, camera centre; invalidating that vocabulary without a migration path is not a redesign cost, it is a relearning tax levied on every existing user at once.',
+      },
+      {
+        juror: 'trust',
+        ruling: 'guilty',
+        reasoning:
+          'Flare stated the redesign would separate friends from media content, then applied algorithmic ranking — the primary mechanism of media distribution — to the friends feed, making the stated rationale and the implemented system direct contradictions.',
+      },
+      {
+        juror: 'delight',
+        ruling: 'mixed',
+        reasoning:
+          'The original platform understood ephemerality as an intimacy mechanism — not a feature but a social contract between people who trusted each other with unpolished moments; the redesign was trying to protect that contract, and the failure deserves more considered reading than the petition gave it.',
+      },
+    ],
+
+    annotations: [
+      {
+        x: 5, y: 12, width: 90, height: 32,
+        label: 'Friend messages merged with media content — algorithmic ranking applied where social proximity had previously determined order; the signal of who sent this is structurally equivalent to the signal of what Discover recommends',
+        juror: 'hierarchy',
+        type: 'guilty',
+      },
+      {
+        x: 5, y: 62, width: 90, height: 20,
+        label: 'Story update merged with direct messages — broadcast content treated as chat; the original spatial separation of these two modes was the product\'s core navigational argument, encoded into left-right swipe vocabulary built over years',
+        juror: 'usability',
+        type: 'guilty',
+      },
+    ],
+  },
+
+
+  // ─── CASE #009 ───────────────────────────────────────────────────────────────
+  // Landmark. A mobile OS design overhaul that removed skeuomorphism entirely.
+  // The industry's most significant visual shift in mobile design history.
+  // The problems were real. The direction was right.
+  {
+    id: 'case-009',
+    number: 'CASE #008',
+    title: 'Nova OS 7',
+    context: 'Mobile operating system, 2013',
+    category: 'Visual Hierarchy',
+    movement: 3,
+    crowd: { strong_design: 28, needs_revision: 52, design_disaster: 20 },
+
+    screenshot: '/screenshots/case-009.jpg',
+    screenshotAspect: '9/16',
+
+    officialVerdict: 'needs_revision',
+    caseStatus: 'landmark',
+    contestedSummary: null,
+
+    curatorNote: 'Included as a landmark because it is the case where the verdict most requires temporal context. Evaluating a 2013 design decision against current standards misses the argument: at the time of release, this was the most significant visual shift in mobile operating system design in a decade. The industry\'s wholesale adoption of the flat visual language in the years that followed confirmed the direction was right even where the first execution was not.',
+
+    jurorRulings: [
+      {
+        juror: 'hierarchy',
+        ruling: 'guilty',
+        reasoning:
+          'The transition to a flat visual language removed the depth cues that had distinguished interactive elements from static content — buttons, labels, and navigation items became visually equivalent, and the surface offered no information about which elements responded to touch.',
+      },
+      {
+        juror: 'accessibility',
+        ruling: 'guilty',
+        reasoning:
+          'The ultralight typeface at small sizes in outdoor and high-ambient-light conditions produced contrast failures across multiple core applications; the manufacturer issued a system-wide type weight and size correction within six months of release.',
+      },
+      {
+        juror: 'usability',
+        ruling: 'guilty',
+        reasoning:
+          'Users had to develop an entirely new model of interface legibility — any text element might also be a button — which is a high interpretive cost distributed simultaneously across every person using an operating system serving hundreds of millions of devices.',
+      },
+      {
+        juror: 'trust',
+        ruling: 'mixed',
+        reasoning:
+          "The manufacturer shipped a visual language that required an OS-level accessibility correction within six months; whether this reflects inadequate real-world testing or a decision to ship and revise is a question the timeline raises without answering.",
+      },
+      {
+        juror: 'delight',
+        ruling: 'not_guilty',
+        reasoning:
+          'Nova OS 7 dismantled a visual language that had become a shared vernacular and replaced it with something genuinely new; the problems were real, the courage was also real, and the industry\'s wholesale adoption of the flat visual language in the years that followed confirmed the direction was right even where the first execution was not.',
+      },
+    ],
+
+    annotations: [
+      {
+        x: 0, y: 0, width: 100, height: 3,
+        label: 'Status bar — rendered at the same ultralight weight as every icon label below it; the typography makes no distinction between system status and tap-target identifiers',
+        juror: 'hierarchy',
+        type: 'guilty',
+      },
+      {
+        x: 4, y: 3, width: 92, height: 82,
+        label: 'Flat icon grid — twenty tap targets with no shadow, bevel, or gloss; nothing visually distinguishes interactive elements from the static wallpaper behind them',
+        juror: 'hierarchy',
+        type: 'guilty',
+      },
+      {
+        x: 4, y: 17, width: 92, height: 54,
+        label: 'Systematic colour language — twenty objects sharing grammar, palette, and squircle form. The industry adopted this visual direction wholesale within two years.',
+        juror: 'delight',
+        type: 'not_guilty',
+      },
+      {
+        x: 4, y: 78, width: 92, height: 7,
+        label: 'Ultralight labels at 11px — contrast failure in ambient and outdoor conditions; the manufacturer issued an OS-level type correction within six months of release',
+        juror: 'accessibility',
+        type: 'guilty',
+      },
+    ],
+  },
+
+
   // ─── CASE #012 ───────────────────────────────────────────────────────────────
   // The counterintuitive verdict. Bulletin violates nearly every modern design
   // convention and remains one of the most-visited sites in its country.
   // The jury rules Strong Design. This is the case people argue about.
   {
     id: 'case-012',
-    number: 'CASE #012',
+    number: 'CASE #009',
     title: 'Bulletin',
     context: 'Classifieds marketplace, desktop web, 2024',
     category: 'Wildcard / Controversial',
+    movement: 3,
+    crowd: { strong_design: 38, needs_revision: 35, design_disaster: 27 },
 
     screenshot: '/screenshots/case-012.jpg',
     screenshotAspect: '16/10',
 
     officialVerdict: 'strong_design',
-    caseStatus: 'consensus',
+    caseStatus: 'landmark',
     contestedSummary: null,
 
     curatorNote: 'The counterintuitive verdict. Bulletin violates nearly every current design convention — no visual hierarchy, default browser typography, link-based navigation, no onboarding — and remains one of the most-visited sites in its category. The case exists in the archive because the verdict challenges the assumption that design quality tracks with visual sophistication. The bluntness is the personality. The personality is honest.',
@@ -988,184 +760,29 @@ export const CASES = [
   },
 
 
-  // ─── CASE #013 ───────────────────────────────────────────────────────────────
-  // A browser that proposes a fundamentally different model of navigation —
-  // built around intention and completion rather than accumulation.
-  {
-    id: 'case-013',
-    number: 'CASE #013',
-    title: 'Orbit Browser',
-    context: 'Web browser, macOS, 2023',
-    category: 'Navigation',
-
-    screenshot: '/screenshots/case-013.jpg',
-    screenshotAspect: '4/3',
-
-    officialVerdict: 'strong_design',
-    caseStatus: 'consensus',
-    contestedSummary: null,
-
-    curatorNote: 'The Advocate\'s mixed ruling is the one to hold. The navigation model — pinned tabs, transient tabs, automatic archiving — is genuinely more efficient than the conventional tab-bar model for users who learn it. The cost is paid at the beginning, not the end. The question the case raises is whether it is acceptable to impose a learning investment on users in service of a navigation model you believe is superior.',
-
-    jurorRulings: [
-      {
-        juror: 'hierarchy',
-        ruling: 'not_guilty',
-        reasoning:
-          'The sidebar collapses active tabs by domain, treating multiple pages from the same source as a single navigational unit; the spatial relationship between pinned and unpinned items communicates permanence versus transience without additional labelling.',
-      },
-      {
-        juror: 'accessibility',
-        ruling: 'mixed',
-        reasoning:
-          'The novel navigation model — pinned versus unpinned tabs, Spaces, automatic archiving — requires a learning period that disadvantages users with strong spatial memory built around conventional tab-bar navigation; the efficiency is real but not front-loaded.',
-      },
-      {
-        juror: 'usability',
-        ruling: 'not_guilty',
-        reasoning:
-          'After a brief orientation period, common tasks — switching contexts, finding recent pages, managing concurrent work — complete faster than in any tab-bar browser; the model rewards the investment it requires.',
-      },
-      {
-        juror: 'trust',
-        ruling: 'not_guilty',
-        reasoning:
-          "Orbit's navigation is built around the premise that browsing sessions have intention and completion — that you open the browser to accomplish something and then close it; this is either the correct model for how browsers should work or a strong institutional position about what browsing ought to be, and the product is honest about which it believes.",
-      },
-      {
-        juror: 'delight',
-        ruling: 'not_guilty',
-        reasoning:
-          'Most browsers are instruments for accumulation; Orbit is the first one designed around the premise that letting things go is a reasonable response to the internet.',
-      },
-    ],
-
-    annotations: [
-      {
-        x: 0, y: 22, width: 33, height: 20,
-        label: 'Pinned tabs — three tools that persist across sessions; position above the divider communicates permanence without label, tooltip, or explanation; spatial grammar carries semantic meaning',
-        juror: 'hierarchy',
-        type: 'not_guilty',
-      },
-      {
-        x: 0, y: 42, width: 33, height: 5,
-        label: 'The divider — one line separating permanent from transient; the navigational model\'s entire argument is encoded here; above stays, below goes',
-        juror: 'hierarchy',
-        type: 'not_guilty',
-      },
-      {
-        x: 1, y: 47, width: 32, height: 23,
-        label: 'Domain-grouped today tabs — two pages from the same source collapse into one navigational unit; the efficiency is real but requires learning before it is legible; users with strong conventional tab-bar spatial memory will not find this immediately familiar',
-        juror: 'accessibility',
-        type: 'mixed',
-      },
-      {
-        x: 33, y: 5, width: 67, height: 88,
-        label: 'No top tab bar — the viewport is unusually clean for a session with five open tabs; navigation has moved entirely to the sidebar; this is either the cleanest browsing surface available or a model with no migration path for users who expect their tabs at the top',
-        juror: 'hierarchy',
-        type: 'not_guilty',
-      },
-    ],
-  },
-
-
-  // ─── CASE #014 ───────────────────────────────────────────────────────────────
-  // A furniture catalogue organised by room rather than product type —
-  // one of the few commercial information architectures built around
-  // how users actually think rather than how inventory is managed.
-  {
-    id: 'case-014',
-    number: 'CASE #014',
-    title: "Forma's Navigation",
-    context: 'Furniture retail, desktop web, 2023',
-    category: 'Information Architecture',
-
-    screenshot: '/screenshots/case-014.jpg',
-    screenshotAspect: '4/3',
-
-    officialVerdict: 'strong_design',
-    caseStatus: 'consensus',
-    contestedSummary: null,
-
-    curatorNote: 'Room-based taxonomy is not technically novel — a furniture catalogue organised by room rather than product type is an obvious decision once stated. What makes it worth examining is that most furniture catalogues are not organised this way. They are organised by product type, which reflects how inventory systems are structured rather than how people shop. The Skeptic\'s observation — that the taxonomy constructs a particular idea of domestic life — is the observation the designers almost certainly did not foreground.',
-
-    jurorRulings: [
-      {
-        juror: 'hierarchy',
-        ruling: 'not_guilty',
-        reasoning:
-          "The primary navigation organises by room rather than product type, aligning the category structure with the user's decision context; a person furnishing a bedroom is not thinking in product categories, they are thinking in spaces, and the taxonomy acknowledges this.",
-      },
-      {
-        juror: 'accessibility',
-        ruling: 'mixed',
-        reasoning:
-          'The room-based taxonomy assumes a conventional domestic configuration — it works well for users furnishing standard rooms but is less navigable for users with non-standard spaces or those shopping for a functional requirement that spans multiple rooms.',
-      },
-      {
-        juror: 'usability',
-        ruling: 'not_guilty',
-        reasoning:
-          'A user who knows they are furnishing a living room reaches the relevant category in two clicks; the search function handles users who know a product name, and the room navigation handles users who do not.',
-      },
-      {
-        juror: 'trust',
-        ruling: 'mixed',
-        reasoning:
-          'Organising a furniture catalogue by room rather than product type shapes the shopping experience around a lifestyle aspiration; the taxonomy is not neutral — it constructs a particular idea of domestic life and asks the user to shop within it.',
-      },
-      {
-        juror: 'delight',
-        ruling: 'not_guilty',
-        reasoning:
-          'Most furniture catalogues ask what you want to buy; Forma asks what kind of home you want to live in — the difference is small in pixels and large in intent.',
-      },
-    ],
-
-    annotations: [
-      {
-        x: 0, y: 0, width: 100, height: 15,
-        label: 'Room-based primary navigation — the category structure maps to the user\'s decision context rather than the retailer\'s inventory system; a person furnishing a bedroom thinks in spaces, not product types',
-        juror: 'hierarchy',
-        type: 'not_guilty',
-      },
-      {
-        x: 0, y: 15, width: 100, height: 20,
-        label: 'Product subcategories within room context — two-click depth from landing to category; the taxonomy does the navigational work the user would otherwise perform manually',
-        juror: 'usability',
-        type: 'not_guilty',
-      },
-      {
-        x: 0, y: 0, width: 100, height: 35,
-        label: 'Conventional domestic assumption — non-standard spaces are underserved; a user shopping for a functional requirement that spans multiple rooms finds the taxonomy less useful than a user shopping room by room',
-        juror: 'accessibility',
-        type: 'mixed',
-      },
-    ],
-  },
-
-
   // ─── CASE #015 ───────────────────────────────────────────────────────────────
   // Contested. An independent fashion retailer built in full brutalist style:
   // oversized type, navigation at the page bottom, no standard cart affordances.
   // Notably: The Romantic is the juror who condemns it.
   {
     id: 'case-015',
-    number: 'CASE #015',
+    number: 'CASE #010',
     title: 'Brutalist Fashion Store',
     context: 'Independent fashion retail, desktop, 2023',
     category: 'Delight vs Usability Tradeoffs',
+    movement: 4,
+    crowd: { strong_design: 31, needs_revision: 40, design_disaster: 29 },
 
     screenshot: '/screenshots/case-015.jpg',
     screenshotAspect: '4/3',
 
-    officialVerdict: 'needs_revision',
-    caseStatus: 'contested',
+    officialVerdict: null,  // sealed — no panel verdict entered; the investigator's ruling stands alone
+    caseStatus: 'sealed',
 
     contestedSummary:
       "Brutalist design in commerce proposes that friction can be a qualifying mechanism — the interface filters for buyers aligned with the brand's values and aesthetics. The Scanner and The Skeptic find this coherent: the hierarchy functions on its own terms, and a brand that knows its audience is demonstrating clarity, not confusion. The Advocate and The Operator find that unconventional affordances impose costs that are not borne equally — less technically confident users, users with visual processing differences, and first-time visitors all pay the premium. The Romantic, notably the juror most likely to defend expressive design, is not convinced the brutalism here is honest.",
 
-    curatorNote: 'The Romantic\'s verdict is the case\'s most instructive element. The juror who most consistently defends expressive design — who ruled for the browser\'s navigation model, for the animated portfolio, for the identity form — rules against this one. The reason is precision: genuine brutalism is constrained by structure, not decorated with it. The harshness here is applied as atmosphere. That is not the same thing.',
+    curatorNote: 'The Romantic\'s verdict is the case\'s most instructive element. The juror who most consistently defends expressive design — who ruled for the animated portfolio and for the identity form — rules against this one. The reason is precision: genuine brutalism is constrained by structure, not decorated with it. The harshness here is applied as atmosphere. That is not the same thing.',
 
     jurorRulings: [
       {

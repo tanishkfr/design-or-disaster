@@ -19,3 +19,4 @@
 .contested { color: var(--mixed); }
 .landmark  { color: var(--landmark); }
 .pending   { color: var(--text-tertiary); }
+.sealed    { color: var(--amber); }

@@ -47,13 +47,15 @@ function buildFinding(v, c) {
   return `I read this as ${vp}. ${cp}`
 }
 
-export default function SubmissionPanel({ exiting, onSubmit }) {
+export default function SubmissionPanel({ exiting, onSubmit, inferConfidence = false }) {
   const [verdict, setVerdict] = useState(null)
   const [evidenceTags, setEvidenceTags] = useState([])
   const [confidence, setConfidence] = useState(null)
+  const [writtenRuling, setWrittenRuling] = useState('')
   const [tagsPulsing, setTagsPulsing] = useState(false)
 
-  const isComplete = verdict !== null && confidence !== null
+  const rulingComplete = writtenRuling.trim().length > 0
+  const isComplete = verdict !== null && rulingComplete && (inferConfidence || confidence !== null)
   const someVerdictSelected = verdict !== null
 
   const handleTagToggle = (tag) => {
@@ -69,7 +71,12 @@ export default function SubmissionPanel({ exiting, onSubmit }) {
 
   const handleSubmit = () => {
     if (!isComplete || exiting) return
-    onSubmit({ verdict, evidenceTags, confidence })
+    onSubmit({
+      verdict,
+      evidenceTags,
+      confidence: inferConfidence ? null : confidence,
+      writtenRuling: writtenRuling.trim(),
+    })
   }
 
   return (
@@ -125,23 +132,46 @@ export default function SubmissionPanel({ exiting, onSubmit }) {
         })}
       </div>
 
-      {/* ── Confidence — a personal notation ─────────── */}
-      <div
-        className={styles.confidenceColumn}
-        role="group"
-        aria-label="Confidence level"
-      >
-        {CONFIDENCE_OPTIONS.map(({ key, label }) => (
-          <button
-            key={key}
-            className={`${styles.confidenceOption} ${confidence === key ? styles.confidenceSelected : ''}`}
-            onClick={() => setConfidence(key)}
-            aria-pressed={confidence === key}
-          >
-            {label}
-          </button>
-        ))}
+      {/* ── Your ruling — one sentence, entered into the record ── */}
+      <div className={styles.rulingSection}>
+        <label className={styles.rulingLabel} htmlFor="written-ruling">
+          ── Your ruling
+        </label>
+        <textarea
+          id="written-ruling"
+          className={styles.rulingInput}
+          value={writtenRuling}
+          onChange={(e) => setWrittenRuling(e.target.value)}
+          placeholder="State your ruling in one sentence."
+          maxLength={180}
+          rows={2}
+          spellCheck={false}
+        />
       </div>
+
+      {/* ── Confidence — a personal notation ─────────── */}
+      {inferConfidence ? (
+        <p className={styles.inferredNote}>
+          Confidence is no longer self-reported. The clock is running.
+        </p>
+      ) : (
+        <div
+          className={styles.confidenceColumn}
+          role="group"
+          aria-label="Confidence level"
+        >
+          {CONFIDENCE_OPTIONS.map(({ key, label }) => (
+            <button
+              key={key}
+              className={`${styles.confidenceOption} ${confidence === key ? styles.confidenceSelected : ''}`}
+              onClick={() => setConfidence(key)}
+              aria-pressed={confidence === key}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* ── Finding — the authored record ─────────────── */}
       <div className={styles.findingSection}>
@@ -149,8 +179,8 @@ export default function SubmissionPanel({ exiting, onSubmit }) {
         <p
           className={[
             styles.findingStatement,
-            verdict && !confidence ? styles.findingPartial : '',
-            verdict && confidence  ? styles.findingComplete : '',
+            verdict && !isComplete ? styles.findingPartial : '',
+            isComplete             ? styles.findingComplete : '',
           ].filter(Boolean).join(' ')}
           aria-live="polite"
         >

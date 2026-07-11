@@ -158,6 +158,62 @@
   animation: tagPulse 500ms var(--ease-default) both;
 }
 
+/* ─── Written ruling ──────────────────────────────── */
+/* One sentence, entered into the record — the sixth juror's statement */
+
+.rulingSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.rulingLabel {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+.rulingInput {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border-default);
+  border-radius: 0;
+  padding: var(--space-2) 0;
+  resize: none;
+  outline: none;
+  transition: border-bottom-color var(--duration-fast) var(--ease-default);
+}
+
+.rulingInput::placeholder {
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+.rulingInput:focus {
+  border-bottom-color: var(--amber);
+}
+
+/* ─── Inferred confidence note ────────────────────── */
+
+.inferredNote {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  margin: 0;
+}
+
 /* ─── Confidence column ───────────────────────────── */
 /* Instrument Serif italic — this is personal judgment, not a rating scale */
 

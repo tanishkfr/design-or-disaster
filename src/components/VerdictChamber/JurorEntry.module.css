@@ -94,6 +94,20 @@
 .not_guilty .rulingDot { background: var(--clear); }
 .mixed     .rulingDot { background: var(--mixed); }
 
+/* ─── Investigator (sixth juror) — your ruling in the record ── */
+
+.investigator {
+  border-left-color: var(--amber);
+  background: var(--surface);
+  border-top: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.investigator .lens { color: var(--amber); }
+.investigator .rulingLabel { color: var(--amber); }
+.investigator .rulingDot { background: var(--amber); }
+
 /* ─── Reasoning ───────────────────────────────────── */
 
 .reasoning {

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { getCaseById } from '../../data/cases'
 import StatusTag from '../Archive/StatusTag'
 import ScreenshotViewer from './ScreenshotViewer'
@@ -8,12 +8,23 @@ import styles from './CaseFile.module.css'
 function resolveStatus(caseData) {
   if (caseData.caseStatus === 'landmark') return 'landmark'
   if (caseData.caseStatus === 'contested') return 'contested'
+  if (caseData.caseStatus === 'sealed') return 'sealed'
   return 'pending'
+}
+
+// Movement III onward: confidence is read from the clock, not self-reported.
+// Committing fast is conviction; a long deliberation is its own notation.
+function inferConfidenceFromTime(elapsedMs) {
+  if (elapsedMs < 30_000)  return 'very_confident'
+  if (elapsedMs < 75_000)  return 'confident'
+  if (elapsedMs < 180_000) return 'somewhat_sure'
+  return 'guessing'
 }
 
 export default function CaseFile({ caseId, onBack, onSubmit }) {
   const caseData = getCaseById(caseId)
   const [panelExiting, setPanelExiting] = useState(false)
+  const openedAt = useRef(Date.now())
 
   if (!caseData) {
     return (
@@ -24,11 +35,23 @@ export default function CaseFile({ caseId, onBack, onSubmit }) {
     )
   }
 
-  const handleSubmit = ({ verdict, evidenceTags, confidence }) => {
+  const inferConfidence = (caseData?.movement ?? 1) >= 3
+
+  const handleSubmit = ({ verdict, evidenceTags, confidence, writtenRuling }) => {
     setPanelExiting(true)
+    const elapsedMs = Date.now() - openedAt.current
+    const finalConfidence = inferConfidence ? inferConfidenceFromTime(elapsedMs) : confidence
     // Panel slides out over 300ms, then notify parent
     setTimeout(() => {
-      onSubmit({ caseId, verdict, evidenceTags, confidence })
+      onSubmit({
+        caseId,
+        verdict,
+        evidenceTags,
+        confidence: finalConfidence,
+        confidenceInferred: inferConfidence,
+        elapsedMs,
+        writtenRuling,
+      })
     }, 300)
   }
 
@@ -71,6 +94,7 @@ export default function CaseFile({ caseId, onBack, onSubmit }) {
           <SubmissionPanel
             exiting={panelExiting}
             onSubmit={handleSubmit}
+            inferConfidence={inferConfidence}
           />
         </div>
 

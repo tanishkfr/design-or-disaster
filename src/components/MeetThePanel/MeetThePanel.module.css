@@ -1,0 +1,138 @@
+.root {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12) var(--space-6);
+}
+
+.container {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+/* ─── Header ──────────────────────────────────────── */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+}
+
+.intro {
+  font-family: var(--font-display);
+  font-size: var(--t-title);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-primary);
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* ─── Juror list ──────────────────────────────────── */
+
+@keyframes jurorEnter {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.jurorList {
+  display: flex;
+  flex-direction: column;
+}
+
+.juror {
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--border-subtle);
+  animation: jurorEnter var(--duration-slow) var(--ease-out) both;
+}
+
+.juror:first-child {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.jurorHead {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  margin-bottom: var(--space-1);
+}
+
+.lens {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.focus {
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin: 0 0 2px;
+  line-height: 1.5;
+}
+
+.voice {
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text-tertiary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ─── Closing ─────────────────────────────────────── */
+
+.closing {
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.continueBtn {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--amber);
+  background: none;
+  border: 1px solid var(--amber);
+  border-radius: 20px;
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background-color var(--duration-fast) var(--ease-default);
+}
+
+.continueBtn:hover {
+  background-color: var(--amber-dim);
+}

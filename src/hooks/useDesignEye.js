@@ -8,9 +8,12 @@ import {
 
 const STORAGE_KEY = 'design-eye-profile';
 
+const TOTAL_CASES = CASES.length;
+
 function createFreshProfile() {
   return {
     coldOpenCompleted: false,
+    metPanel: false,
     casesCompleted: 0,
     submissions: [],
     accuracyByCategory: {},
@@ -108,16 +111,27 @@ export function useDesignEye() {
     [profile.submissions]
   );
 
-  // Fires intermission report after cases 3, 6, 9, 12
-  const shouldShowIntermission = profile.casesCompleted > 0 &&
-    profile.casesCompleted % 3 === 0 &&
-    profile.casesCompleted < 15;
+  const markPanelMet = useCallback(() => {
+    setProfile((prev) => {
+      const next = { ...prev, metPanel: true };
+      saveProfile(next);
+      return next;
+    });
+  }, []);
 
-  const isComplete = profile.casesCompleted >= 15;
+  // Meet the Panel fires once, after the third case closes
+  const shouldMeetPanel = profile.casesCompleted === 3 && !profile.metPanel;
+
+  // One intermission, at the midpoint — after Movement II closes
+  const shouldShowIntermission = profile.casesCompleted === 6;
+
+  const isComplete = profile.casesCompleted >= TOTAL_CASES;
 
   return {
     profile,
     markColdOpenComplete,
+    markPanelMet,
+    shouldMeetPanel,
     recordSubmission,
     setInProgressCase,
     clearInProgressCase,

@@ -203,6 +203,18 @@
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
 
+/* Locked movement — sealed until the prior movement closes */
+.lockedLine {
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--text-tertiary);
+  line-height: 1.6;
+  max-width: 52ch;
+  margin: 0;
+}
+
 /* ─── Continue card ───────────────────────────────── */
 
 .continueCard {
@@ -247,6 +259,57 @@
   letter-spacing: var(--ls-mono);
   color: var(--amber);
   text-transform: uppercase;
+}
+
+/* ─── Footer ──────────────────────────────────────── */
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+  max-width: 800px;
+  width: 100%;
+  margin: auto auto 0;
+  padding: var(--space-8) var(--space-8) var(--space-12);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Methodology note — honesty about how the archive is authored */
+.methodology {
+  font-family: var(--font-body);
+  font-size: var(--t-body-sm);
+  font-weight: 400;
+  color: var(--text-tertiary);
+  line-height: 1.7;
+  max-width: 68ch;
+  margin: 0;
+}
+
+.methodologyLabel {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  margin-bottom: var(--space-2);
+}
+
+.footerLink {
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  font-weight: 500;
+  letter-spacing: var(--ls-mono);
+  color: var(--text-tertiary);
+  text-decoration: none;
+  text-transform: lowercase;
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+.footerLink:hover {
+  color: var(--text-secondary);
 }
 
 /* ─── Responsive ──────────────────────────────────── */
