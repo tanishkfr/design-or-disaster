@@ -7,7 +7,7 @@ export default function About({ onBack }) {
       <div className={styles.container}>
 
         <header className={styles.header}>
-          <span className={styles.docLabel}>D/D · About</span>
+          <span className={styles.docLabel}>D/D Â· About</span>
         </header>
 
         <h1 className={styles.title}>About This Archive</h1>
@@ -21,11 +21,11 @@ export default function About({ onBack }) {
         </p>
 
         <section className={styles.block}>
-          <h2 className={styles.sectionLabel}>── The Structure</h2>
+          <h2 className={styles.sectionLabel}>â”€â”€ The Structure</h2>
           <p className={styles.prose}>
-            Ten cases, argued in four movements. Movement I is consensus — the jury
+            Ten cases, argued in four movements. Movement I is consensus â€” the jury
             agrees, and you learn how each lens reads a screen. Movement II is the
-            divide — the panel splits, and there's no clean answer to lean on. Movement
+            divide â€” the panel splits, and there's no clean answer to lean on. Movement
             III holds the landmarks: cases with documented public consequences, where
             confidence is read from how long you took rather than what you claim. The
             investigation closes on a single sealed case. No panel verdict is entered
@@ -34,7 +34,7 @@ export default function About({ onBack }) {
         </section>
 
         <section className={styles.block}>
-          <h2 className={styles.sectionLabel}>── The Panel</h2>
+          <h2 className={styles.sectionLabel}>â”€â”€ The Panel</h2>
           <div className={styles.jurorList}>
             {JURORS.map(j => (
               <p key={j.lens} className={styles.jurorLine}>
@@ -46,29 +46,26 @@ export default function About({ onBack }) {
         </section>
 
         <section className={styles.block}>
-          <h2 className={styles.sectionLabel}>── Your Design Eye</h2>
+          <h2 className={styles.sectionLabel}>â”€â”€ Your Design Eye</h2>
           <p className={styles.prose}>
-            The report at the end of an investigation doesn't grade you against the
-            panel's verdicts. It shows you which of the five lenses your own judgment
-            echoes most, and which one it consistently misses — the software declining
+            The report at the end of an investigation does not grade you against the panel. It shows which evidence lenses you used most and which remained least visible â€” the software declining
             to be the authority, and telling you instead which authority you already
             carry.
           </p>
         </section>
 
         <section className={styles.block}>
-          <h2 className={styles.sectionLabel}>── Methodology</h2>
+          <h2 className={styles.sectionLabel}>â”€â”€ Methodology</h2>
           <p className={styles.prose}>
             The five jurors are authored voices, each holding one critical lens; their
-            verdicts are one panel's position, not settled fact. Verdict distributions
-            shown after ruling are seeded projections, not live telemetry. Screenshots
-            are composites recreating documented interface patterns — no real product is
+            verdicts are one panel's position, not settled fact. No crowd telemetry or correctness score is implied. Screenshots
+            are composites recreating documented interface patterns â€” no real product is
             depicted, and any resemblance is the pattern, not the brand.
           </p>
         </section>
 
         <section className={styles.block}>
-          <h2 className={styles.sectionLabel}>── Elsewhere in T*</h2>
+          <h2 className={styles.sectionLabel}>â”€â”€ Elsewhere in T*</h2>
           <p className={styles.prose}>
             Atlas teaches a method for reasoning new interaction questions. Design or Disaster
             does something harsher: it makes you commit before the method arrives.
@@ -80,7 +77,7 @@ export default function About({ onBack }) {
         <div className={styles.rule} />
 
         <div className={styles.actions}>
-          <button className={styles.backBtn} onClick={onBack}>← Archive</button>
+          <button className={styles.backBtn} onClick={onBack}>â† Archive</button>
           <a
             href="https://github.com/tanishkfr/design-or-disaster"
             target="_blank"

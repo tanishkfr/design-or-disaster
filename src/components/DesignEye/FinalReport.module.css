@@ -34,7 +34,7 @@
   }
 }
 
-/* ── Document header ──────────────────────────────── */
+/* â”€â”€ Document header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .header {
   display: flex;
@@ -62,7 +62,7 @@
   text-transform: uppercase;
 }
 
-/* ── Verdict card — shareable summary ─────────────── */
+/* â”€â”€ Verdict card â€” shareable summary â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .verdictCard {
   display: flex;
@@ -91,7 +91,7 @@
   gap: var(--space-4);
 }
 
-/* The lens name, not a percentage — identity, not a grade */
+/* The lens name, not a percentage â€” identity, not a grade */
 .cardLensName {
   font-family: var(--font-display);
   font-size: 40px;
@@ -109,20 +109,7 @@
   margin: 0;
 }
 
-/* Secondary stat — the accuracy figure is here, demoted, not the headline */
-.cardSecondary {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: var(--ls-mono);
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  margin: var(--space-1) 0 0;
-  padding-top: var(--space-2);
-  border-top: 1px solid var(--border-subtle);
-}
-
-/* ── Opening statement ────────────────────────────── */
+/* â”€â”€ Opening statement â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .opening {
   font-family: var(--font-body);
@@ -134,7 +121,7 @@
   margin: 0 0 var(--space-8);
 }
 
-/* ── Body blocks ──────────────────────────────────── */
+/* â”€â”€ Body blocks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .block {
   display: flex;
@@ -150,7 +137,7 @@
   margin: 0;
 }
 
-/* ── Quote-back — the record quotes you ───────────── */
+/* â”€â”€ Quote-back â€” the record quotes you â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .quoteBack {
   display: flex;
@@ -186,7 +173,7 @@
   margin: 0;
 }
 
-/* ── Section divider ──────────────────────────────── */
+/* â”€â”€ Section divider â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .rule {
   width: 100%;
@@ -195,7 +182,7 @@
   margin: var(--space-8) 0;
 }
 
-/* ── Closing section ──────────────────────────────── */
+/* â”€â”€ Closing section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .closing {
   animation: closingEnter var(--duration-slow) var(--ease-out) 500ms both;
@@ -231,7 +218,7 @@
   padding-bottom: 2px;
 }
 
-/* ── Actions ──────────────────────────────────────── */
+/* â”€â”€ Actions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .actions {
   display: flex;
@@ -281,7 +268,7 @@
   color: var(--text-secondary);
 }
 
-/* ── Closure stamp ────────────────────────────────── */
+/* â”€â”€ Closure stamp â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .stamp {
   font-family: var(--font-mono);

@@ -32,16 +32,17 @@ export default function App() {
     }, 200)
   }, [])
 
-  const handleColdOpenComplete = ({ verdict, timestamp }) => {
-    designEye.recordSubmission({
-      caseId: 'case-001',
-      verdict,
-      evidenceTags: [],
-      confidence: null,
-      timestamp,
+  const handleColdOpenComplete = ({ verdict, evidencePlate, evidenceTags, writtenRuling, timestamp }) => {
+    const submission = {
+      caseId: 'case-001', verdict, evidencePlate, evidenceTags, writtenRuling,
+      confidence: null, confidenceInferred: false, timestamp,
+    }
+    navigate('verdictchamber', () => {
+      designEye.recordSubmission(submission)
+      designEye.markColdOpenComplete()
+      setSelectedCaseId('case-001')
+      setLastSubmission(submission)
     })
-    designEye.markColdOpenComplete()
-    navigate('archive')
   }
 
   const handleSelectCase = (caseId) => {
@@ -69,7 +70,7 @@ export default function App() {
   }
 
   const handleVerdictChamberNext = () => {
-    // Full investigation complete — interstitial reveals the lead insight before the report
+    // Full investigation complete â€” interstitial reveals the lead insight before the report
     if (designEye.isComplete) {
       navigate('designeye-intro')
       return

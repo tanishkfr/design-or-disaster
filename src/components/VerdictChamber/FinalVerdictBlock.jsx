@@ -1,191 +1,81 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './FinalVerdictBlock.module.css'
 
 const VERDICT_LABEL = {
-  strong_design:   'Strong Design',
-  needs_revision:  'Needs Revision',
+  strong_design: 'Strong Design',
+  needs_revision: 'Needs Revision',
   design_disaster: 'Design Disaster',
-}
-
-const CONFIDENCE_LABEL = {
-  guessing:       'Guessing',
-  somewhat_sure:  'Somewhat Sure',
-  confident:      'Confident',
-  very_confident: 'Very Confident',
 }
 
 const STATUS_PROSE = {
   consensus: 'The panel reached consensus.',
   contested: 'The panel remained divided.',
-  landmark:  'The panel rendered a landmark verdict.',
-  sealed:    'No panel verdict was entered.',
+  landmark: 'The panel rendered a landmark verdict.',
+  sealed: 'No panel verdict was entered.',
 }
 
-const VERDICT_ORDER = ['strong_design', 'needs_revision', 'design_disaster']
-
-// Count how many jurors vote in support of the official verdict.
-// guilty → problems found → supports needs_revision or design_disaster
-// not_guilty → clean → supports strong_design
-// mixed → partial issues → supports needs_revision
 function getVoteCount(jurorRulings, officialVerdict) {
-  return jurorRulings.filter(r => {
-    if (officialVerdict === 'strong_design')   return r.ruling === 'not_guilty'
-    if (officialVerdict === 'design_disaster') return r.ruling === 'guilty'
-    return r.ruling === 'guilty' || r.ruling === 'mixed'
+  return jurorRulings.filter((ruling) => {
+    if (officialVerdict === 'strong_design') return ruling.ruling === 'not_guilty'
+    if (officialVerdict === 'design_disaster') return ruling.ruling === 'guilty'
+    return ruling.ruling === 'guilty' || ruling.ruling === 'mixed'
   }).length
 }
 
 export default function FinalVerdictBlock({ caseData, submission, showNext, onNext, isFinalCase }) {
   const [textVisible, setTextVisible] = useState(false)
-
-  // Verdict text fades in 500ms after the block lands — let the reveal feel earned
   useEffect(() => {
-    const t = setTimeout(() => setTextVisible(true), 500)
-    return () => clearTimeout(t)
+    const timer = setTimeout(() => setTextVisible(true), 500)
+    return () => clearTimeout(timer)
   }, [])
 
-  const isSealed    = caseData.caseStatus === 'sealed'
+  const isSealed = caseData.caseStatus === 'sealed'
   const isContested = caseData.caseStatus === 'contested'
-  const isCorrect   = !isSealed && submission.verdict === caseData.officialVerdict
-  const voteCount   = isSealed ? null : getVoteCount(caseData.jurorRulings, caseData.officialVerdict)
-  const verdictText = isSealed ? VERDICT_LABEL[submission.verdict] : VERDICT_LABEL[caseData.officialVerdict]
-  const crowd       = caseData.crowd ?? null
-
-  // Contested: split vote counts for each side
-  const guiltyCount   = caseData.jurorRulings.filter(r => r.ruling === 'guilty' || r.ruling === 'mixed').length
-  const clearCount    = caseData.jurorRulings.filter(r => r.ruling === 'not_guilty').length
-  const minorityLabel = guiltyCount > clearCount ? VERDICT_LABEL['strong_design'] : VERDICT_LABEL['design_disaster']
+  const verdictText = VERDICT_LABEL[isSealed ? submission.verdict : caseData.officialVerdict]
+  const voteCount = isSealed ? null : getVoteCount(caseData.jurorRulings, caseData.officialVerdict)
+  const guiltyCount = isSealed ? 0 : caseData.jurorRulings.filter((item) => item.ruling === 'guilty' || item.ruling === 'mixed').length
+  const clearCount = isSealed ? 0 : caseData.jurorRulings.filter((item) => item.ruling === 'not_guilty').length
 
   return (
     <div className={styles.block}>
       {isSealed ? (
         <>
-          <div className={styles.jurySplitHeader}>
-            <span className={styles.jurySplitLabel}>PLATE 00 SEALED</span>
-          </div>
+          <div className={styles.jurySplitHeader}><span className={styles.jurySplitLabel}>PLATE 00 SEALED</span></div>
           <div className={`${styles.contestedBody} ${textVisible ? styles.visible : ''}`}>
             <div className={styles.contestedRule} aria-hidden="true" />
-            <p className={styles.contestedSummary}>
-              No panel plate, vote count, or official interpretation will be opened. The archive preserves only the evidence you marked and the ruling you filed.
-            </p>
+            <p className={styles.contestedSummary}>No panel plate, vote count, or official interpretation will be opened. The archive preserves only the evidence you marked and the ruling you filed.</p>
             <p className={styles.contestedClose}>Your perception remains the sole record of this case.</p>
             <div className={styles.contestedRule} aria-hidden="true" />
-          </div>
-          <div className={`${styles.verdictLine} ${textVisible ? styles.visible : ''}`}>
-            <span className={`${styles.verdictText} ${styles.contestedVerdict}`}>{verdictText}</span>
           </div>
         </>
       ) : isContested ? (
         <>
-          {/* JURY SPLIT header */}
-          <div className={styles.jurySplitHeader}>
-            <span className={styles.jurySplitLabel}>JURY SPLIT</span>
-          </div>
-
-          {/* Split vote breakdown */}
+          <div className={styles.jurySplitHeader}><span className={styles.jurySplitLabel}>JURY SPLIT</span></div>
           <div className={`${styles.splitVotes} ${textVisible ? styles.visible : ''}`}>
-            <span className={styles.splitVoteRow}>
-              <span className={styles.splitCount}>{guiltyCount} / 5</span>
-              <span className={styles.splitSeparator}>VOTE:</span>
-              <span className={styles.splitVerdict}>{verdictText}</span>
-            </span>
-            <span className={styles.splitVoteRow}>
-              <span className={styles.splitCount}>{clearCount} / 5</span>
-              <span className={styles.splitSeparator}>VOTE:</span>
-              <span className={styles.splitVerdict}>{minorityLabel}</span>
-            </span>
+            <span className={styles.splitVoteRow}><span className={styles.splitCount}>{guiltyCount} / 5</span><span className={styles.splitSeparator}>FOUND MATERIAL CONCERNS</span></span>
+            <span className={styles.splitVoteRow}><span className={styles.splitCount}>{clearCount} / 5</span><span className={styles.splitSeparator}>DID NOT</span></span>
           </div>
-
-          {/* Contested summary */}
-          {caseData.contestedSummary && (
-            <div className={`${styles.contestedBody} ${textVisible ? styles.visible : ''}`}>
-              <div className={styles.contestedRule} aria-hidden="true" />
-              <p className={styles.contestedSummary}>{caseData.contestedSummary}</p>
-              <p className={styles.contestedClose}>The design community remains divided.</p>
-              <div className={styles.contestedRule} aria-hidden="true" />
-            </div>
-          )}
-
-          {/* Final verdict line */}
-          <div className={`${styles.verdictLine} ${textVisible ? styles.visible : ''}`}>
-            <span className={`${styles.verdictText} ${styles.contestedVerdict}`}>{verdictText}</span>
-          </div>
+          {caseData.contestedSummary && <p className={`${styles.contestedSummary} ${textVisible ? styles.visible : ''}`}>{caseData.contestedSummary}</p>}
         </>
       ) : (
-        <>
-          {/* Vote count */}
-          <p className={styles.voteCount}>{voteCount} / 5 JURORS</p>
-
-          {/* Verdict text */}
-          <div className={`${styles.verdictLine} ${textVisible ? styles.visible : ''}`}>
-            <span className={styles.verdictText}>{verdictText}</span>
-          </div>
-        </>
+        <p className={styles.voteCount}>{voteCount} / 5 JURORS</p>
       )}
 
-      {/* ── The Record — how prior investigators ruled ── */}
-      {!isSealed && crowd && (
-        <div className={`${styles.crowdBlock} ${textVisible ? styles.visible : ''}`}>
-          <span className={styles.crowdLabel}>── Investigators on record</span>
-          {VERDICT_ORDER.map((key) => {
-            const pct = crowd[key] ?? 0
-            const isYours = submission.verdict === key
-            const isPanel = !isSealed && caseData.officialVerdict === key
-            return (
-              <div key={key} className={styles.crowdRow}>
-                <span className={`${styles.crowdVerdict} ${isYours ? styles.crowdYours : ''}`}>
-                  {VERDICT_LABEL[key]}
-                </span>
-                <div className={styles.crowdTrack} aria-hidden="true">
-                  <div className={styles.crowdFill} style={{ width: `${pct}%` }} />
-                </div>
-                <span className={styles.crowdPct}>{pct}%</span>
-                <span className={styles.crowdMarkers}>
-                  {isYours && <span className={styles.crowdYourMark}>you</span>}
-                  {isPanel && <span className={styles.crowdPanelMark}>panel</span>}
-                </span>
-              </div>
-            )
-          })}
-        </div>
-      )}
+      <div className={`${styles.verdictLine} ${textVisible ? styles.visible : ''}`}>
+        <span className={`${styles.verdictText} ${isContested || isSealed ? styles.contestedVerdict : ''}`}>{verdictText}</span>
+      </div>
 
-      {/* Divider */}
       <div className={styles.rule} aria-hidden="true" />
-
-      {/* Personal comparison */}
       <div className={`${styles.comparison} ${textVisible ? styles.visible : ''}`}>
-        <span className={styles.yourVerdict}>
-          Your verdict: {VERDICT_LABEL[submission.verdict]}
-          {submission.confidenceInferred && submission.elapsedMs ? (
-            <> · Filed in {Math.max(1, Math.round(submission.elapsedMs / 1000))}s · read as {CONFIDENCE_LABEL[submission.confidence]}</>
-          ) : submission.confidence ? (
-            <> · {CONFIDENCE_LABEL[submission.confidence]}</>
-          ) : null}
-        </span>
-        {isSealed ? (
-          <span className={styles.correct}>Your ruling stands. No one will overrule it.</span>
-        ) : (
-          <span className={isCorrect ? styles.correct : styles.incorrect}>
-            {isCorrect ? 'You read this the way the panel did.' : 'You read this differently than the panel.'}
-          </span>
-        )}
+        <span className={styles.yourVerdict}>Your verdict: {VERDICT_LABEL[submission.verdict]}</span>
+        <span className={styles.correct}>{isSealed ? 'Your ruling stands. No one will overrule it.' : 'This is the evidence you chose to make visible.'}</span>
       </div>
+      <div className={`${styles.statusRow} ${textVisible ? styles.visible : ''}`}><span className={styles.statusProse}>{STATUS_PROSE[caseData.caseStatus]}</span></div>
 
-      {/* Status */}
-      <div className={`${styles.statusRow} ${textVisible ? styles.visible : ''}`}>
-        <span className={styles.statusProse}>{STATUS_PROSE[caseData.caseStatus]}</span>
-      </div>
-
-      {/* Next case / final exit */}
       {showNext && (
         <>
-          {isFinalCase && (
-            <p className={styles.completionLine}>Investigation complete · 10 cases</p>
-          )}
-          <button className={styles.nextBtn} onClick={onNext}>
-            {isFinalCase ? 'The record →' : 'Next Case →'}
-          </button>
+          {isFinalCase && <p className={styles.completionLine}>Investigation complete · 10 cases</p>}
+          <button className={styles.nextBtn} onClick={onNext}>{isFinalCase ? 'The record →' : 'Next Case →'}</button>
         </>
       )}
     </div>
