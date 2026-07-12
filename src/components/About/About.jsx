@@ -13,10 +13,11 @@ export default function About({ onBack }) {
         <h1 className={styles.title}>About This Archive</h1>
 
         <p className={styles.opening}>
-          Design or Disaster asks you to rule on an interface before you know anything
-          about it — no category, no brand, no context beyond what's on screen. You form
-          a judgment. Then five jurors, each holding a different lens, tell you what they
-          found.
+          Design or Disaster is not a quiz with an answer key. It asks you to rule on
+          an interface before you know anything about it, then puts your verdict beside
+          five critics who don't agree with each other — let alone with you. The
+          Romantic and The Operator can't be reconciled. That's not a bug in the panel.
+          It's the subject.
         </p>
 
         <section className={styles.block}>
@@ -45,6 +46,17 @@ export default function About({ onBack }) {
         </section>
 
         <section className={styles.block}>
+          <h2 className={styles.sectionLabel}>── Your Design Eye</h2>
+          <p className={styles.prose}>
+            The report at the end of an investigation doesn't grade you against the
+            panel's verdicts. It shows you which of the five lenses your own judgment
+            echoes most, and which one it consistently misses — the software declining
+            to be the authority, and telling you instead which authority you already
+            carry.
+          </p>
+        </section>
+
+        <section className={styles.block}>
           <h2 className={styles.sectionLabel}>── Methodology</h2>
           <p className={styles.prose}>
             The five jurors are authored voices, each holding one critical lens; their
@@ -52,6 +64,16 @@ export default function About({ onBack }) {
             shown after ruling are seeded projections, not live telemetry. Screenshots
             are composites recreating documented interface patterns — no real product is
             depicted, and any resemblance is the pattern, not the brand.
+          </p>
+        </section>
+
+        <section className={styles.block}>
+          <h2 className={styles.sectionLabel}>── Elsewhere in T*</h2>
+          <p className={styles.prose}>
+            Structured disagreement is a recurring form across this work — four shapes
+            that won't resolve to one in Atlas, two authors who can't be separated in
+            Pentimento. Design or Disaster is that same commitment applied to critique
+            itself: judgment that stays plural on purpose.
           </p>
         </section>
 

@@ -87,13 +87,45 @@ export function calculateCategoryAccuracy(submissions, cases) {
 }
 
 /**
- * Returns a proficiency label for a given accuracy percentage.
+ * Returns true if a single juror's individual ruling shares the same polarity
+ * as the investigator's overall verdict on that case. This is not "correctness" —
+ * it measures which of the five lenses the investigator's judgment tends to echo.
  */
-export function proficiencyLabel(accuracy) {
-  if (accuracy >= 90) return 'Excellent';
-  if (accuracy >= 75) return 'Strong';
-  if (accuracy >= 60) return 'Proficient';
-  return 'Developing';
+function jurorEchoesVerdict(ruling, verdict) {
+  if (verdict === 'strong_design')   return ruling === 'not_guilty';
+  if (verdict === 'design_disaster') return ruling === 'guilty';
+  return ruling === 'guilty' || ruling === 'mixed'; // needs_revision
+}
+
+/**
+ * Calculates, per juror lens, how often the investigator's own verdict echoes
+ * that juror's individual ruling. This is the "lean" — which of the five
+ * perspectives the investigator's judgment resembles, and which it diverges
+ * from. Independent of whether the panel ever reached a verdict at all, so it
+ * is computed on every case, sealed included.
+ * Returns { [lens]: { pct: 0-100, total: number } }.
+ */
+export function calculateJurorAlignment(submissions, cases) {
+  const tally = {};
+
+  for (const sub of submissions) {
+    const caseData = cases.find((c) => c.id === sub.caseId);
+    if (!caseData || !caseData.jurorRulings) continue;
+
+    for (const ruling of caseData.jurorRulings) {
+      const lens = ruling.juror;
+      if (!tally[lens]) tally[lens] = { echoes: 0, total: 0 };
+      tally[lens].total += 1;
+      if (jurorEchoesVerdict(ruling.ruling, sub.verdict)) tally[lens].echoes += 1;
+    }
+  }
+
+  return Object.fromEntries(
+    Object.entries(tally).map(([lens, { echoes, total }]) => [
+      lens,
+      { pct: Math.round((echoes / total) * 100), total },
+    ])
+  );
 }
 
 /**

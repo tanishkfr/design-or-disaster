@@ -1,6 +1,5 @@
 import { CASES } from '../../data/cases'
 import { generateFinalReportContent } from '../../utils/reportInsights'
-import { proficiencyLabel } from '../../utils/scoring'
 import styles from './FinalReport.module.css'
 
 const closedDate = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
@@ -30,8 +29,7 @@ export default function FinalReport({ profile, onRestart, onBack }) {
     )
   }
 
-  const { opening, paragraphs, closingLine, question, total, correctCount, rulingQuote, sealedRuling, accuracy } = content
-  const proficiency = proficiencyLabel(accuracy)
+  const { opening, paragraphs, closingLine, question, total, rulingQuote, sealedRuling, accuracy, lean } = content
 
   return (
     <div className={styles.page}>
@@ -40,19 +38,28 @@ export default function FinalReport({ profile, onRestart, onBack }) {
         <header className={styles.header}>
           <span className={styles.docLabel}>Design Eye · Investigation Record</span>
           <span className={styles.docMeta}>
-            {total >= CASES.length - 1 ? 'Investigation Complete' : `${total} scored`} · {closedDate}
+            {total >= CASES.length - 1 ? 'Investigation Complete' : `${total} rulings filed`} · {closedDate}
           </span>
         </header>
 
-        {/* ── Verdict card — the shareable summary ────────── */}
+        {/* ── Lean card — the shareable summary. Not a grade: a mirror. ── */}
         <div className={styles.verdictCard}>
           <span className={styles.cardLabel}>Your Design Eye</span>
-          <div className={styles.cardFigure}>
-            <span className={styles.cardAccuracy}>{accuracy}%</span>
-            <span className={styles.cardProficiency}>{proficiency}</span>
-          </div>
-          <p className={styles.cardMeta}>
-            {correctCount} of {total} cases aligned with jury consensus
+          {lean ? (
+            <>
+              <div className={styles.cardFigure}>
+                <span className={styles.cardLensName}>{lean.strongest.title}</span>
+              </div>
+              <p className={styles.cardMeta}>
+                Your verdicts echo {lean.strongest.title} most — {lean.strongest.pct}% across {lean.strongest.total} cases.
+                {' '}Least aligned with {lean.weakest.title} ({lean.weakest.pct}%).
+              </p>
+            </>
+          ) : (
+            <p className={styles.cardMeta}>Not enough rulings yet to name a lean.</p>
+          )}
+          <p className={styles.cardSecondary}>
+            {accuracy}% matched the panel's verdict where one was ever reached.
           </p>
         </div>
 
@@ -111,7 +118,7 @@ export default function FinalReport({ profile, onRestart, onBack }) {
         </div>
 
         <p className={styles.stamp}>
-          Investigation closed · {total} scored · {closedDate}
+          Investigation closed · {total} rulings filed · {closedDate}
         </p>
 
       </div>

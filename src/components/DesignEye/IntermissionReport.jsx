@@ -33,7 +33,7 @@ export default function IntermissionReport({ profile, onContinue }) {
           const c = CASES.find(c => c.id === s.caseId);
           return c && s.verdict === c.officialVerdict;
         }).length;
-        return `You committed strongly ${highConfSubs.length} ${highConfSubs.length === 1 ? 'time' : 'times'}. You were right ${highConfCorrect === 1 ? 'once' : `${highConfCorrect} times`}.`;
+        return `You committed strongly ${highConfSubs.length} ${highConfSubs.length === 1 ? 'time' : 'times'}. The panel agreed ${highConfCorrect === 1 ? 'once' : `${highConfCorrect} times`}.`;
       }
     }
 

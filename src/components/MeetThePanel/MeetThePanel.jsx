@@ -11,7 +11,7 @@ export default function MeetThePanel({ onContinue }) {
         <header className={styles.header}>
           <span className={styles.label}>── The Panel</span>
           <p className={styles.intro}>
-            Three cases closed. You have now been ruled on by all five.
+            Three cases closed. You've now argued beside all five — not been graded by them.
           </p>
         </header>
 

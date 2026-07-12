@@ -95,8 +95,8 @@ export default function ColdOpen({ onComplete }) {
           }`}
           aria-live="polite"
         >
-          <p>You are not being tested.</p>
-          <p>You are training judgment.</p>
+          <p>There is no correct answer here.</p>
+          <p>You are finding which expert already lives in your head.</p>
         </div>
       )}
     </div>

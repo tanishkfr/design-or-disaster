@@ -50,7 +50,7 @@ export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset })
       label: 'MOVEMENT II — THE DIVIDE',
       cases: byMovement(2),
       locked: !movementComplete(1),
-      lockedLine: 'Opens when Movement I closes. The jury stops agreeing here.',
+      lockedLine: 'Opens when Movement I closes. This is where consensus stops being possible — and stops being the goal.',
     },
     {
       key: 'movement3',
@@ -95,8 +95,8 @@ export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset })
       <div className={styles.intro}>
         <h1 className={styles.archiveTitle}>Investigation Archive</h1>
         <p className={styles.subtitle}>
-          Composite cases built from documented interface patterns.<br />
-          Each argued by a panel of five jurors.
+          Five critics argue every case. They rarely agree.<br />
+          There is no answer key — only which one you side with.
         </p>
         <p className={styles.stats}>
           {totalCases} Cases in Four Movements

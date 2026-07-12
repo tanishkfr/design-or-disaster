@@ -1,8 +1,35 @@
+import { JUROR_BY_LENS } from '../data/jurors'
+import { calculateJurorAlignment } from './scoring'
+
 const HIGH_CONFIDENCE = new Set(['confident', 'very_confident']);
 
 /**
+ * Derives which of the five juror lenses the investigator's verdicts echo
+ * most and least. This is the report's central mechanic: not a score against
+ * a correct answer, but a mirror. The panel was built from five positions
+ * that don't reduce to one verdict — this shows which one the investigator
+ * already argues from, and which one they consistently miss.
+ * Returns null until there's enough data to say anything real (3+ rulings).
+ */
+export function deriveJurorLean(jurorAlignment) {
+  const entries = Object.entries(jurorAlignment || {}).filter(([, v]) => v && v.total >= 3)
+  if (entries.length < 2) return null
+
+  const sorted = [...entries].sort((a, b) => b[1].pct - a[1].pct)
+  const [strongestLens, strongestData] = sorted[0]
+  const [weakestLens, weakestData] = sorted[sorted.length - 1]
+  if (strongestLens === weakestLens) return null
+
+  return {
+    strongest: { lens: strongestLens, title: JUROR_BY_LENS[strongestLens]?.title ?? strongestLens, pct: strongestData.pct, total: strongestData.total },
+    weakest:   { lens: weakestLens,   title: JUROR_BY_LENS[weakestLens]?.title ?? weakestLens,   pct: weakestData.pct,   total: weakestData.total },
+    spread: strongestData.pct - weakestData.pct,
+  }
+}
+
+/**
  * Generates the full body of the Investigation Record report from real profile data.
- * Returns { opening, paragraphs, closingLine, question, total, correctCount }
+ * Returns { opening, paragraphs, closingLine, question, total, correctCount, lean, ... }
  * or null if no submissions exist.
  */
 export function generateFinalReportContent(profile, cases) {
@@ -16,7 +43,7 @@ export function generateFinalReportContent(profile, cases) {
     return { sub: s, case: c, correct: c.officialVerdict && s.verdict === c.officialVerdict, confRank, sealed: !c.officialVerdict }
   }).filter(Boolean)
 
-  // Sealed cases carry no panel verdict — excluded from accuracy entirely
+  // Sealed cases carry no panel verdict — excluded from the alignment stat entirely
   const sealedResult = allResults.find(r => r.sealed) ?? null
   const results = allResults.filter(r => !r.sealed)
   const total = results.length
@@ -25,6 +52,9 @@ export function generateFinalReportContent(profile, cases) {
 
   const correctCount = results.filter(r => r.correct).length
   const accuracy = Math.round((correctCount / total) * 100)
+
+  const jurorAlignment = calculateJurorAlignment(subs, cases)
+  const lean = deriveJurorLean(jurorAlignment)
 
   const highConf = results.filter(r => r.confRank >= 3)
   const lowConf  = results.filter(r => r.confRank <= 2)
@@ -37,7 +67,8 @@ export function generateFinalReportContent(profile, cases) {
   const contestedCorrect = contested.filter(r => r.correct).length
   const guiltyCount      = results.filter(r => r.sub.verdict !== 'strong_design').length
 
-  // Primary insight pattern
+  // Confidence-calibration pattern — this is still self-knowledge, not a grade:
+  // it says how well your certainty tracked your own agreement with the panel.
   let pattern = 'neutral'
   if      (highConf.length >= 2 && highConfAcc < 50)                                                              pattern = 'overconfident'
   else if (highConf.length >= 2 && highConfAcc >= 80 && lowConfAcc !== null && lowConfAcc < highConfAcc - 15)     pattern = 'calibrated'
@@ -45,45 +76,56 @@ export function generateFinalReportContent(profile, cases) {
   else if (accuracy >= 80 && total >= 5)                                                                           pattern = 'accurate'
   else if (accuracy <= 35 && total >= 5)                                                                           pattern = 'divergent'
 
-  const opening = `You called ${correctCount} of ${total} cases correctly — ${accuracy}% alignment with jury consensus.`
+  const opening = lean
+    ? `Across ${subs.length} ${subs.length === 1 ? 'ruling' : 'rulings'}, your verdicts echo ${lean.strongest.title} most often, and diverge furthest from ${lean.weakest.title}.`
+    : `You have filed ${subs.length} ${subs.length === 1 ? 'ruling' : 'rulings'} so far.`
+
   const paragraphs = []
+
+  // P0 — the lean. This is the headline finding: which lens you already argue
+  // from, named plainly, with no claim that it's the correct one.
+  if (lean) {
+    paragraphs.push(
+      `${lean.strongest.title} is the lens your judgment echoes most — ${lean.strongest.pct}% agreement across ${lean.strongest.total} cases. ${lean.weakest.title} is where you diverge furthest, at ${lean.weakest.pct}%. Neither reading is the correct one. The panel was built from five positions that don't reduce to a single verdict — this is which one you already argue from.`
+    )
+  }
 
   // P1 — confidence pattern
   if (pattern === 'overconfident') {
     const wrongHighConf = results.filter(r => !r.correct && r.confRank >= 3).sort((a, b) => b.confRank - a.confRank)
     paragraphs.push(
-      `The investigation records a consistent pattern. You filed high confidence on ${highConf.length} cases. You were right ${highConfCorrect} ${highConfCorrect === 1 ? 'time' : 'times'} — ${highConfAcc}% of the cases you were certain about. On the cases where you filed lower confidence, your accuracy was ${lowConfAcc !== null ? lowConfAcc + '%' : 'comparable'}. Your confidence was not tracking your accuracy.`
+      `The investigation records a consistent pattern. You filed high confidence on ${highConf.length} cases. The panel agreed with you ${highConfCorrect} ${highConfCorrect === 1 ? 'time' : 'times'} — ${highConfAcc}% of the cases you were certain about. On the cases where you filed lower confidence, your agreement rate was ${lowConfAcc !== null ? lowConfAcc + '%' : 'comparable'}. Your confidence was not tracking your alignment with the panel.`
     )
     if (wrongHighConf[0]) {
       paragraphs.push(
-        `The clearest example is ${wrongHighConf[0].case.title}. You filed confident or very confident. The jury ruled against you. The confidence was not a product of the evidence — it was a position taken before the evidence had been examined fully.`
+        `The clearest example is ${wrongHighConf[0].case.title}. You filed confident or very confident. The panel's majority went the other way. The confidence was not a product of the evidence — it was a position taken before the evidence had been examined fully.`
       )
     }
   } else if (pattern === 'underconfident') {
     paragraphs.push(
-      `The gap between what was noticed and what was claimed ran in one direction throughout this investigation. You filed low confidence on ${lowConf.length} cases and were right ${lowConfCorrect} times — ${lowConfAcc}% accuracy at low conviction. You filed high confidence on ${highConf.length} cases and were right ${highConfCorrect} times. What was noticed before the ruling appeared was frequently correct. The certainty attached to it was not.`
+      `The gap between what was noticed and what was claimed ran in one direction throughout this investigation. You filed low confidence on ${lowConf.length} cases and agreed with the panel ${lowConfCorrect} times — ${lowConfAcc}% at low conviction. You filed high confidence on ${highConf.length} cases and agreed ${highConfCorrect} times. What was noticed before the ruling appeared was frequently in line with the panel. The certainty attached to it was not.`
     )
     paragraphs.push(
-      `This is not an accuracy problem. The verdicts were right more often than the confidence suggested they would be. Evidence was found and correctly read, and then qualified. The investigation records the qualification without being able to explain it.`
+      `This is not an alignment problem. Your reads landed closer to the panel's than the confidence suggested they would. Evidence was found and correctly weighed, and then qualified. The investigation records the qualification without being able to explain it.`
     )
   } else if (pattern === 'calibrated') {
     paragraphs.push(
-      `When you committed to a verdict, you were right. ${highConfCorrect} of ${highConf.length} high-confidence rulings aligned with jury consensus — ${highConfAcc}%. When you were uncertain, the uncertainty was warranted: ${lowConfAcc}% accuracy on low-confidence filings. The confidence was tracking the evidence rather than the investigator's comfort.`
+      `When you committed to a verdict, the panel tended to agree. ${highConfCorrect} of ${highConf.length} high-confidence rulings landed with the panel's read — ${highConfAcc}%. When you were uncertain, the uncertainty was warranted: ${lowConfAcc}% alignment on low-confidence filings. The confidence was tracking the evidence rather than the investigator's comfort.`
     )
     paragraphs.push(
-      `This kind of calibration is rarer than it sounds. Most investigators in this archive show a consistent gap in one direction — either filing confidence the accuracy doesn't support, or finding evidence and declining to claim it. Neither pattern is present here.`
+      `This kind of calibration is rarer than it sounds. Most investigators in this archive show a consistent gap in one direction — either filing confidence the alignment doesn't support, or finding evidence and declining to claim it. Neither pattern is present here.`
     )
   } else if (pattern === 'accurate') {
     paragraphs.push(
-      `${accuracy}% accuracy across ${total} cases represents close alignment with expert consensus. On the cases where your verdict diverged from the jury's, the divergence was concentrated in the contested ones — the cases where the jury itself was divided. On the cases where the jury reached consensus, your judgment tracked it closely.`
+      `${accuracy}% alignment across ${total} cases is a close read of this panel. Where your verdict diverged from theirs, the divergence was concentrated in the contested cases — the ones where the panel itself was split. Where the panel reached a verdict together, your judgment tracked it closely.`
     )
   } else if (pattern === 'divergent') {
     paragraphs.push(
-      `Expert consensus and your verdicts diverged on ${total - correctCount} of ${total} cases. This is not necessarily a failure of judgment — it may be a consistently different perspective. The archive records that the divergence is consistent, and consistent divergence is data.`
+      `This panel and your verdicts diverged on ${total - correctCount} of ${total} cases. That is not necessarily a failure of judgment — it may be a consistently different perspective. The archive records that the divergence is consistent, and consistent divergence is data about the lens you bring, not an error to correct.`
     )
   } else {
     const confLine = [
-      highConfAcc !== null ? `${highConfAcc}% accuracy on high-confidence filings` : null,
+      highConfAcc !== null ? `${highConfAcc}% alignment on high-confidence filings` : null,
       lowConfAcc  !== null ? `${lowConfAcc}% on lower-confidence ones`             : null,
     ].filter(Boolean).join(', ')
     paragraphs.push(
@@ -94,24 +136,24 @@ export function generateFinalReportContent(profile, cases) {
   // P2 — contested performance (always included when contested cases were reviewed)
   if (contested.length > 0) {
     const line = contestedCorrect === contested.length
-      ? `You called all ${contested.length} contested cases correctly.`
+      ? `Your verdict matched the panel's majority on all ${contested.length} contested cases.`
       : contestedCorrect === 0
-      ? `You called none of the ${contested.length} contested cases correctly.`
-      : `You called ${contestedCorrect} of ${contested.length} contested cases correctly.`
+      ? `Your verdict matched the panel's majority on none of the ${contested.length} contested cases.`
+      : `Your verdict matched the panel's majority on ${contestedCorrect} of ${contested.length} contested cases.`
 
     paragraphs.push(
-      `${line} Contested cases are the ones where the jury explicitly divided — where both positions had merit and the majority held a considered position, not a consensus. They require holding two arguments simultaneously rather than resolving the tension into a clean verdict. ${contestedCorrect >= Math.ceil(contested.length / 2) ? 'You held that tension and came through.' : 'The tension resolved differently than the jury held it.'}`
+      `${line} Contested cases are the ones where the panel itself split — where both positions had merit and no consensus was ever reached. They ask you to hold two arguments at once rather than resolve the tension into a clean verdict. ${contestedCorrect >= Math.ceil(contested.length / 2) ? 'You held that tension without flattening it.' : "Your read of the tension differed from the panel's majority — which is exactly the kind of case built to produce that."}`
     )
   }
 
-  // P3 — lean observation, only when pronounced
+  // P3 — verdict-leniency lean, only when pronounced
   if (guiltyCount >= total * 0.75) {
     paragraphs.push(
-      `You filed ${guiltyCount} critical verdicts out of ${total} — a skeptic's record. The designs that passed your review were in the minority. This is a valid orientation, and the accuracy rate suggests it is not reflexive: the problems found were real problems.`
+      `You filed ${guiltyCount} critical verdicts out of ${total} — a skeptic's record. The designs that passed your review were in the minority. That's a valid orientation, and a consistent one: the problems you flagged were rarely dismissed by every juror.`
     )
   } else if ((total - guiltyCount) >= total * 0.75) {
     paragraphs.push(
-      `You defended ${total - guiltyCount} of ${total} designs — a generous read of the archive. The cases are weighted toward failure; a high clean-verdict rate means you found merit where jury consensus often did not.`
+      `You defended ${total - guiltyCount} of ${total} designs — a generous read of the archive. The cases lean toward failure by design; finding merit this often means you're reading past the obvious flaws toward something else.`
     )
   }
 
@@ -129,21 +171,21 @@ export function generateFinalReportContent(profile, cases) {
     closingLine = 'The record shows what was found, and the confidence placed in it.'
     question    = 'Calibration is the quieter skill. Does it feel like one?'
   } else if (pattern === 'accurate') {
-    closingLine = 'The record shows close alignment with expert consensus.'
-    question    = 'Are you right because you see clearly, or because you read the room?'
+    closingLine = "The record shows close alignment with this panel's read."
+    question    = 'Are you aligned because you see clearly, or because you read the room?'
   } else if (pattern === 'divergent') {
-    closingLine = 'The record shows consistent divergence from expert consensus.'
+    closingLine = 'The record shows a consistent, different read from this panel.'
     question    = 'Consistent divergence is data. The question is what it describes.'
   } else if (contested.length > 0 && contestedCorrect === contested.length) {
     closingLine = 'The record shows what was found on the difficult cases.'
-    question    = "You held your position when the jury split. Most don't."
+    question    = "You held your position when the panel split. Most don't."
   }
 
   // Quote-back — the record was listening. Surface one of the investigator's
-  // own written rulings, priority: a case they got right, else any with text.
+  // own written rulings, priority: a case where the panel agreed, else any with text.
   const withRuling = results.filter(r => r.sub.writtenRuling && r.sub.writtenRuling.trim())
-  const rightWithRuling = withRuling.filter(r => r.correct)
-  const quoteSource = rightWithRuling[0] ?? withRuling[withRuling.length - 1] ?? null
+  const agreedWithRuling = withRuling.filter(r => r.correct)
+  const quoteSource = agreedWithRuling[0] ?? withRuling[withRuling.length - 1] ?? null
   const rulingQuote = quoteSource
     ? {
         text: quoteSource.sub.writtenRuling.trim(),
@@ -163,7 +205,7 @@ export function generateFinalReportContent(profile, cases) {
       }
     : null
 
-  return { opening, paragraphs, closingLine, question, total, correctCount, rulingQuote, sealedRuling, accuracy }
+  return { opening, paragraphs, closingLine, question, total, correctCount, rulingQuote, sealedRuling, accuracy, lean }
 }
 
 
@@ -186,7 +228,7 @@ export function deriveCategoryObservations(accuracyByCategory, submissions, case
       return c && c.category === cat;
     }).length;
     observations.push(
-      `${formatCategoryLabel(cat)} is the only category assessed so far — ${caseCount} ${caseCount === 1 ? 'case' : 'cases'}, ${acc}% alignment with the jury.`
+      `${formatCategoryLabel(cat)} is the only category assessed so far — ${caseCount} ${caseCount === 1 ? 'case' : 'cases'}, ${acc}% alignment with the panel.`
     );
     return observations;
   }
@@ -212,18 +254,18 @@ export function deriveCategoryObservations(accuracyByCategory, submissions, case
     );
   }
 
-  // Reckoning case: find the case the user was most confidently wrong about
-  const highConfWrong = (submissions || []).filter(s => {
+  // Reckoning case: find the case the user was most confidently divided from the panel on
+  const highConfDiverged = (submissions || []).filter(s => {
     if (!HIGH_CONFIDENCE.has(s.confidence)) return false;
     const c = cases.find(c => c.id === s.caseId);
-    return c && s.verdict !== c.officialVerdict;
+    return c && c.officialVerdict && s.verdict !== c.officialVerdict;
   });
 
-  if (highConfWrong.length > 0) {
-    const reckoningCase = cases.find(c => c.id === highConfWrong[0].caseId);
+  if (highConfDiverged.length > 0) {
+    const reckoningCase = cases.find(c => c.id === highConfDiverged[0].caseId);
     if (reckoningCase) {
       observations.push(
-        `You were most confident on ${reckoningCase.title}. The jury ruled against you.`
+        `You were most confident on ${reckoningCase.title}. The panel's majority went the other way.`
       );
     }
   }
@@ -247,51 +289,63 @@ export function formatCategoryLabel(cat) {
 
 /**
  * Derives the most interesting lead insight to open the report with.
- * Priority: overconfidence > good calibration > category spread > accuracy extremes > default.
+ * Priority: lean > overconfidence > good calibration > category spread >
+ * alignment extremes > default. The lean is checked first because it's the
+ * report's core claim — which lens you already argue from — not a score.
  * Returns { type, headline, body }
  */
 export function deriveLeadInsight(profile, cases) {
-  const { submissions, overallAccuracy, accuracyByCategory } = profile;
+  const { submissions, overallAccuracy, accuracyByCategory, jurorAlignment } = profile;
 
   if (!submissions || submissions.length === 0) {
     return {
       type: 'empty',
-      headline: 'No cases reviewed yet.',
-      body: 'Begin an investigation to start building your Design Eye profile.',
+      headline: 'No rulings filed yet.',
+      body: 'Begin an investigation to start building your Design Eye.',
     };
   }
 
   const highConfSubs = submissions.filter(s => HIGH_CONFIDENCE.has(s.confidence));
   const highConfCorrect = highConfSubs.filter(s => {
     const c = cases.find(c => c.id === s.caseId);
-    return c && s.verdict === c.officialVerdict;
+    return c && c.officialVerdict && s.verdict === c.officialVerdict;
   }).length;
 
-  // 1. Overconfidence — confident but wrong more often than not
+  // 1. Lean — which lens your judgment echoes, and which it diverges from
+  const lean = deriveJurorLean(jurorAlignment);
+  if (lean && lean.spread >= 25) {
+    return {
+      type: 'lean',
+      headline: `You think like ${lean.strongest.title}.`,
+      body: `Your verdicts echo ${lean.strongest.title} ${lean.strongest.pct}% of the time. ${lean.weakest.title} is where you diverge most — ${lean.weakest.pct}%.`,
+    };
+  }
+
+  // 2. Overconfidence — confident but the panel disagreed more often than not
   if (highConfSubs.length >= 2) {
     const highConfRate = Math.round((highConfCorrect / highConfSubs.length) * 100);
 
     if (highConfRate < 50) {
       return {
         type: 'overconfident',
-        headline: 'Your certainty outpaced your accuracy.',
-        body: `You were confident ${highConfSubs.length} ${highConfSubs.length === 1 ? 'time' : 'times'}. You were right ${highConfCorrect === 1 ? 'once' : `${highConfCorrect} times`}.`,
+        headline: 'Your certainty outpaced your alignment.',
+        body: `You were confident ${highConfSubs.length} ${highConfSubs.length === 1 ? 'time' : 'times'}. The panel agreed with you ${highConfCorrect === 1 ? 'once' : `${highConfCorrect} times`}.`,
       };
     }
 
-    // 2. Well calibrated — right when it counted
+    // 3. Well calibrated — the panel agreed when you committed
     if (highConfRate >= 80) {
       return {
         type: 'calibrated',
-        headline: 'You were right when it mattered.',
+        headline: 'You commit when the panel would too.',
         body: highConfCorrect === highConfSubs.length
-          ? `You were right every time you were confident.`
-          : `When you committed to a verdict, you were correct ${highConfCorrect === 1 ? 'once' : `${highConfCorrect} times`} out of ${highConfSubs.length}.`,
+          ? `The panel agreed with you every time you were confident.`
+          : `When you committed to a verdict, the panel agreed ${highConfCorrect === 1 ? 'once' : `${highConfCorrect} times`} out of ${highConfSubs.length}.`,
       };
     }
   }
 
-  // 3. Category inconsistency — wide spread between strongest and weakest
+  // 4. Category inconsistency — wide spread between strongest and weakest domain
   const categoryEntries = Object.entries(accuracyByCategory || {});
   if (categoryEntries.length >= 2) {
     const sorted = [...categoryEntries].sort((a, b) => b[1] - a[1]);
@@ -302,46 +356,46 @@ export function deriveLeadInsight(profile, cases) {
     if (spread >= 30) {
       return {
         type: 'category_inconsistency',
-        headline: 'Your eye is uneven.',
+        headline: 'Your eye is uneven across domains.',
         body: `${formatCategoryLabel(strongestCat)} reads clearly to you. ${formatCategoryLabel(weakestCat)} is still developing.`,
       };
     }
   }
 
-  // 4. High accuracy
+  // 5. Strong alignment with the panel overall
   if (overallAccuracy >= 80 && submissions.length >= 3) {
     return {
       type: 'accuracy_high',
-      headline: 'Your judgment aligns closely with expert consensus.',
-      body: `You called ${overallAccuracy}% of cases the way the jury ruled.`,
+      headline: 'You and this panel read interfaces the same way.',
+      body: `Your verdict matched the panel's on ${overallAccuracy}% of cases with a verdict.`,
     };
   }
 
-  // 5. Low accuracy — cases pushing back
+  // 6. Consistent divergence from the panel
   if (overallAccuracy <= 35 && submissions.length >= 3) {
     return {
       type: 'accuracy_low',
-      headline: 'The cases are pushing back.',
-      body: 'Expert consensus differed from your judgment in most of the cases reviewed so far.',
+      headline: 'You and this panel are reading different things.',
+      body: "That's not a failure — it's a data point about the lens you bring.",
     };
   }
 
-  // 6. Single high-confidence submission — early signal
+  // 7. Single high-confidence submission — early signal
   if (highConfSubs.length === 1) {
     const wasRight = highConfCorrect === 1;
     return {
       type: 'calibration_early',
-      headline: wasRight ? 'You were right when confident.' : 'You were confident, but wrong.',
+      headline: wasRight ? 'The panel agreed, and you were confident.' : 'You were confident, and the panel disagreed.',
       body: wasRight
         ? 'One data point. Worth watching as the investigation continues.'
         : "One case doesn't define your eye — but it's worth noting.",
     };
   }
 
-  // 7. Default — patterns still forming
+  // 8. Default — patterns still forming
   return {
     type: 'forming',
     headline: 'Your Design Eye is forming.',
-    body: `${submissions.length} case${submissions.length === 1 ? '' : 's'} reviewed. Continue to build a clearer picture.`,
+    body: `${submissions.length} ${submissions.length === 1 ? 'ruling' : 'rulings'} filed. Keep going — the lean shows up after a few more.`,
   };
 }

@@ -15,9 +15,9 @@ const CONFIDENCE_LABEL = {
 }
 
 const STATUS_PROSE = {
-  consensus: 'The jury reached consensus.',
-  contested: 'The jury remained divided.',
-  landmark:  'The jury rendered a landmark verdict.',
+  consensus: 'The panel reached consensus.',
+  contested: 'The panel remained divided.',
+  landmark:  'The panel rendered a landmark verdict.',
   sealed:    'No panel verdict was entered.',
 }
 
@@ -187,7 +187,7 @@ export default function FinalVerdictBlock({ caseData, submission, showNext, onNe
           <span className={styles.correct}>Your ruling stands. No one will overrule it.</span>
         ) : (
           <span className={isCorrect ? styles.correct : styles.incorrect}>
-            {isCorrect ? 'You were right.' : 'You were wrong.'}
+            {isCorrect ? 'You read this the way the panel did.' : 'You read this differently than the panel.'}
           </span>
         )}
       </div>

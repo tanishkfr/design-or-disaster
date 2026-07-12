@@ -4,6 +4,7 @@ import {
   calculateAccuracy,
   calculateConfidenceCalibration,
   calculateCategoryAccuracy,
+  calculateJurorAlignment,
 } from '../utils/scoring';
 
 const STORAGE_KEY = 'design-eye-profile';
@@ -19,6 +20,7 @@ function createFreshProfile() {
     accuracyByCategory: {},
     overallAccuracy: 0,
     confidenceCalibration: null,
+    jurorAlignment: {},
   };
 }
 
@@ -46,6 +48,7 @@ function recomputeStats(profile) {
     overallAccuracy: calculateAccuracy(profile.submissions, CASES),
     confidenceCalibration: calculateConfidenceCalibration(profile.submissions, CASES),
     accuracyByCategory: calculateCategoryAccuracy(profile.submissions, CASES),
+    jurorAlignment: calculateJurorAlignment(profile.submissions, CASES),
   };
 }
 
