@@ -13,7 +13,7 @@ export default function FinalReport({ profile, onRestart, onBack }) {
       <div className={styles.page}>
         <div className={styles.container}>
           <header className={styles.header}>
-            <span className={styles.docLabel}>Design Eye · Investigation Record</span>
+            <span className={styles.docLabel}>Design Eye Â· Investigation Record</span>
             <span className={styles.docMeta}>No cases reviewed</span>
           </header>
           <p className={styles.opening}>No cases have been reviewed yet.</p>
@@ -22,27 +22,27 @@ export default function FinalReport({ profile, onRestart, onBack }) {
             <p className={styles.question}>Return to the archive to begin an investigation.</p>
           </section>
           <div className={styles.actions}>
-            <button className={styles.backBtn} onClick={onBack}>← Archive</button>
+            <button className={styles.backBtn} onClick={onBack}>â† Archive</button>
           </div>
         </div>
       </div>
     )
   }
 
-  const { opening, paragraphs, closingLine, question, total, rulingQuote, sealedRuling, accuracy, lean } = content
+  const { opening, paragraphs, closingLine, question, total, rulingQuote, sealedRuling, lean } = content
 
   return (
     <div className={styles.page}>
       <div className={styles.container}>
 
         <header className={styles.header}>
-          <span className={styles.docLabel}>Design Eye · Investigation Record</span>
+          <span className={styles.docLabel}>Design Eye Â· Investigation Record</span>
           <span className={styles.docMeta}>
-            {total >= CASES.length - 1 ? 'Investigation Complete' : `${total} rulings filed`} · {closedDate}
+            {total >= CASES.length - 1 ? 'Investigation Complete' : `${total} rulings filed`} Â· {closedDate}
           </span>
         </header>
 
-        {/* ── Lean card — the shareable summary. Not a grade: a mirror. ── */}
+        {/* â”€â”€ Lean card â€” the shareable summary. Not a grade: a mirror. â”€â”€ */}
         <div className={styles.verdictCard}>
           <span className={styles.cardLabel}>Your Design Eye</span>
           {lean ? (
@@ -51,16 +51,13 @@ export default function FinalReport({ profile, onRestart, onBack }) {
                 <span className={styles.cardLensName}>{lean.strongest.title}</span>
               </div>
               <p className={styles.cardMeta}>
-                Your verdicts echo {lean.strongest.title} most — {lean.strongest.pct}% across {lean.strongest.total} cases.
-                {' '}Least aligned with {lean.weakest.title} ({lean.weakest.pct}%).
+                You marked {lean.strongest.title.toLowerCase()} evidence in {lean.strongest.count} cases.
+                {' '}Least visible: {lean.weakest.title}.
               </p>
             </>
           ) : (
             <p className={styles.cardMeta}>Not enough rulings yet to name a lean.</p>
           )}
-          <p className={styles.cardSecondary}>
-            {accuracy}% matched the panel's verdict where one was ever reached.
-          </p>
         </div>
 
         <p className={styles.opening}>{opening}</p>
@@ -71,7 +68,7 @@ export default function FinalReport({ profile, onRestart, onBack }) {
           ))}
         </section>
 
-        {/* ── Quote-back — the record was listening ───────── */}
+        {/* â”€â”€ Quote-back â€” the record was listening â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         {rulingQuote && (
           <>
             <div className={styles.rule} />
@@ -81,13 +78,13 @@ export default function FinalReport({ profile, onRestart, onBack }) {
               </span>
               <blockquote className={styles.quote}>"{rulingQuote.text}"</blockquote>
               <p className={styles.quoteOutcome}>
-                {rulingQuote.agreed ? 'The panel agreed.' : 'The panel saw it differently.'}
+                This is the evidence you chose to make visible.
               </p>
             </section>
           </>
         )}
 
-        {/* ── Sealed ruling — the finale that stands alone ── */}
+        {/* â”€â”€ Sealed ruling â€” the finale that stands alone â”€â”€ */}
         {sealedRuling && (
           <>
             <div className={styles.rule} />
@@ -110,7 +107,7 @@ export default function FinalReport({ profile, onRestart, onBack }) {
 
         <div className={styles.actions}>
           <button className={styles.backBtn} onClick={onBack}>
-            ← Archive
+            â† Archive
           </button>
           <button className={styles.restartBtn} onClick={onRestart}>
             Restart Investigation
@@ -118,7 +115,7 @@ export default function FinalReport({ profile, onRestart, onBack }) {
         </div>
 
         <p className={styles.stamp}>
-          Investigation closed · {total} rulings filed · {closedDate}
+          Investigation closed Â· {total} rulings filed Â· {closedDate}
         </p>
 
       </div>

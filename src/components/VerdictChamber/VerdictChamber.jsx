@@ -21,6 +21,7 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
   const [arrivedCount, setArrivedCount] = useState(0)
   const [showVerdict, setShowVerdict] = useState(sealed)
   const [complete, setComplete] = useState(false)
+  const [openedJurorPlate, setOpenedJurorPlate] = useState(false)
 
   useEffect(() => {
     if (sealed) {
@@ -31,14 +32,17 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
     const timers = jurorRulings.map((_, index) =>
       setTimeout(() => setArrivedCount(index + 1), 700 + index * 850),
     )
-    const verdictTimer = setTimeout(() => setShowVerdict(true), 900 + jurorRulings.length * 850)
-    const completeTimer = setTimeout(() => setComplete(true), 2200 + jurorRulings.length * 850)
     return () => {
       timers.forEach(clearTimeout)
-      clearTimeout(verdictTimer)
-      clearTimeout(completeTimer)
     }
   }, [jurorRulings, sealed])
+
+  useEffect(() => {
+    if (sealed || !openedJurorPlate || arrivedCount < jurorRulings.length) return
+    const verdictTimer = setTimeout(() => setShowVerdict(true), 500)
+    const completeTimer = setTimeout(() => setComplete(true), 1700)
+    return () => { clearTimeout(verdictTimer); clearTimeout(completeTimer) }
+  }, [arrivedCount, jurorRulings.length, openedJurorPlate, sealed])
 
   const availableLenses = jurorRulings.slice(0, arrivedCount).map((ruling) => ruling.juror)
   const investigatorRuling = VERDICT_TO_RULING[submission.verdict] ?? 'mixed'
@@ -50,7 +54,7 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
       )}
 
       <header className={styles.header}>
-        <button className={styles.backBtn} onClick={onBack} aria-label="Return to archive">← Archive</button>
+        <button className={styles.backBtn} onClick={onBack} aria-label="Return to archive">â† Archive</button>
         <span className={styles.caseNumber}>{caseData.number}</span>
         <span className={`${styles.chamberLabel} ${styles.chamberLabelVisible}`}>{sealed ? 'SEALED PLATE' : 'OVERLAID JURY'}</span>
       </header>
@@ -64,7 +68,12 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
           annotations={sealed ? [] : caseData.annotations ?? []}
           availableLenses={availableLenses}
           sealed={sealed}
+          onOpenJurorPlate={() => setOpenedJurorPlate(true)}
         />
+
+        {!sealed && arrivedCount >= jurorRulings.length && !openedJurorPlate && (
+          <p className={styles.caseContext}>Open at least one juror plate. The ruling will not arrive until you have looked through another eye.</p>
+        )}
 
         <div className={styles.caseIdentity}>
           <div className={styles.caseTitleRow}>
@@ -79,7 +88,7 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
             <div className={styles.divider} aria-hidden="true" />
             <section className={styles.deliberation} aria-label="Jury deliberation">
               <div className={styles.deliberationHeader}>
-                <span className={styles.deliberationLabel}>Five plates · incompatible evidence</span>
+                <span className={styles.deliberationLabel}>Five plates Â· incompatible evidence</span>
                 <div className={styles.jurorDots} aria-hidden="true">
                   {jurorRulings.map((ruling, index) => (
                     <div key={ruling.juror} className={`${styles.jurorDot} ${index < arrivedCount ? styles[`jurorDot_${ruling.ruling}`] : ''}`} />

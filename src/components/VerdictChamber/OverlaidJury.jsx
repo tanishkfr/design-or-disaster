@@ -20,6 +20,7 @@ export default function OverlaidJury({
   annotations = [],
   availableLenses = [],
   sealed = false,
+  onOpenJurorPlate,
 }) {
   const [active, setActive] = useState('you')
   const jurorPlates = useMemo(() => [...new Set(annotations.map((annotation) => annotation.juror))], [annotations])
@@ -38,7 +39,7 @@ export default function OverlaidJury({
             {active === 'you' ? 'What you counted as evidence.' : `What ${activeJuror.title.toLowerCase()} counted as evidence.`}
           </h2>
         </div>
-        <p className={styles.counter}>{active === 'you' ? `PLATE 00 · ${visitorMarks.length} MARKS` : `${activeAnnotations.length} FINDINGS · ${activeLens?.label.toUpperCase()}`}</p>
+        <p className={styles.counter}>{active === 'you' ? `PLATE 00 Â· ${visitorMarks.length} MARKS` : `${activeAnnotations.length} FINDINGS Â· ${activeLens?.label.toUpperCase()}`}</p>
       </div>
 
       <div className={styles.plates} role="tablist" aria-label="Evidence plates">
@@ -55,7 +56,7 @@ export default function OverlaidJury({
               role="tab"
               aria-selected={active === lens}
               disabled={!available}
-              onClick={() => setActive(lens)}
+              onClick={() => { setActive(lens); onOpenJurorPlate?.(lens) }}
               className={`${styles.plateTab} ${active === lens ? styles.plateTabActive : ''}`}
               style={{ '--plate-color': lensByKey[lens]?.color }}
             >
@@ -98,7 +99,7 @@ export default function OverlaidJury({
             <span className={styles.jurorBadge}>{String(index + 1).padStart(2, '0')}</span>
           </span>
         ))}
-        <span className={styles.exhibit}>EXHIBIT A · PLATES SHARE ONE COORDINATE SYSTEM</span>
+        <span className={styles.exhibit}>EXHIBIT A Â· PLATES SHARE ONE COORDINATE SYSTEM</span>
       </div>
 
       <ol className={styles.legend}>

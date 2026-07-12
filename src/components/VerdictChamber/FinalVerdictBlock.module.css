@@ -8,262 +8,14 @@
   to   { opacity: 1; }
 }
 
-/* ─── Block shell ─────────────────────────────────── */
-
-.block {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  animation: blockSlideUp var(--duration-slow) var(--ease-out) both;
-}
-
-/* ─── Consensus: vote count ───────────────────────── */
-
-.voteCount {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: var(--ls-mono);
-  color: var(--text-tertiary);
-  margin: 0;
-  text-transform: uppercase;
-}
-
-/* ─── Verdict text ────────────────────────────────── */
-
-.verdictLine {
-  opacity: 0;
-  transition: opacity var(--duration-slow) var(--ease-out);
-  padding: var(--space-3) 0;
-}
-
-.verdictLine.visible {
-  opacity: 1;
-}
-
-@keyframes verdictLand {
-  from {
-    transform: translateY(14px) scale(0.97);
-  }
-  to {
-    transform: translateY(0) scale(1);
-  }
-}
-
-.verdictText {
-  font-family: var(--font-display);
-  font-size: 64px;
-  font-weight: 400;
-  font-style: italic;
-  color: var(--text-primary);
-  line-height: 1.05;
-  display: block;
-  padding-bottom: 4px;
-}
-
-.verdictLine.visible .verdictText {
-  animation: verdictLand var(--duration-slow) var(--ease-out) both;
-}
-
-/* Contested verdict gets mixed colour accent */
-.contestedVerdict {
-  color: var(--mixed);
-}
-
-/* ─── Contested: jury split header ────────────────── */
-
-.jurySplitHeader {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-}
-
-.jurySplitLabel {
-  font-family: var(--font-mono);
-  font-size: var(--t-label);
-  font-weight: 500;
-  letter-spacing: var(--ls-wide);
-  color: var(--mixed);
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-
-/* ─── Contested: split vote rows ──────────────────── */
-
-.splitVotes {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-  opacity: 0;
-  transition: opacity var(--duration-base) var(--ease-out);
-}
-
-.splitVotes.visible {
-  opacity: 1;
-}
-
-.splitVoteRow {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-2);
-}
-
-.splitCount {
-  font-family: var(--font-mono);
-  font-size: var(--t-label);
-  font-weight: 500;
-  letter-spacing: var(--ls-mono);
-  color: var(--text-secondary);
-  min-width: 36px;
-}
-
-.splitSeparator {
-  font-family: var(--font-mono);
-  font-size: var(--t-case-number);
-  font-weight: 500;
-  letter-spacing: var(--ls-mono);
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-}
-
-.splitVerdict {
-  font-family: var(--font-display);
-  font-size: 17px;
-  font-weight: 400;
-  font-style: italic;
-  color: var(--text-primary);
-}
-
-/* ─── Contested: body copy ────────────────────────── */
-
-.contestedBody {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-  opacity: 0;
-  transition: opacity var(--duration-base) var(--ease-out);
-}
-
-.contestedBody.visible {
-  opacity: 1;
-}
-
-.contestedRule {
-  height: 1px;
-  background: var(--border-default);
-}
-
-.contestedSummary,
-.contestedClose {
-  font-family: var(--font-body);
-  font-size: var(--t-body);
-  font-weight: 400;
-  color: var(--text-secondary);
-  margin: 0;
-  line-height: 1.65;
-}
-
-.contestedClose {
-  font-style: italic;
-  color: var(--text-tertiary);
-}
-
-/* ─── The Record — investigators on record ────────── */
-
-.crowdBlock {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  opacity: 0;
-  transition: opacity var(--duration-slow) var(--ease-out);
-}
-
-.crowdBlock.visible {
-  opacity: 1;
-}
-
-.crowdLabel {
-  font-family: var(--font-mono);
-  font-size: var(--t-case-number);
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  margin-bottom: var(--space-1);
-}
-
-.crowdRow {
-  display: grid;
-  grid-template-columns: 120px 1fr 36px 44px;
-  align-items: center;
-  gap: var(--space-3);
-}
-
-.crowdVerdict {
-  font-family: var(--font-body);
-  font-size: var(--t-body-sm);
-  font-weight: 400;
-  color: var(--text-tertiary);
-}
-
-.crowdYours {
-  color: var(--text-primary);
-  font-weight: 600;
-}
-
-.crowdTrack {
-  height: 2px;
-  background: var(--surface-raised);
-}
-
-.crowdFill {
-  height: 100%;
-  background: var(--text-tertiary);
-  transition: width var(--duration-slower) var(--ease-out);
-}
-
-.crowdPct {
-  font-family: var(--font-mono);
-  font-size: var(--t-case-number);
-  font-weight: 500;
-  letter-spacing: var(--ls-mono);
-  color: var(--text-secondary);
-  text-align: right;
-}
-
-.crowdMarkers {
-  display: flex;
-  gap: var(--space-1);
-}
-
-.crowdYourMark,
-.crowdPanelMark {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: var(--ls-label);
-  text-transform: uppercase;
-}
-
-.crowdYourMark { color: var(--amber); }
-.crowdPanelMark { color: var(--text-secondary); }
-
-@media (max-width: 600px) {
-  .crowdRow {
-    grid-template-columns: 100px 1fr 32px 40px;
-    gap: var(--space-2);
-  }
-}
-
-/* ─── Rule ────────────────────────────────────────── */
+/* â”€â”€â”€ Rule â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .rule {
   height: 1px;
   background: var(--border-default);
 }
 
-/* ─── Personal comparison ─────────────────────────── */
+/* â”€â”€â”€ Personal comparison â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .comparison {
   display: flex;
@@ -291,15 +43,7 @@
   color: var(--clear);
 }
 
-.incorrect {
-  font-family: var(--font-body);
-  font-size: var(--t-body-sm);
-  font-weight: 400;
-  font-style: italic;
-  color: var(--text-secondary);
-}
-
-/* ─── Status prose ────────────────────────────────── */
+/* â”€â”€â”€ Status prose â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .statusRow {
   opacity: 0;
@@ -318,7 +62,7 @@
   color: var(--text-tertiary);
 }
 
-/* ─── Completion line (final case only) ───────────── */
+/* â”€â”€â”€ Completion line (final case only) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 .completionLine {
   font-family: var(--font-mono);
@@ -330,7 +74,7 @@
   animation: nextBtnEnter var(--duration-base) var(--ease-out) both;
 }
 
-/* ─── Next case button ────────────────────────────── */
+/* â”€â”€â”€ Next case button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 @keyframes nextBtnEnter {
   from { opacity: 0; }

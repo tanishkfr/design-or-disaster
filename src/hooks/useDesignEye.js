@@ -1,148 +1,35 @@
-import { useState, useCallback } from 'react';
-import { CASES } from '../data/cases';
-import {
-  calculateAccuracy,
-  calculateConfidenceCalibration,
-  calculateCategoryAccuracy,
-  calculateJurorAlignment,
-} from '../utils/scoring';
+import { useState, useCallback } from 'react'
+import { CASES } from '../data/cases'
 
-const STORAGE_KEY = 'design-eye-profile';
-
-const TOTAL_CASES = CASES.length;
-
-function createFreshProfile() {
-  return {
-    coldOpenCompleted: false,
-    metPanel: false,
-    casesCompleted: 0,
-    submissions: [],
-    accuracyByCategory: {},
-    overallAccuracy: 0,
-    confidenceCalibration: null,
-    jurorAlignment: {},
-  };
-}
-
+const STORAGE_KEY = 'design-eye-profile'
+const TOTAL_CASES = CASES.length
+function createFreshProfile() { return { coldOpenCompleted: false, metPanel: false, casesCompleted: 0, submissions: [] } }
 function loadProfile() {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return createFreshProfile();
-    return JSON.parse(raw);
-  } catch {
-    return createFreshProfile();
-  }
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return createFreshProfile()
+    const parsed = JSON.parse(raw)
+    return { ...createFreshProfile(), ...parsed, submissions: parsed.submissions ?? [] }
+  } catch { return createFreshProfile() }
 }
-
-function saveProfile(profile) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(profile));
-  } catch {
-    // localStorage unavailable — continue without persistence
-  }
-}
-
-function recomputeStats(profile) {
-  return {
-    ...profile,
-    overallAccuracy: calculateAccuracy(profile.submissions, CASES),
-    confidenceCalibration: calculateConfidenceCalibration(profile.submissions, CASES),
-    accuracyByCategory: calculateCategoryAccuracy(profile.submissions, CASES),
-    jurorAlignment: calculateJurorAlignment(profile.submissions, CASES),
-  };
-}
+function saveProfile(profile) { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(profile)) } catch { /* optional persistence */ } }
 
 export function useDesignEye() {
-  const [profile, setProfile] = useState(() => loadProfile());
-
-  const markColdOpenComplete = useCallback(() => {
-    setProfile((prev) => {
-      const next = { ...prev, coldOpenCompleted: true };
-      saveProfile(next);
-      return next;
-    });
-  }, []);
-
-  const recordSubmission = useCallback((submission) => {
-    // submission: { caseId, verdict, evidenceTags, confidence, timestamp }
-    setProfile((prev) => {
-      const alreadySubmitted = prev.submissions.some(
-        (s) => s.caseId === submission.caseId
-      );
-      if (alreadySubmitted) return prev;
-
-      const updated = {
-        ...prev,
-        casesCompleted: prev.casesCompleted + 1,
-        submissions: [...prev.submissions, submission],
-      };
-      const next = recomputeStats(updated);
-      saveProfile(next);
-      return next;
-    });
-  }, []);
-
-  const setInProgressCase = useCallback((caseId) => {
-    setProfile((prev) => {
-      const next = { ...prev, inProgressCaseId: caseId };
-      saveProfile(next);
-      return next;
-    });
-  }, []);
-
-  const clearInProgressCase = useCallback(() => {
-    setProfile((prev) => {
-      const rest = { ...prev };
-      delete rest.inProgressCaseId;
-      saveProfile(rest);
-      return rest;
-    });
-  }, []);
-
-  const resetProfile = useCallback(() => {
-    const fresh = createFreshProfile();
-    saveProfile(fresh);
-    setProfile(fresh);
-  }, []);
-
-  const hasSubmittedCase = useCallback(
-    (caseId) => profile.submissions.some((s) => s.caseId === caseId),
-    [profile.submissions]
-  );
-
-  const getSubmission = useCallback(
-    (caseId) => profile.submissions.find((s) => s.caseId === caseId) ?? null,
-    [profile.submissions]
-  );
-
-  const markPanelMet = useCallback(() => {
-    setProfile((prev) => {
-      const next = { ...prev, metPanel: true };
-      saveProfile(next);
-      return next;
-    });
-  }, []);
-
-  // Meet the Panel fires once, after the third case closes
-  const shouldMeetPanel = profile.casesCompleted === 3 && !profile.metPanel;
-
-  // One intermission, at the midpoint — after Movement II closes
-  const shouldShowIntermission = profile.casesCompleted === 6;
-
-  const isComplete = profile.casesCompleted >= TOTAL_CASES;
-
+  const [profile, setProfile] = useState(() => loadProfile())
+  const update = useCallback((makeNext) => setProfile((previous) => { const next = makeNext(previous); saveProfile(next); return next }), [])
+  const markColdOpenComplete = useCallback(() => update((previous) => ({ ...previous, coldOpenCompleted: true })), [update])
+  const markPanelMet = useCallback(() => update((previous) => ({ ...previous, metPanel: true })), [update])
+  const setInProgressCase = useCallback((caseId) => update((previous) => ({ ...previous, inProgressCaseId: caseId })), [update])
+  const clearInProgressCase = useCallback(() => update((previous) => { const next = { ...previous }; delete next.inProgressCaseId; return next }), [update])
+  const recordSubmission = useCallback((submission) => update((previous) => previous.submissions.some((item) => item.caseId === submission.caseId) ? previous : ({ ...previous, casesCompleted: previous.casesCompleted + 1, submissions: [...previous.submissions, submission] })), [update])
+  const resetProfile = useCallback(() => { const fresh = createFreshProfile(); saveProfile(fresh); setProfile(fresh) }, [])
+  const hasSubmittedCase = useCallback((caseId) => profile.submissions.some((item) => item.caseId === caseId), [profile.submissions])
+  const getSubmission = useCallback((caseId) => profile.submissions.find((item) => item.caseId === caseId) ?? null, [profile.submissions])
   return {
-    profile,
-    markColdOpenComplete,
-    markPanelMet,
-    shouldMeetPanel,
-    recordSubmission,
-    setInProgressCase,
-    clearInProgressCase,
-    resetProfile,
-    hasSubmittedCase,
-    getSubmission,
-    shouldShowIntermission,
-    isComplete,
-  };
+    profile, markColdOpenComplete, markPanelMet,
+    shouldMeetPanel: profile.casesCompleted === 3 && !profile.metPanel,
+    recordSubmission, setInProgressCase, clearInProgressCase, resetProfile, hasSubmittedCase, getSubmission,
+    shouldShowIntermission: profile.casesCompleted === 6,
+    isComplete: profile.casesCompleted >= TOTAL_CASES,
+  }
 }
