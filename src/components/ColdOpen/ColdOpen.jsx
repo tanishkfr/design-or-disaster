@@ -95,8 +95,8 @@ export default function ColdOpen({ onComplete }) {
           }`}
           aria-live="polite"
         >
-          <p>There is no correct answer here.</p>
-          <p>You are finding which expert already lives in your head.</p>
+          <p>You have filed a verdict.</p>
+          <p>Now see which critic was already living in your eye.</p>
         </div>
       )}
     </div>

@@ -13,11 +13,11 @@ export default function About({ onBack }) {
         <h1 className={styles.title}>About This Archive</h1>
 
         <p className={styles.opening}>
-          Design or Disaster is not a quiz with an answer key. It asks you to rule on
-          an interface before you know anything about it, then puts your verdict beside
-          five critics who don't agree with each other — let alone with you. The
-          Romantic and The Operator can't be reconciled. That's not a bug in the panel.
-          It's the subject.
+          Design or Disaster is a verdict chamber, not a lesson. It asks you to rule on
+          an interface before you know enough, then places your verdict beside five
+          critics who do not agree with each other, let alone with you. The point is
+          not to learn the answer. The point is to discover which lens your judgment
+          reached for first.
         </p>
 
         <section className={styles.block}>
@@ -70,10 +70,10 @@ export default function About({ onBack }) {
         <section className={styles.block}>
           <h2 className={styles.sectionLabel}>── Elsewhere in T*</h2>
           <p className={styles.prose}>
-            Structured disagreement is a recurring form across this work — four shapes
-            that won't resolve to one in Atlas, two authors who can't be separated in
-            Pentimento. Design or Disaster is that same commitment applied to critique
-            itself: judgment that stays plural on purpose.
+            Atlas teaches a method for reasoning new interaction questions. Design or Disaster
+            does something harsher: it makes you commit before the method arrives.
+            The artifact here is not a transferable framework. It is calibration under
+            disagreement, the moment your eye discovers what it values.
           </p>
         </section>
 

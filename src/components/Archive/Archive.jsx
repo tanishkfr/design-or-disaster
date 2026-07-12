@@ -95,8 +95,8 @@ export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset })
       <div className={styles.intro}>
         <h1 className={styles.archiveTitle}>Investigation Archive</h1>
         <p className={styles.subtitle}>
-          Five critics argue every case. They rarely agree.<br />
-          There is no answer key — only which one you side with.
+          Commit to a verdict before the experts disagree.<br />
+          The point is not whether you were right. The point is which lens your judgment used.
         </p>
         <p className={styles.stats}>
           {totalCases} Cases in Four Movements
