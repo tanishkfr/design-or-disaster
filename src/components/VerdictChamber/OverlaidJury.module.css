@@ -1,0 +1,27 @@
+.root { width: 100%; }
+.header { display: flex; justify-content: space-between; gap: var(--space-5); align-items: end; margin-bottom: var(--space-5); }
+.eyebrow, .counter { margin: 0; color: var(--text-tertiary); font: 500 10px/1.4 var(--font-mono); letter-spacing: var(--ls-mono); }
+.title { margin: var(--space-2) 0 0; color: var(--text-primary); font: italic 400 clamp(1.35rem, 3vw, 2.2rem)/1.2 var(--font-display); }
+.counter { white-space: nowrap; }
+.plates { display: flex; gap: 1px; overflow-x: auto; border-bottom: 1px solid var(--border-subtle); }
+.plateTab { min-width: 7.5rem; display: grid; grid-template-columns: 1.5rem 1fr; gap: var(--space-2); align-items: center; border: 0; border-top: 1px solid transparent; background: transparent; padding: 10px 12px; color: var(--text-tertiary); font: 500 10px/1 var(--font-mono); letter-spacing: .08em; text-align: left; text-transform: uppercase; cursor: pointer; }
+.plateTab:hover:not(:disabled), .plateTabActive { border-top-color: var(--plate-color, var(--mixed)); background: color-mix(in srgb, var(--plate-color, var(--mixed)) 8%, transparent); color: var(--text-primary); }
+.plateTab:disabled { opacity: .18; cursor: not-allowed; }
+.plateNumber { color: var(--plate-color, var(--mixed)); }
+.stage { position: relative; overflow: hidden; border: 1px solid var(--border-subtle); border-top: 0; background: var(--surface); }
+.image { display: block; width: 100%; object-fit: cover; filter: saturate(.62) contrast(1.14) brightness(.88); }
+.vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, transparent 45%, rgba(9,8,10,.72) 100%); }
+.visitorMark { position: absolute; z-index: 3; display: grid; place-items: center; width: 24px; height: 24px; translate: -50% -50%; border: 1px solid var(--visitor-color); border-radius: 50%; box-shadow: 0 0 0 4px color-mix(in srgb, var(--visitor-color) 12%, transparent); background: rgba(9,8,10,.78); color: white; font: 700 8px/1 var(--font-mono); transition: opacity var(--duration-base); }
+.visitorMark::before, .visitorMark::after { content: ''; position: absolute; background: var(--visitor-color); }
+.visitorMark::before { width: 34px; height: 1px; }.visitorMark::after { width: 1px; height: 34px; }
+.visitorMarkGhost { opacity: .32; }
+.jurorMark { position: absolute; z-index: 2; border: 1px solid var(--ruling-color); background: color-mix(in srgb, var(--lens-color) 9%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--lens-color) 35%, transparent); animation: plateLand .45s var(--ease-out) both; }
+.jurorMark::before, .jurorMark::after { content: ''; position: absolute; width: 11px; height: 11px; border-color: var(--lens-color); border-style: solid; }.jurorMark::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }.jurorMark::after { right: -1px; bottom: -1px; border-width: 0 2px 2px 0; }
+.jurorBadge { position: absolute; left: 3px; top: 3px; display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--lens-color); color: var(--bg); font: 700 8px/1 var(--font-mono); }
+.exhibit { position: absolute; left: var(--space-4); bottom: var(--space-3); color: var(--text-tertiary); font: 500 9px/1 var(--font-mono); letter-spacing: var(--ls-mono); }
+.legend { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); margin: var(--space-4) 0 0; padding: 0; }
+.legendRow { display: grid; grid-template-columns: 2rem 6rem 1fr; gap: var(--space-3); border-left: 1px solid var(--lens-color); padding: 6px 0 6px var(--space-3); color: var(--text-tertiary); font: 500 9px/1.5 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; }
+.legendRow strong { color: var(--lens-color); font: inherit; }.legendRow p { margin: 0; color: var(--text-secondary); text-transform: none; letter-spacing: .02em; }
+.sealedNote { margin: var(--space-6) 0 0; border-top: 1px solid var(--border-subtle); padding-top: var(--space-4); color: var(--text-secondary); font: italic 400 1rem/1.6 var(--font-display); }
+@keyframes plateLand { from { opacity: 0; transform: scale(.985); } to { opacity: 1; transform: scale(1); } }
+@media (max-width: 640px) { .header { align-items: start; flex-direction: column; }.counter { white-space: normal; }.legendRow { grid-template-columns: 1.5rem 4.5rem 1fr; } }

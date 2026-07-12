@@ -60,37 +60,17 @@ export default function FinalVerdictBlock({ caseData, submission, showNext, onNe
     <div className={styles.block}>
       {isSealed ? (
         <>
-          {/* Sealed header */}
           <div className={styles.jurySplitHeader}>
-            <span className={styles.jurySplitLabel}>VERDICT SEALED</span>
+            <span className={styles.jurySplitLabel}>PLATE 00 SEALED</span>
           </div>
-
-          {/* The jury still divided — the votes are on record, the ruling is not */}
-          <div className={`${styles.splitVotes} ${textVisible ? styles.visible : ''}`}>
-            <span className={styles.splitVoteRow}>
-              <span className={styles.splitCount}>{guiltyCount} / 5</span>
-              <span className={styles.splitSeparator}>FIND</span>
-              <span className={styles.splitVerdict}>Against the design</span>
-            </span>
-            <span className={styles.splitVoteRow}>
-              <span className={styles.splitCount}>{clearCount} / 5</span>
-              <span className={styles.splitSeparator}>FIND</span>
-              <span className={styles.splitVerdict}>For the design</span>
-            </span>
+          <div className={`${styles.contestedBody} ${textVisible ? styles.visible : ''}`}>
+            <div className={styles.contestedRule} aria-hidden="true" />
+            <p className={styles.contestedSummary}>
+              No panel plate, vote count, or official interpretation will be opened. The archive preserves only the evidence you marked and the ruling you filed.
+            </p>
+            <p className={styles.contestedClose}>Your perception remains the sole record of this case.</p>
+            <div className={styles.contestedRule} aria-hidden="true" />
           </div>
-
-          {caseData.contestedSummary && (
-            <div className={`${styles.contestedBody} ${textVisible ? styles.visible : ''}`}>
-              <div className={styles.contestedRule} aria-hidden="true" />
-              <p className={styles.contestedSummary}>{caseData.contestedSummary}</p>
-              <p className={styles.contestedClose}>
-                On this case, the panel entered no verdict. Yours is the ruling of record.
-              </p>
-              <div className={styles.contestedRule} aria-hidden="true" />
-            </div>
-          )}
-
-          {/* The investigator's verdict — the only one stamped */}
           <div className={`${styles.verdictLine} ${textVisible ? styles.visible : ''}`}>
             <span className={`${styles.verdictText} ${styles.contestedVerdict}`}>{verdictText}</span>
           </div>
@@ -144,7 +124,7 @@ export default function FinalVerdictBlock({ caseData, submission, showNext, onNe
       )}
 
       {/* ── The Record — how prior investigators ruled ── */}
-      {crowd && (
+      {!isSealed && crowd && (
         <div className={`${styles.crowdBlock} ${textVisible ? styles.visible : ''}`}>
           <span className={styles.crowdLabel}>── Investigators on record</span>
           {VERDICT_ORDER.map((key) => {

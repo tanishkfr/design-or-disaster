@@ -92,7 +92,8 @@ export function useDesignEye() {
 
   const clearInProgressCase = useCallback(() => {
     setProfile((prev) => {
-      const { inProgressCaseId, ...rest } = prev;
+      const rest = { ...prev };
+      delete rest.inProgressCaseId;
       saveProfile(rest);
       return rest;
     });
