@@ -1,77 +1,59 @@
-# Design or Disaster - Case Study
+# Design or Disaster — Case Study
 
-**A verdict chamber for design judgment.**
+## A jury whose disagreement is visible before it is explained
 
-Design or Disaster is not a design course and not a quiz. It is a structured confrontation with your own design eye: you rule before you are ready, then five authored critics reveal the lenses your judgment did or did not use.
+Design or Disaster investigates one question: **how does a designer learn to notice what another judgment excludes?**
 
-## Research Question
+The project is not an interface quiz and not a disguised lesson with an expert answer at the end. It stages design criticism as incompatible perception. Every ruling begins with a claim about what counts as evidence.
 
-Can design judgment be trained by forcing a public commitment before expert disagreement arrives?
+## The invariant
 
-## Core Thesis
+The visitor judges before instruction. The jurors remain distinct, fallible, and capable of contradiction. A sealed case removes outside authority rather than hiding it temporarily. Without those conditions, the project becomes conventional design education.
 
-Critique becomes learnable when the user must take a position, then watch that position collide with incompatible but defensible lenses.
+## The contribution: the overlaid jury
 
-## Contribution
+Before filing a verdict, the visitor must create Plate 00 directly on the interface under investigation. They choose a perceptual lens—hierarchy, access, task, trust, or feeling—then mark the exact coordinates that decide their ruling and name what each place makes them notice.
 
-Design or Disaster contributes an interaction model for judgment calibration:
+Only after Plate 00 is sealed do the juror plates become available. Every juror occupies the same screenshot but not the same evidence:
 
-- the user makes a cold verdict before receiving guidance
-- five critics argue from distinct lenses
-- disagreement is not resolved away
-- the final report shows which lens the user already carries and which one they consistently miss
+- The Scanner marks visual ordering and competition.
+- The Advocate marks unequal barriers and costs.
+- The Operator marks the path of the task.
+- The Skeptic marks incentives, omissions, and credibility.
+- The Romantic marks expression, honesty, and emotional consequence.
 
-The project does not teach "the answer." It teaches the feeling of judgment under uncertainty.
+The visitor deliberately switches plates. Their own marks remain ghosted beneath every juror lens, creating a persistent comparison between what they saw and what another form of judgment makes visible. Textual rulings follow the plates; they no longer substitute for seeing.
 
-## Interaction Grammar
+## Interaction grammar
 
-**Judge cold -> commit verdict -> watch lenses disagree -> calibrate your eye**
+**Look → choose a lens → mark evidence → state a ruling → seal your plate → open incompatible plates → compare perception.**
 
-This grammar must stay adversarial. The project loses its identity if it becomes a general explanation of design principles.
+The verdict is downstream of the evidence plate. This reverses the common critique pattern in which a conclusion is announced first and screenshots merely illustrate it.
 
-## Cognitive Verb
+## The sealed finale
 
-**Rule**
+The final case opens only Plate 00. No juror plate, panel vote, crowd distribution, official verdict, or expert summary is revealed. The visitor’s marked evidence and ruling become the sole archive record.
 
-The user's central act is not learning, browsing, or reflecting. It is ruling.
+This is not a missing content state. It is the project’s final transfer of authority. The jury has taught ways of looking; the visitor must decide whether any of those ways now live in their own eye.
 
-## Emotional Arc
+## Emotional journey
 
-Confidence: "I know what I think."  
-Hesitation: "Wait, I might be missing something."  
-Exposure: "The critics saw different things."  
-Calibration: "Now I know what my eye notices and what it ignores."
+1. **Conviction:** make a judgment before receiving instruction.
+2. **Exposure:** discover that another lens marked a different interface.
+3. **Instability:** realize that two rigorous plates can support opposed rulings.
+4. **Discipline:** distinguish evidence from preference and verdict from perception.
+5. **Autonomy:** enter the sealed case without an authority waiting to resolve it.
 
-## Reviewer Takeaway
+## What the artifact proves
 
-Design or Disaster proves Tanishk can turn critique into an experience without flattening judgment into a score.
+The artifact demonstrates a spatial grammar for plural design criticism. It makes lens selection, evidence location, and judgment lineage inspectable in one coordinate system.
 
-Two weeks later, the reviewer should remember:
+It does not prove that the five jurors exhaust legitimate design criticism or that the authored cases represent community consensus. Their limits are part of the design: each juror is a partial instrument, not an oracle.
 
-> Design or Disaster made me rule before I felt ready, then showed which critic was already living in my head.
+## What Design or Disaster refuses
 
-## What Only This Project Teaches
+No score as the central reward. No “correct answer” framing. No panel that converges into a neutral expert voice. No sealed-case reveal. No generic evidence tags detached from the artifact being judged.
 
-Design or Disaster is the only project in the portfolio that trains commitment under disagreement.
+## The image that should remain
 
-Atlas teaches reasoning method. Pentimento gives a subject reply rights. Invisible Interfaces makes attention measurable. Design or Disaster alone makes the reviewer feel the pressure of a verdict.
-
-## Closest Portfolio Neighbor
-
-**Atlas**
-
-The overlap is dangerous because both are about design knowledge.
-
-The difference:
-
-- Atlas asks, "What kind of interaction question is this, and how should it be reasoned?"
-- Design or Disaster asks, "What do you see before anyone tells you how to look?"
-
-Atlas is method. Design or Disaster is calibration.
-
-## 30-Second Reviewer Framing
-
-Design or Disaster should introduce itself with this claim:
-
-> Commit to a verdict before the experts disagree. The point is not whether you were right. The point is which lens your judgment used.
-
+Five years later, Design or Disaster should be remembered as the courtroom where six transparent plates sat over one interface—and each plate revealed a different design.

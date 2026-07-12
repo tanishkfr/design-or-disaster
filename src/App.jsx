@@ -55,9 +55,9 @@ export default function App() {
     navigate('archive', () => designEye.clearInProgressCase())
   }
 
-  const handleCaseFileSubmit = ({ caseId, verdict, evidenceTags, confidence, confidenceInferred, elapsedMs, writtenRuling }) => {
+  const handleCaseFileSubmit = ({ caseId, verdict, evidencePlate, evidenceTags, confidence, confidenceInferred, elapsedMs, writtenRuling }) => {
     const submission = {
-      caseId, verdict, evidenceTags, confidence,
+      caseId, verdict, evidencePlate, evidenceTags, confidence,
       confidenceInferred, elapsedMs, writtenRuling,
       timestamp: Date.now(),
     }
