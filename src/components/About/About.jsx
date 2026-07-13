@@ -27,7 +27,7 @@ export default function About({ onBack }) {
             agrees, and you learn how each lens reads a screen. Movement II is the
             divide — the panel splits, and there's no clean answer to lean on. Movement
             III holds the landmarks: cases with documented public consequences, where
-            confidence is read from how long you took rather than what you claim. The
+            design judgment carries visible public stakes. Confidence remains yours to report. The
             investigation closes on a single sealed case. No panel verdict is entered
             there. Yours is the only ruling on record.
           </p>
@@ -67,8 +67,8 @@ export default function About({ onBack }) {
         <section className={styles.block}>
           <h2 className={styles.sectionLabel}>── What this contributes</h2>
           <p className={styles.prose}>
-            The evidence plate is the contribution: a critique must locate what it counts as evidence
-            before it can announce a verdict. The five-plate overlay then makes disagreement spatial,
+            The evidence map is the contribution: a critique must locate what it counts as evidence
+            before it can announce a verdict. Comparing five perspectives then makes disagreement spatial,
             showing that attention has geometry and that no panel can make it neutral.
           </p>
         </section>

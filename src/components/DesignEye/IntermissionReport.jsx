@@ -9,7 +9,7 @@ export default function IntermissionReport({ profile, onContinue }) {
     <div className={styles.overlay}>
       <div className={styles.panel}>
         <div className={styles.header}>
-          <span className={styles.reportLabel}>Design Eye · Plate Note</span>
+          <span className={styles.reportLabel}>Design Eye · Progress note</span>
           <span className={styles.reportSub}>After {profile.casesCompleted} Cases</span>
         </div>
         <div className={styles.leadInsight}>

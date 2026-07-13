@@ -4,7 +4,7 @@ import styles from './FinalReport.module.css'
 
 const closedDate = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
 
-export default function FinalReport({ profile, onRestart, onBack, isExhibitComplete = false }) {
+export default function FinalReport({ profile, onRestart, onBack, isQuickPathComplete = false }) {
   const content = profile ? generateFinalReportContent(profile, CASES) : null
 
   // Fallback prose for zero-submission edge case
@@ -38,7 +38,7 @@ export default function FinalReport({ profile, onRestart, onBack, isExhibitCompl
         <header className={styles.header}>
           <span className={styles.docLabel}>Design Eye · Investigation Record</span>
           <span className={styles.docMeta}>
-            {isExhibitComplete ? 'Five-minute exhibit complete' : total >= CASES.length - 1 ? 'Investigation complete' : `${total} rulings filed`} · {closedDate}
+            {isQuickPathComplete ? 'Five-minute version complete' : total >= CASES.length - 1 ? 'Investigation complete' : `${total} rulings filed`} · {closedDate}
           </span>
         </header>
 
@@ -116,7 +116,7 @@ export default function FinalReport({ profile, onRestart, onBack, isExhibitCompl
         </div>
 
         <p className={styles.stamp}>
-          {isExhibitComplete ? 'Exhibit complete' : 'Investigation closed'} · {total} rulings filed · {closedDate}
+          {isQuickPathComplete ? 'Quick path complete' : 'Investigation closed'} · {total} rulings filed · {closedDate}
         </p>
 
       </div>

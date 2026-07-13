@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import styles from './ColdOpen.module.css'
 import { CASES } from '../../data/cases'
-import EvidencePlate from '../CaseFile/EvidencePlate'
+import EvidenceMap from '../CaseFile/EvidenceMap'
 
 const VERDICTS = [
   { key: 'strong_design', label: 'Strong Design', color: 'var(--clear)' },
@@ -19,8 +19,8 @@ export default function ColdOpen({ onComplete }) {
   useEffect(() => () => transitionTimers.current.forEach(clearTimeout), [])
 
   const caseData = CASES[0]
-  const plateReady = marks.length > 0 && marks.every((mark) => mark.note.trim())
-  const ready = plateReady && writtenRuling.trim() && selectedVerdict && phase === 'idle'
+  const evidenceReady = marks.length > 0 && marks.every((mark) => mark.note.trim())
+  const ready = evidenceReady && writtenRuling.trim() && selectedVerdict && phase === 'idle'
 
   const handleSubmit = () => {
     if (!ready) return
@@ -29,10 +29,10 @@ export default function ColdOpen({ onComplete }) {
       setTimeout(() => setPhase('interstitial'), 200),
       setTimeout(() => setPhase('interstitialOut'), 2600),
       setTimeout(() => onComplete({
-      verdict: selectedVerdict,
-      evidencePlate: marks,
-      evidenceTags: [...new Set(marks.map((mark) => mark.lens))],
-      writtenRuling: writtenRuling.trim(),
+        verdict: selectedVerdict,
+        evidenceMap: marks,
+        evidenceTags: [...new Set(marks.map((mark) => mark.lens))],
+        writtenRuling: writtenRuling.trim(),
         timestamp: Date.now(),
       }), 2900),
     ]
@@ -42,12 +42,12 @@ export default function ColdOpen({ onComplete }) {
     <div className={styles.root}>
       <span className={styles.wordmark} aria-hidden="true">D/D</span>
       <header className={styles.projectHeader}>
-        <span className={styles.projectLabel}>Case 001 begins before the verdict.</span>
-        <span className={styles.projectSub}>File the evidence your judgment depends on</span>
+        <span className={styles.projectLabel}>Start with the evidence.</span>
+        <span className={styles.projectSub}>Case 001 ? Mark what matters before you decide</span>
       </header>
 
-      <div className={styles.plateShell}>
-        <EvidencePlate
+      <div className={styles.evidenceShell}>
+        <EvidenceMap
           src={caseData.screenshot}
           aspectRatio={caseData.screenshotAspect ?? '4/3'}
           objectPosition={caseData.screenshotPosition ?? 'top center'}
@@ -58,11 +58,11 @@ export default function ColdOpen({ onComplete }) {
         />
 
         <label className={styles.rulingLabel}>
-          <span>YOUR RULING · ONE SENTENCE</span>
+          <span>Your ruling</span>
           <textarea
             value={writtenRuling}
             onChange={(event) => setWrittenRuling(event.target.value)}
-            placeholder="What does your plate prove?"
+            placeholder="What does your evidence show?"
             maxLength={180}
             spellCheck
             className={styles.rulingInput}
@@ -77,14 +77,14 @@ export default function ColdOpen({ onComplete }) {
           ))}
         </div>
 
-        {!plateReady && <p className={styles.readiness}>Place at least one mark and name what it makes you notice.</p>}
-        <button className={`${styles.submitBtn} ${ready ? styles.submitBtnActive : ''}`} onClick={handleSubmit} disabled={!ready}>Seal Plate 00</button>
+        {!evidenceReady && <p className={styles.readiness}>Add at least one marker and describe what it shows.</p>}
+        <button className={`${styles.submitBtn} ${ready ? styles.submitBtnActive : ''}`} onClick={handleSubmit} disabled={!ready}>Submit your verdict</button>
       </div>
 
       {(phase === 'interstitial' || phase === 'interstitialOut') && (
         <div className={`${styles.interstitial} ${phase === 'interstitialOut' ? styles.interstitialOut : styles.interstitialIn}`} aria-live="polite">
-          <p>Plate 00 is sealed.</p>
-          <p>Now open the evidence you did not see.</p>
+          <p>Your evidence is saved.</p>
+          <p>Now see what the panel noticed.</p>
         </div>
       )}
     </div>

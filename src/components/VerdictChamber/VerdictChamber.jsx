@@ -21,7 +21,7 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
   const [arrivedCount, setArrivedCount] = useState(0)
   const [showVerdict, setShowVerdict] = useState(sealed)
   const [complete, setComplete] = useState(false)
-  const [openedJurorPlate, setOpenedJurorPlate] = useState(false)
+  const [openedPerspective, setOpenedPerspective] = useState(false)
 
   useEffect(() => {
     if (sealed) {
@@ -38,11 +38,11 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
   }, [jurorRulings, sealed])
 
   useEffect(() => {
-    if (sealed || !openedJurorPlate || arrivedCount < jurorRulings.length) return
+    if (sealed || !openedPerspective || arrivedCount < jurorRulings.length) return
     const verdictTimer = setTimeout(() => setShowVerdict(true), 500)
     const completeTimer = setTimeout(() => setComplete(true), 1700)
     return () => { clearTimeout(verdictTimer); clearTimeout(completeTimer) }
-  }, [arrivedCount, jurorRulings.length, openedJurorPlate, sealed])
+  }, [arrivedCount, jurorRulings.length, openedPerspective, sealed])
 
   const availableLenses = jurorRulings.slice(0, arrivedCount).map((ruling) => ruling.juror)
   const investigatorRuling = VERDICT_TO_RULING[submission.verdict] ?? 'mixed'
@@ -56,7 +56,7 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
       <header className={styles.header}>
         <button className={styles.backBtn} onClick={onBack} aria-label="Return to archive">← Archive</button>
         <span className={styles.caseNumber}>{caseData.number}</span>
-        <span className={`${styles.chamberLabel} ${styles.chamberLabelVisible}`}>{sealed ? 'SEALED PLATE' : 'OVERLAID JURY'}</span>
+        <span className={`${styles.chamberLabel} ${styles.chamberLabelVisible}`}>{sealed ? 'SEALED CASE' : 'PANEL COMPARISON'}</span>
       </header>
 
       <div className={styles.content}>
@@ -65,15 +65,15 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
           aspectRatio={caseData.screenshotAspect ?? '4/3'}
           objectPosition={caseData.screenshotPosition ?? 'top center'}
           description={caseData.screenshotDescription}
-          visitorMarks={submission.evidencePlate ?? []}
+          visitorMarks={submission.evidenceMap ?? submission.evidencePlate ?? []}
           annotations={sealed ? [] : caseData.annotations ?? []}
           availableLenses={availableLenses}
           sealed={sealed}
-          onOpenJurorPlate={() => setOpenedJurorPlate(true)}
+          onOpenPerspective={() => setOpenedPerspective(true)}
         />
 
-        {!sealed && arrivedCount >= jurorRulings.length && !openedJurorPlate && (
-          <p className={styles.caseContext}>Open at least one juror plate. The ruling will not arrive until you have looked through another eye.</p>
+        {!sealed && arrivedCount >= jurorRulings.length && !openedPerspective && (
+          <p className={styles.caseContext}>Open at least one panel perspective. The ruling will appear after you compare what someone else noticed.</p>
         )}
 
         <div className={styles.caseIdentity}>
@@ -89,10 +89,10 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
             <div className={styles.divider} aria-hidden="true" />
             <section className={styles.deliberation} aria-label="Jury deliberation">
               <div className={styles.deliberationHeader}>
-                <span className={styles.deliberationLabel}>Five plates · incompatible evidence</span>
+                <span className={styles.deliberationLabel}>Five perspectives · incompatible evidence</span>
                 {arrivedCount < jurorRulings.length && (
                   <button className={styles.revealAllBtn} type="button" onClick={() => setArrivedCount(jurorRulings.length)}>
-                    Open all five plates
+                    Show all five
                   </button>
                 )}
                 <div className={styles.jurorDots} aria-hidden="true">
@@ -113,7 +113,7 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
                   />
                 ))}
                 <JurorEntry
-                  juror={{ lens: 'you', title: 'The Investigator' }}
+                  juror={{ lens: 'you', title: 'You' }}
                   ruling={investigatorRuling}
                   reasoning={submission.writtenRuling}
                   arrived={arrivedCount >= jurorRulings.length}

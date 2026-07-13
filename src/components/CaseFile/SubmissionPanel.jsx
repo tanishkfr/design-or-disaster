@@ -27,12 +27,12 @@ function buildFinding(verdict, confidence) {
   return confidence ? `I read this as ${position}. ${CONFIDENCE_PHRASE[confidence]}` : `I read this as ${position}.`
 }
 
-export default function SubmissionPanel({ exiting, onSubmit, plateReady, plateCount }) {
+export default function SubmissionPanel({ exiting, onSubmit, evidenceReady, evidenceCount }) {
   const [verdict, setVerdict] = useState(null)
   const [confidence, setConfidence] = useState(null)
   const [writtenRuling, setWrittenRuling] = useState('')
   const rulingComplete = writtenRuling.trim().length > 0
-  const isComplete = plateReady && verdict !== null && rulingComplete && confidence !== null
+  const isComplete = evidenceReady && verdict !== null && rulingComplete && confidence !== null
 
   function submit() {
     if (!isComplete || exiting) return
@@ -42,12 +42,12 @@ export default function SubmissionPanel({ exiting, onSubmit, plateReady, plateCo
   return (
     <div className={`${styles.panel} ${exiting ? styles.exiting : ''}`}>
       <div className={styles.rulingSection}>
-        <span className={styles.rulingLabel}>—— Evidence plate</span>
+        <span className={styles.rulingLabel}>—— Evidence map</span>
         <p className={styles.inferredNote}>
-          {plateReady
-            ? `Plate 00 is ready with ${plateCount} spatial finding${plateCount === 1 ? '' : 's'}.`
-            : plateCount === 0
-              ? 'File at least one mark on Exhibit A before ruling.'
+          {evidenceReady
+            ? `Your evidence map is ready with ${evidenceCount} spatial finding${evidenceCount === 1 ? '' : 's'}.`
+            : evidenceCount === 0
+              ? 'Add at least one marker to the image before deciding.'
               : 'Name what every mark makes you notice.'}
         </p>
       </div>
@@ -78,7 +78,7 @@ export default function SubmissionPanel({ exiting, onSubmit, plateReady, plateCo
           className={styles.rulingInput}
           value={writtenRuling}
           onChange={(event) => setWrittenRuling(event.target.value)}
-          placeholder="State what your plate proves in one sentence."
+          placeholder="State what your evidence shows in one sentence."
           maxLength={180}
           rows={3}
           spellCheck
@@ -102,7 +102,7 @@ export default function SubmissionPanel({ exiting, onSubmit, plateReady, plateCo
           {verdict ? buildFinding(verdict, confidence) : ''}
         </p>
         <button className={`${styles.recordAction} ${isComplete && !exiting ? styles.recordActionReady : ''}`} onClick={submit} disabled={!isComplete || exiting}>
-          Seal Plate 00 →
+          Submit verdict →
         </button>
       </div>
     </div>

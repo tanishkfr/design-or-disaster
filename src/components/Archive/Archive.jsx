@@ -95,7 +95,7 @@ export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset, o
       <div className={styles.intro}>
         <h1 className={styles.archiveTitle}>Investigation Archive</h1>
         <p className={styles.subtitle}>
-          Commit to a verdict before the experts disagree.<br />
+          Commit to a verdict before the panel disagrees.<br />
           The point is not whether you were right. The point is which lens your judgment used.
         </p>
         <p className={styles.stats}>
@@ -104,9 +104,9 @@ export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset, o
         </p>
         <div className={styles.exhibitCta}>
           <button className={styles.exhibitBtn} onClick={onStartCurated}>
-            Take the five-minute exhibit <span aria-hidden="true">→</span>
+            Start the five-minute version <span aria-hidden="true">→</span>
           </button>
-          <p>One contested case, then the sealed case. The full archive remains open below.</p>
+          <p>Two focused cases, then your Design Eye summary. The full archive remains below.</p>
         </div>
       </div>
 

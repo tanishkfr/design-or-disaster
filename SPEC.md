@@ -6,16 +6,16 @@ Name: Design or Disaster?
 Type: interactive spatial-critique archive
 Core question: What does a design judgment select as evidence before it becomes a verdict?
 
-The product turns design criticism into an inspectable sequence. A visitor locates evidence before filing a verdict, then compares their plate with five authored and incompatible readings of the same interface.
+The product turns design criticism into an inspectable sequence. A visitor locates evidence before filing a verdict, then compares their evidence map with five authored and incompatible perspectives of the same interface.
 
 This is not a quiz, course, expert-consensus score, or empirical research result.
 
 ## Experience paths
 
-### Five-minute exhibit
+### Five-minute version
 
-1. Cold open: construct Plate 00 on Case 001.
-2. Contested case: review Case 010 and see five plates disagree.
+1. Cold open: build an evidence map on Case 001.
+2. Contested case: review Case 010 and see five perspectives disagree.
 3. Sealed case: review Case 015 without outside judgment.
 4. Design Eye record: receive a lens trace that preserves ties.
 
@@ -34,17 +34,17 @@ Every case contains:
 - one required written ruling;
 - self-reported confidence after the cold open;
 - for every non-sealed case, five juror rulings and five spatial annotations;
-- for the sealed case, no juror plate or official interpretation;
+- for the sealed case, no panel perspective or official interpretation;
 - a curator note that opens only after the visitor files a ruling.
 
-## Evidence Plate 00
+## Evidence map
 
 The visitor must:
 
 1. choose one lens: hierarchy, accessibility, usability, trust, or delight;
 2. place at least one spatial mark;
 3. describe what the mark makes visible;
-4. state what the plate proves;
+4. state what the evidence shows;
 5. file a verdict.
 
 Input methods:
@@ -53,13 +53,13 @@ Input methods:
 - keyboard cursor moved with arrow keys and placed with Enter or Space;
 - named interface-region buttons.
 
-Marks stay aligned to screenshot-relative percentages so the same coordinates survive responsive resizing and plate comparison.
+Marks stay aligned to screenshot-relative percentages so the same coordinates survive responsive resizing and perspective comparison.
 
-## Overlaid jury
+## Panel comparison
 
-Plates 01-05 map one-to-one to the five jurors. Each tab changes the visible lens while keeping all annotations on a shared screenshot. The ALL tab opens the literal five-plate overlay after every plate is available.
+Five perspectives map one-to-one to the five jurors. Each tab changes the visible lens while keeping all annotations on a shared screenshot. The Combined tab shows every perspective after all five are available.
 
-The verdict cannot arrive until the visitor opens another plate. A control can reveal all five arrivals immediately; timed arrivals never overwrite that action.
+The verdict cannot arrive until the visitor opens another perspective. A control can show all five perspectives immediately; timed arrivals never overwrite that action.
 
 ## Verdict rules
 

@@ -164,16 +164,19 @@
   flex: 0 0 auto;
   min-height: var(--target-min);
   padding: 10px var(--space-4);
-  border: 1px solid var(--amber);
-  border-radius: var(--radius-full);
-  color: var(--bg);
-  background: var(--amber);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  background: var(--surface);
   font: 600 var(--t-body-sm)/1.2 var(--font-body);
   cursor: pointer;
-  transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
+  transition: border-color var(--duration-fast), background var(--duration-fast);
 }
 
-.exhibitBtn:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(245, 166, 35, .2); }
+.exhibitBtn:hover {
+  border-color: var(--border-strong);
+  background: var(--surface-raised);
+}
 .exhibitCta p { margin: 0; max-width: 34ch; color: var(--text-secondary); font: 400 var(--t-body-sm)/1.55 var(--font-body); }
 
 @keyframes enterSection {

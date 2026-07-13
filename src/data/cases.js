@@ -44,7 +44,7 @@ export const CASES = [
     caseStatus: 'consensus',
     contestedSummary: null,
 
-    curatorNote: 'Selected as the cold open case because it divides precisely: two jurors see professional restraint, two see a failed hierarchy, one sees both simultaneously. It is the case most likely to reveal the investigator\'s default orientation within the first thirty seconds.',
+    curatorNote: 'Selected as the cold open case because it divides precisely: two jurors see professional restraint, two see a failed hierarchy, one sees both simultaneously. It is the case most likely to reveal the visitor\'s default orientation within the first thirty seconds.',
 
     jurorRulings: [
       {

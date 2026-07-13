@@ -9,6 +9,7 @@
   --border-subtle:   #211E25;
   --border-default:  #2E2A34;
   --border-strong:   #3D3844;
+  --border-visible:  #514A59;
 
   /* ─── Text ────────────────────────────────────────── */
   --text-primary:    #F0EAD6;
@@ -30,6 +31,7 @@
   /* ─── Accent ──────────────────────────────────────── */
   --amber:           #F5A623;
   --amber-dim:       #2A1D08;
+  --amber-hover:     #FFB444;
 
   /* ─── Landmark ────────────────────────────────────── */
   --landmark:        #A88BE3;

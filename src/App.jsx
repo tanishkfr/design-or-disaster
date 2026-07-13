@@ -45,7 +45,7 @@ export default function App() {
       'designeye-intro': 'Your Design Eye',
       designeye: 'Investigation Record',
       casefile: selectedCase ? selectedCase.number + ': ' + selectedCase.title : 'Case File',
-      verdictchamber: selectedCase ? selectedCase.number + ': Overlaid Jury' : 'Overlaid Jury',
+      verdictchamber: selectedCase ? selectedCase.number + ': Overlaid Jury' : 'Panel comparison',
     }[view]
     document.title = (viewTitle ?? 'Design or Disaster?') + ' | Design or Disaster?'
   }, [selectedCaseId, view])
@@ -60,9 +60,9 @@ export default function App() {
     }, 200)
   }, [])
 
-  const handleColdOpenComplete = ({ verdict, evidencePlate, evidenceTags, writtenRuling, timestamp }) => {
+  const handleColdOpenComplete = ({ verdict, evidenceMap, evidenceTags, writtenRuling, timestamp }) => {
     const submission = {
-      caseId: 'case-001', verdict, evidencePlate, evidenceTags, writtenRuling,
+      caseId: 'case-001', verdict, evidenceMap, evidenceTags, writtenRuling,
       confidence: null, confidenceInferred: false, timestamp,
     }
     navigate('verdictchamber', () => {
@@ -84,9 +84,9 @@ export default function App() {
     navigate('archive', () => designEye.clearInProgressCase())
   }
 
-  const handleCaseFileSubmit = ({ caseId, verdict, evidencePlate, evidenceTags, confidence, confidenceInferred, elapsedMs, writtenRuling }) => {
+  const handleCaseFileSubmit = ({ caseId, verdict, evidenceMap, evidenceTags, confidence, confidenceInferred, elapsedMs, writtenRuling }) => {
     const submission = {
-      caseId, verdict, evidencePlate, evidenceTags, confidence,
+      caseId, verdict, evidenceMap, evidenceTags, confidence,
       confidenceInferred, elapsedMs, writtenRuling,
       timestamp: Date.now(),
     }
@@ -239,7 +239,7 @@ export default function App() {
           profile={designEye.profile}
           onRestart={handleRestart}
           onBack={() => navigate('archive')}
-          isExhibitComplete={curatedMode && selectedCaseId === CURATED_CASES.at(-1)}
+          isQuickPathComplete={curatedMode && selectedCaseId === CURATED_CASES.at(-1)}
         />
       </ViewFrame>
     )

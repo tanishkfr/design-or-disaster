@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { getCaseById } from '../../data/cases'
 import StatusTag from '../Archive/StatusTag'
-import EvidencePlate from './EvidencePlate'
+import EvidenceMap from './EvidenceMap'
 import SubmissionPanel from './SubmissionPanel'
 import styles from './CaseFile.module.css'
 
@@ -12,7 +12,7 @@ function resolveStatus(caseData) {
 export default function CaseFile({ caseId, onBack, onSubmit }) {
   const caseData = getCaseById(caseId)
   const [panelExiting, setPanelExiting] = useState(false)
-  const [evidencePlate, setEvidencePlate] = useState([])
+  const [evidenceMap, setEvidenceMap] = useState([])
   const openedAt = useRef(null)
   const submitTimer = useRef(null)
 
@@ -30,7 +30,7 @@ export default function CaseFile({ caseId, onBack, onSubmit }) {
     )
   }
 
-  const plateReady = evidencePlate.length > 0 && evidencePlate.every((mark) => mark.note.trim())
+  const evidenceReady = evidenceMap.length > 0 && evidenceMap.every((mark) => mark.note.trim())
 
   function handleSubmit({ verdict, confidence, writtenRuling }) {
     setPanelExiting(true)
@@ -39,8 +39,8 @@ export default function CaseFile({ caseId, onBack, onSubmit }) {
       onSubmit({
         caseId,
         verdict,
-        evidencePlate,
-        evidenceTags: [...new Set(evidencePlate.map((mark) => mark.lens))],
+        evidenceMap,
+        evidenceTags: [...new Set(evidenceMap.map((mark) => mark.lens))],
         confidence,
         confidenceInferred: false,
         elapsedMs,
@@ -59,14 +59,14 @@ export default function CaseFile({ caseId, onBack, onSubmit }) {
 
       <div className={styles.body}>
         <div className={styles.left}>
-          <EvidencePlate
+          <EvidenceMap
             src={caseData.screenshot}
             aspectRatio={caseData.screenshotAspect ?? '4/3'}
             objectPosition={caseData.screenshotPosition ?? 'top center'}
             description={caseData.screenshotDescription}
             evidenceTargets={caseData.evidenceTargets}
-            marks={evidencePlate}
-            onChange={setEvidencePlate}
+            marks={evidenceMap}
+            onChange={setEvidenceMap}
           />
           <div className={styles.caseIdentity}>
             <h1 className={styles.caseTitle}>{caseData.title}</h1>
@@ -78,8 +78,8 @@ export default function CaseFile({ caseId, onBack, onSubmit }) {
           <SubmissionPanel
             exiting={panelExiting}
             onSubmit={handleSubmit}
-            plateReady={plateReady}
-            plateCount={evidencePlate.length}
+            evidenceReady={evidenceReady}
+            evidenceCount={evidenceMap.length}
           />
         </div>
       </div>
