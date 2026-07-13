@@ -7,7 +7,7 @@ export default function About({ onBack }) {
       <div className={styles.container}>
 
         <header className={styles.header}>
-          <span className={styles.docLabel}>D/D Â· About</span>
+          <span className={styles.docLabel}>D/D · About</span>
         </header>
 
         <h1 className={styles.title}>About This Archive</h1>
@@ -21,11 +21,11 @@ export default function About({ onBack }) {
         </p>
 
         <section className={styles.block}>
-          <h2 className={styles.sectionLabel}>â”€â”€ The Structure</h2>
+          <h2 className={styles.sectionLabel}>── The Structure</h2>
           <p className={styles.prose}>
-            Ten cases, argued in four movements. Movement I is consensus â€” the jury
+            Ten cases, argued in four movements. Movement I is consensus — the jury
             agrees, and you learn how each lens reads a screen. Movement II is the
-            divide â€” the panel splits, and there's no clean answer to lean on. Movement
+            divide — the panel splits, and there's no clean answer to lean on. Movement
             III holds the landmarks: cases with documented public consequences, where
             confidence is read from how long you took rather than what you claim. The
             investigation closes on a single sealed case. No panel verdict is entered
@@ -34,7 +34,7 @@ export default function About({ onBack }) {
         </section>
 
         <section className={styles.block}>
-          <h2 className={styles.sectionLabel}>â”€â”€ The Panel</h2>
+          <h2 className={styles.sectionLabel}>── The Panel</h2>
           <div className={styles.jurorList}>
             {JURORS.map(j => (
               <p key={j.lens} className={styles.jurorLine}>
@@ -46,38 +46,37 @@ export default function About({ onBack }) {
         </section>
 
         <section className={styles.block}>
-          <h2 className={styles.sectionLabel}>â”€â”€ Your Design Eye</h2>
+          <h2 className={styles.sectionLabel}>── Your Design Eye</h2>
           <p className={styles.prose}>
-            The report at the end of an investigation does not grade you against the panel. It shows which evidence lenses you used most and which remained least visible â€” the software declining
+            The report at the end of an investigation does not grade you against the panel. It shows which evidence lenses you used most and which remained least visible — the software declining
             to be the authority, and telling you instead which authority you already
             carry.
           </p>
         </section>
 
         <section className={styles.block}>
-          <h2 className={styles.sectionLabel}>â”€â”€ Methodology</h2>
+          <h2 className={styles.sectionLabel}>── Methodology</h2>
           <p className={styles.prose}>
             The five jurors are authored voices, each holding one critical lens; their
-            verdicts are one panel's position, not settled fact. No crowd telemetry or correctness score is implied. Screenshots
-            are composites recreating documented interface patterns â€” no real product is
-            depicted, and any resemblance is the pattern, not the brand.
+            verdicts are one panel's position, not settled fact. No crowd telemetry or correctness score is implied.
+            The case imagery combines authored reconstructions with recognizable historical captures. Products remain visible
+            where the design under discussion would become meaningless without context; the archive claims the critique, not the source interface.
           </p>
         </section>
 
         <section className={styles.block}>
-          <h2 className={styles.sectionLabel}>â”€â”€ Elsewhere in T*</h2>
+          <h2 className={styles.sectionLabel}>── What this contributes</h2>
           <p className={styles.prose}>
-            Atlas teaches a method for reasoning new interaction questions. Design or Disaster
-            does something harsher: it makes you commit before the method arrives.
-            The artifact here is not a transferable framework. It is calibration under
-            disagreement, the moment your eye discovers what it values.
+            The evidence plate is the contribution: a critique must locate what it counts as evidence
+            before it can announce a verdict. The five-plate overlay then makes disagreement spatial,
+            showing that attention has geometry and that no panel can make it neutral.
           </p>
         </section>
 
         <div className={styles.rule} />
 
         <div className={styles.actions}>
-          <button className={styles.backBtn} onClick={onBack}>â† Archive</button>
+          <button className={styles.backBtn} onClick={onBack}>← Archive</button>
           <a
             href="https://github.com/tanishkfr/design-or-disaster"
             target="_blank"

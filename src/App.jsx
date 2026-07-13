@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import styles from './App.module.css'
 import { useDesignEye } from './hooks/useDesignEye'
 import { getCaseById, CASES } from './data/cases'
@@ -13,6 +13,17 @@ import IntermissionReport from './components/DesignEye/IntermissionReport'
 import FinalReport from './components/DesignEye/FinalReport'
 import DesignEyeIntro from './components/DesignEye/DesignEyeIntro'
 
+const CURATED_CASES = ['case-010', 'case-015']
+
+function ViewFrame({ className, children }) {
+  return (
+    <section className={className}>
+      <a className={styles.skipLink} href="#main-content">Skip to main content</a>
+      <main className={styles.main} id="main-content" tabIndex="-1">{children}</main>
+    </section>
+  )
+}
+
 export default function App() {
   const designEye = useDesignEye()
 
@@ -21,6 +32,23 @@ export default function App() {
   const exitTimer = useRef(null)
   const [selectedCaseId, setSelectedCaseId] = useState(null)
   const [lastSubmission, setLastSubmission] = useState(null)
+  const [curatedMode, setCuratedMode] = useState(false)
+
+  useEffect(() => {
+    const selectedCase = selectedCaseId ? getCaseById(selectedCaseId) : null
+    const viewTitle = {
+      coldopen: 'Design or Disaster?',
+      archive: 'Case Archive',
+      about: 'About the Investigation',
+      meetpanel: 'Meet the Panel',
+      intermission: 'Intermission Report',
+      'designeye-intro': 'Your Design Eye',
+      designeye: 'Investigation Record',
+      casefile: selectedCase ? selectedCase.number + ': ' + selectedCase.title : 'Case File',
+      verdictchamber: selectedCase ? selectedCase.number + ': Overlaid Jury' : 'Overlaid Jury',
+    }[view]
+    document.title = (viewTitle ?? 'Design or Disaster?') + ' | Design or Disaster?'
+  }, [selectedCaseId, view])
 
   const navigate = useCallback((newView, updateFn) => {
     if (exitTimer.current) clearTimeout(exitTimer.current)
@@ -70,7 +98,20 @@ export default function App() {
   }
 
   const handleVerdictChamberNext = () => {
-    // Full investigation complete â€” interstitial reveals the lead insight before the report
+    if (curatedMode) {
+      const curatedIndex = CURATED_CASES.indexOf(selectedCaseId)
+      if (curatedIndex >= 0 && curatedIndex < CURATED_CASES.length - 1) {
+        const nextCaseId = CURATED_CASES[curatedIndex + 1]
+        navigate('casefile', () => {
+          designEye.setInProgressCase(nextCaseId)
+          setSelectedCaseId(nextCaseId)
+        })
+      } else {
+        navigate('designeye-intro')
+      }
+      return
+    }
+    // Full investigation complete — interstitial reveals the lead insight before the report
     if (designEye.isComplete) {
       navigate('designeye-intro')
       return
@@ -88,9 +129,19 @@ export default function App() {
     navigate('archive')
   }
 
+  const handleStartCurated = () => {
+    const firstCaseId = CURATED_CASES[0]
+    setCuratedMode(true)
+    navigate('casefile', () => {
+      designEye.setInProgressCase(firstCaseId)
+      setSelectedCaseId(firstCaseId)
+    })
+  }
+
   const handleRestart = () => {
     navigate('coldopen', () => {
       designEye.resetProfile()
+      setCuratedMode(false)
       setSelectedCaseId(null)
       setLastSubmission(null)
     })
@@ -99,96 +150,98 @@ export default function App() {
   const wrapClass = `${styles.viewWrap}${exiting ? ` ${styles.viewExiting}` : ''}`
 
   if (view === 'coldopen') {
-    return <div className={wrapClass}><ColdOpen onComplete={handleColdOpenComplete} /></div>
+    return <ViewFrame className={wrapClass}><ColdOpen onComplete={handleColdOpenComplete} /></ViewFrame>
   }
 
   if (view === 'archive') {
     return (
-      <div className={wrapClass}>
+      <ViewFrame className={wrapClass}>
         <Archive
           onSelectCase={handleSelectCase}
           onDesignEye={() => navigate('designeye')}
           onAbout={() => navigate('about')}
           onReset={handleRestart}
+          onStartCurated={handleStartCurated}
         />
-      </div>
+      </ViewFrame>
     )
   }
 
   if (view === 'casefile') {
     return (
-      <div className={wrapClass}>
+      <ViewFrame className={wrapClass}>
         <CaseFile
           caseId={selectedCaseId}
           onBack={handleCaseFileBack}
           onSubmit={handleCaseFileSubmit}
         />
-      </div>
+      </ViewFrame>
     )
   }
 
   if (view === 'verdictchamber' && selectedCaseId && lastSubmission) {
     return (
-      <div className={wrapClass}>
+      <ViewFrame className={wrapClass}>
         <VerdictChamber
           caseData={getCaseById(selectedCaseId)}
           submission={lastSubmission}
           onNext={handleVerdictChamberNext}
           onBack={() => navigate('archive')}
-          isFinalCase={designEye.isComplete}
+          isFinalCase={designEye.isComplete || (curatedMode && selectedCaseId === CURATED_CASES.at(-1))}
         />
-      </div>
+      </ViewFrame>
     )
   }
 
   if (view === 'designeye-intro') {
     const insight = deriveLeadInsight(designEye.profile, CASES)
     return (
-      <div className={wrapClass}>
+      <ViewFrame className={wrapClass}>
         <DesignEyeIntro
           headline={insight.headline}
           onComplete={() => navigate('designeye')}
         />
-      </div>
+      </ViewFrame>
     )
   }
 
   if (view === 'meetpanel') {
     return (
-      <div className={wrapClass}>
+      <ViewFrame className={wrapClass}>
         <MeetThePanel onContinue={() => navigate('archive')} />
-      </div>
+      </ViewFrame>
     )
   }
 
   if (view === 'intermission') {
     return (
-      <div className={wrapClass}>
+      <ViewFrame className={wrapClass}>
         <IntermissionReport
           profile={designEye.profile}
           onContinue={() => navigate('archive')}
         />
-      </div>
+      </ViewFrame>
     )
   }
 
   if (view === 'about') {
     return (
-      <div className={wrapClass}>
+      <ViewFrame className={wrapClass}>
         <About onBack={() => navigate('archive')} />
-      </div>
+      </ViewFrame>
     )
   }
 
   if (view === 'designeye') {
     return (
-      <div className={wrapClass}>
+      <ViewFrame className={wrapClass}>
         <FinalReport
           profile={designEye.profile}
           onRestart={handleRestart}
           onBack={() => navigate('archive')}
+          isExhibitComplete={curatedMode && selectedCaseId === CURATED_CASES.at(-1)}
         />
-      </div>
+      </ViewFrame>
     )
   }
 

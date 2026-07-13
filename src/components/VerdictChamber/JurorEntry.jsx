@@ -10,11 +10,7 @@ export default function JurorEntry({ juror, ruling, reasoning, arrived, splitOff
   return (
     <div
       className={styles.wrapper}
-      style={
-        splitOffset
-          ? { transform: `translateX(${splitOffset}px)`, transition: `transform var(--duration-slower) var(--ease-out)` }
-          : undefined
-      }
+      style={splitOffset ? { '--split-offset': `${splitOffset}px` } : undefined}
     >
       <div
         className={[

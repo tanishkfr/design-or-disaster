@@ -23,3 +23,26 @@
   transform: translateY(-6px);
   pointer-events: none;
 }
+
+.main {
+  min-height: 100vh;
+}
+
+.skipLink {
+  position: fixed;
+  z-index: 1000;
+  top: var(--space-3);
+  left: var(--space-3);
+  transform: translateY(-160%);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--amber);
+  color: var(--bg-primary);
+  font-family: var(--font-body);
+  font-weight: 700;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.skipLink:focus {
+  transform: translateY(0);
+}

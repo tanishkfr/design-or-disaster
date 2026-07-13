@@ -179,6 +179,25 @@
   gap: var(--space-4);
 }
 
+.revealAllBtn {
+  min-height: var(--target-min);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--border-visible);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: var(--t-case-number);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.revealAllBtn:hover {
+  color: var(--text-primary);
+  border-color: var(--amber-muted);
+}
+
 .deliberationLabel {
   font-family: var(--font-mono);
   font-size: var(--t-case-number);
@@ -242,5 +261,21 @@
   .header {
     padding: var(--space-3) var(--space-4);
     gap: var(--space-3);
+  }
+}
+
+@media (max-width: 640px) {
+  .deliberationHeader {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .jurorDots {
+    width: 100%;
+  }
+
+  .backBtn {
+    min-height: var(--target-min);
+    padding-inline: var(--space-2);
   }
 }

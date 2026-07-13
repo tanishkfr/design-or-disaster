@@ -72,6 +72,13 @@ export default function FinalVerdictBlock({ caseData, submission, showNext, onNe
       </div>
       <div className={`${styles.statusRow} ${textVisible ? styles.visible : ''}`}><span className={styles.statusProse}>{STATUS_PROSE[caseData.caseStatus]}</span></div>
 
+      {!isSealed && caseData.curatorNote && (
+        <aside className={`${styles.caseNote} ${textVisible ? styles.visible : ''}`}>
+          <span className={styles.caseNoteLabel}>Case note ? opened after your ruling</span>
+          <p>{caseData.curatorNote}</p>
+        </aside>
+      )}
+
       {showNext && (
         <>
           {isFinalCase && <p className={styles.completionLine}>Investigation complete · 10 cases</p>}

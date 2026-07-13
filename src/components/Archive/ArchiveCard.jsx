@@ -2,6 +2,7 @@ import StatusTag from './StatusTag'
 import styles from './ArchiveCard.module.css'
 
 function resolveStatus(caseData, isReviewed) {
+  if (!isReviewed) return caseData.caseStatus === 'sealed' ? 'sealed' : 'pending'
   if (caseData.caseStatus === 'sealed') return 'sealed'
   if (caseData.caseStatus === 'landmark') return 'landmark'
   if (caseData.caseStatus === 'contested') return 'contested'

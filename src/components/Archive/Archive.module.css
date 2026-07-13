@@ -37,7 +37,9 @@
 .headerRight {
   display: flex;
   align-items: center;
-  gap: var(--space-6);
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-3);
 }
 
 .headerProgress {
@@ -50,6 +52,7 @@
 }
 
 .designEyeBtn {
+  min-height: var(--target-min);
   font-family: var(--font-mono);
   font-size: var(--t-case-number);
   font-weight: 500;
@@ -72,6 +75,7 @@
 }
 
 .resetBtn {
+  min-height: var(--target-min);
   font-family: var(--font-mono);
   font-size: var(--t-case-number);
   font-weight: 500;
@@ -146,6 +150,31 @@
   flex-direction: column;
   gap: var(--space-12);
 }
+
+.exhibitCta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.exhibitBtn {
+  flex: 0 0 auto;
+  min-height: var(--target-min);
+  padding: 10px var(--space-4);
+  border: 1px solid var(--amber);
+  border-radius: var(--radius-full);
+  color: var(--bg);
+  background: var(--amber);
+  font: 600 var(--t-body-sm)/1.2 var(--font-body);
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.exhibitBtn:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(245, 166, 35, .2); }
+.exhibitCta p { margin: 0; max-width: 34ch; color: var(--text-secondary); font: 400 var(--t-body-sm)/1.55 var(--font-body); }
 
 @keyframes enterSection {
   from {
@@ -337,9 +366,16 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 560px) {
+  .header { align-items: flex-start; padding: var(--space-3) var(--space-4); }
+  .wordmark { font-size: 24px; }
+  .headerRight { gap: var(--space-2); }
+  .headerProgress { display: none; }
+  .designEyeBtn, .resetBtn { min-height: 36px; padding: 4px 10px; }
+  .intro { padding-inline: var(--space-4); }
+  .sections { padding-inline: var(--space-4); }
   .cardGrid,
-  .cardGridLandmark {
-    grid-template-columns: 1fr 1fr;
-  }
+  .cardGridLandmark { grid-template-columns: 1fr; }
+  .exhibitCta { align-items: stretch; flex-direction: column; }
+  .exhibitBtn { width: 100%; }
 }

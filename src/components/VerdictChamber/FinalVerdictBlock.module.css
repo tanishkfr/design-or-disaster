@@ -8,14 +8,14 @@
   to   { opacity: 1; }
 }
 
-/* â”€â”€â”€ Rule â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── Rule ────────────────────────────────────────── */
 
 .rule {
   height: 1px;
   background: var(--border-default);
 }
 
-/* â”€â”€â”€ Personal comparison â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── Personal comparison ─────────────────────────── */
 
 .comparison {
   display: flex;
@@ -39,11 +39,11 @@
 .correct {
   font-family: var(--font-body);
   font-size: var(--t-body-sm);
-  font-weight: 600;
-  color: var(--clear);
+  font-weight: 500;
+  color: var(--text-secondary);
 }
 
-/* â”€â”€â”€ Status prose â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── Status prose ────────────────────────────────── */
 
 .statusRow {
   opacity: 0;
@@ -62,7 +62,7 @@
   color: var(--text-tertiary);
 }
 
-/* â”€â”€â”€ Completion line (final case only) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── Completion line (final case only) ───────────── */
 
 .completionLine {
   font-family: var(--font-mono);
@@ -74,7 +74,7 @@
   animation: nextBtnEnter var(--duration-base) var(--ease-out) both;
 }
 
-/* â”€â”€â”€ Next case button â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ─── Next case button ────────────────────────────── */
 
 @keyframes nextBtnEnter {
   from { opacity: 0; }
@@ -99,4 +99,106 @@
 
 .nextBtn:hover {
   color: var(--text-primary);
+}
+
+
+/* Final ruling composition */
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-8);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--surface-raised) 86%, transparent);
+  animation: blockSlideUp var(--duration-slow) var(--ease-out) both;
+}
+.voteCount {
+  margin: 0;
+  color: var(--text-secondary);
+  font: 500 var(--t-label)/1 var(--font-mono);
+  letter-spacing: var(--ls-wide);
+  text-transform: uppercase;
+}
+.verdictLine {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity var(--duration-slow) var(--ease-out), transform var(--duration-slow) var(--ease-out);
+}
+.verdictLine.visible { opacity: 1; transform: translateY(0); }
+.verdictText {
+  display: block;
+  color: var(--text-primary);
+  font: italic 400 clamp(2.4rem, 8vw, 5.5rem)/.92 var(--font-display);
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+.contestedVerdict { font-size: clamp(2rem, 7vw, 4.5rem); }
+.jurySplitHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.jurySplitHeader::after { content: ''; flex: 1; height: 1px; background: var(--mixed); opacity: .55; }
+.jurySplitLabel {
+  color: var(--mixed);
+  font: 500 var(--t-label)/1 var(--font-mono);
+  letter-spacing: var(--ls-wide);
+}
+.splitVotes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+.splitVotes.visible { opacity: 1; }
+.splitVoteRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface);
+}
+.splitCount { color: var(--text-primary); font: italic 400 2rem/1 var(--font-display); }
+.splitSeparator { color: var(--text-secondary); font: 500 11px/1.4 var(--font-mono); letter-spacing: var(--ls-label); }
+.contestedBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+.contestedBody.visible { opacity: 1; }
+.contestedRule { height: 1px; background: var(--amber); opacity: .45; }
+.contestedSummary {
+  margin: 0;
+  max-width: 70ch;
+  color: var(--text-secondary);
+  font: 400 var(--t-body)/1.72 var(--font-body);
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+.contestedSummary.visible { opacity: 1; }
+.contestedClose { margin: 0; color: var(--text-primary); font: italic 400 1.35rem/1.5 var(--font-display); }
+.caseNote {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  padding: var(--space-5);
+  border-left: 2px solid var(--amber);
+  background: var(--surface);
+  opacity: 0;
+  transition: opacity var(--duration-slow) var(--ease-out);
+}
+.caseNote.visible { opacity: 1; }
+.caseNoteLabel { color: var(--amber); font: 500 11px/1.4 var(--font-mono); letter-spacing: var(--ls-label); text-transform: uppercase; }
+.caseNote p { margin: 0; color: var(--text-secondary); font: 400 var(--t-body-sm)/1.7 var(--font-body); }
+
+@media (max-width: 640px) {
+  .block { padding: var(--space-5); }
+  .splitVotes { grid-template-columns: 1fr; }
+  .nextBtn { align-self: stretch; min-height: var(--target-min); text-align: left; }
 }

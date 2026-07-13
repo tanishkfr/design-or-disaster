@@ -19,6 +19,7 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 img,
@@ -51,10 +52,6 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ─── Focus visible — keyboard navigation ─────────── */
 
-:focus {
-  outline: none;
-}
-
 :focus-visible {
   outline: 2px solid var(--amber);
   outline-offset: 3px;
@@ -63,4 +60,16 @@ h1, h2, h3, h4, h5, h6 {
 
 button:focus-visible {
   outline-offset: 4px;
+}
+
+textarea:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+}
+
+::selection {
+  color: var(--bg);
+  background: var(--amber);
 }

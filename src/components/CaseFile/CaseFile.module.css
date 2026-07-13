@@ -116,7 +116,7 @@
 
 .curatorNoteLabel {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: var(--ls-mono);
   color: var(--text-tertiary);

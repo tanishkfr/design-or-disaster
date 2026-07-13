@@ -1,12 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styles from './ColdOpen.module.css'
 import { CASES } from '../../data/cases'
 import EvidencePlate from '../CaseFile/EvidencePlate'
 
 const VERDICTS = [
-  { key: 'strong_design', label: 'Strong Design' },
-  { key: 'needs_revision', label: 'Needs Revision' },
-  { key: 'design_disaster', label: 'Design Disaster' },
+  { key: 'strong_design', label: 'Strong Design', color: 'var(--clear)' },
+  { key: 'needs_revision', label: 'Needs Revision', color: 'var(--mixed)' },
+  { key: 'design_disaster', label: 'Design Disaster', color: 'var(--guilty)' },
 ]
 
 export default function ColdOpen({ onComplete }) {
@@ -14,6 +14,10 @@ export default function ColdOpen({ onComplete }) {
   const [writtenRuling, setWrittenRuling] = useState('')
   const [selectedVerdict, setSelectedVerdict] = useState(null)
   const [phase, setPhase] = useState('idle')
+  const transitionTimers = useRef([])
+
+  useEffect(() => () => transitionTimers.current.forEach(clearTimeout), [])
+
   const caseData = CASES[0]
   const plateReady = marks.length > 0 && marks.every((mark) => mark.note.trim())
   const ready = plateReady && writtenRuling.trim() && selectedVerdict && phase === 'idle'
@@ -21,15 +25,17 @@ export default function ColdOpen({ onComplete }) {
   const handleSubmit = () => {
     if (!ready) return
     setPhase('fading')
-    setTimeout(() => setPhase('interstitial'), 200)
-    setTimeout(() => setPhase('interstitialOut'), 2600)
-    setTimeout(() => onComplete({
+    transitionTimers.current = [
+      setTimeout(() => setPhase('interstitial'), 200),
+      setTimeout(() => setPhase('interstitialOut'), 2600),
+      setTimeout(() => onComplete({
       verdict: selectedVerdict,
       evidencePlate: marks,
       evidenceTags: [...new Set(marks.map((mark) => mark.lens))],
       writtenRuling: writtenRuling.trim(),
-      timestamp: Date.now(),
-    }), 2900)
+        timestamp: Date.now(),
+      }), 2900),
+    ]
   }
 
   return (
@@ -45,6 +51,8 @@ export default function ColdOpen({ onComplete }) {
           src={caseData.screenshot}
           aspectRatio={caseData.screenshotAspect ?? '4/3'}
           objectPosition={caseData.screenshotPosition ?? 'top center'}
+          description={caseData.screenshotDescription}
+          evidenceTargets={caseData.evidenceTargets}
           marks={marks}
           onChange={setMarks}
         />
@@ -55,14 +63,15 @@ export default function ColdOpen({ onComplete }) {
             value={writtenRuling}
             onChange={(event) => setWrittenRuling(event.target.value)}
             placeholder="What does your plate prove?"
-            maxLength={220}
+            maxLength={180}
+            spellCheck
             className={styles.rulingInput}
           />
         </label>
 
         <div className={styles.verdictRow} role="group" aria-label="Verdict">
-          {VERDICTS.map(({ key, label }) => (
-            <button key={key} className={`${styles.verdictCard} ${selectedVerdict === key ? styles.verdictCardSelected : ''}`} onClick={() => setSelectedVerdict(key)} aria-pressed={selectedVerdict === key}>
+          {VERDICTS.map(({ key, label, color }) => (
+            <button key={key} className={`${styles.verdictCard} ${selectedVerdict === key ? styles.verdictCardSelected : ''}`} style={selectedVerdict === key ? { '--vc': color } : undefined} onClick={() => setSelectedVerdict(key)} aria-pressed={selectedVerdict === key}>
               <span className={styles.verdictCardAccent} aria-hidden="true" />{label}
             </button>
           ))}

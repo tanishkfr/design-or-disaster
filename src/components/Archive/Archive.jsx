@@ -8,7 +8,7 @@ function getCaseById(id) {
   return CASES.find(c => c.id === id) ?? null
 }
 
-export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset }) {
+export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset, onStartCurated }) {
   const { profile, hasSubmittedCase, getSubmission } = useDesignEye()
   const [confirmingReset, setConfirmingReset] = useState(false)
   const confirmTimer = useRef(null)
@@ -25,7 +25,7 @@ export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset })
   }
 
   // The archive is organised as four movements. Each movement opens when the
-  // previous one closes â€” the investigation escalates rather than browses.
+  // previous one closes — the investigation escalates rather than browses.
   const byMovement = (m) => CASES.filter(c => c.movement === m)
   const movementComplete = (m) => byMovement(m).every(c => hasSubmittedCase(c.id))
 
@@ -33,31 +33,31 @@ export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset })
   const totalCases = CASES.length
   const reviewedCount = CASES.filter(c => hasSubmittedCase(c.id)).length
 
-  // Continue â€” in-progress case (set when user enters a case file)
+  // Continue — in-progress case (set when user enters a case file)
   const inProgressCaseId = profile.inProgressCaseId ?? null
   const inProgressCase = inProgressCaseId ? getCaseById(inProgressCaseId) : null
 
   const sections = [
     {
       key: 'movement1',
-      label: 'MOVEMENT I â€” THE CONSENSUS',
+      label: 'MOVEMENT I — THE CONSENSUS',
       cases: byMovement(1),
       locked: false,
       lockedLine: null,
     },
     {
       key: 'movement2',
-      label: 'MOVEMENT II â€” THE DIVIDE',
+      label: 'MOVEMENT II — THE DIVIDE',
       cases: byMovement(2),
       locked: !movementComplete(1),
-      lockedLine: 'Opens when Movement I closes. This is where consensus stops being possible â€” and stops being the goal.',
+      lockedLine: 'Opens when Movement I closes. This is where consensus stops being possible — and stops being the goal.',
     },
     {
       key: 'movement3',
-      label: 'MOVEMENT III â€” THE LANDMARKS',
+      label: 'MOVEMENT III — THE LANDMARKS',
       cases: byMovement(3),
       locked: !movementComplete(2),
-      lockedLine: 'Opens when Movement II closes. Cases with documented public consequences. Confidence is no longer self-reported.',
+      lockedLine: 'Opens when Movement II closes. Cases with documented public consequences. These cases add historical consequence without turning speed into a measure of confidence.',
     },
     {
       key: 'finale',
@@ -71,7 +71,7 @@ export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset })
   return (
     <div className={styles.root}>
 
-      {/* â”€â”€ Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Header ───────────────────────────────────── */}
       <header className={styles.header}>
         <span className={styles.wordmark}>D/D</span>
         <div className={styles.headerRight}>
@@ -80,18 +80,18 @@ export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset })
             About
           </button>
           <button className={styles.designEyeBtn} onClick={onDesignEye}>
-            Design Eye â–¸
+            Design Eye ▸
           </button>
           <button
             className={`${styles.resetBtn} ${confirmingReset ? styles.resetBtnConfirm : ''}`}
             onClick={handleResetClick}
           >
-            {confirmingReset ? 'Confirm?' : 'Reset'}
+            {confirmingReset ? 'Erase progress?' : 'Reset'}
           </button>
         </div>
       </header>
 
-      {/* â”€â”€ Archive intro â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Archive intro ─────────────────────────────── */}
       <div className={styles.intro}>
         <h1 className={styles.archiveTitle}>Investigation Archive</h1>
         <p className={styles.subtitle}>
@@ -100,21 +100,27 @@ export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset })
         </p>
         <p className={styles.stats}>
           {totalCases} Cases in Four Movements
-          {' Â· '}{reviewedCount} Closed
+          {' · '}{reviewedCount} Closed
         </p>
+        <div className={styles.exhibitCta}>
+          <button className={styles.exhibitBtn} onClick={onStartCurated}>
+            Take the five-minute exhibit <span aria-hidden="true">→</span>
+          </button>
+          <p>One contested case, then the sealed case. The full archive remains open below.</p>
+        </div>
       </div>
 
-      {/* â”€â”€ Sections â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── Sections ──────────────────────────────────── */}
       <div className={styles.sections}>
 
-        {/* Continue â€” only when Phase 4 sets an in-progress case */}
+        {/* Continue — only when Phase 4 sets an in-progress case */}
         {inProgressCase && (
           <section
             className={styles.section}
             style={{ animationDelay: '0ms' }}
           >
             <div className={styles.sectionHeader}>
-              <span className={styles.sectionHeaderText}>â”€â”€ CONTINUE</span>
+              <span className={styles.sectionHeaderText}>── CONTINUE</span>
               <div className={styles.sectionHeaderRule} aria-hidden="true" />
             </div>
             <button
@@ -123,7 +129,7 @@ export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset })
             >
               <span className={styles.caseNumber}>{inProgressCase.number}</span>
               <span className={styles.continuePrompt}>
-                Resume where you left off â†’
+                Resume where you left off →
               </span>
             </button>
           </section>
@@ -140,7 +146,7 @@ export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset })
               style={{ animationDelay: `${staggerIndex * 80}ms` }}
             >
               <div className={styles.sectionHeader}>
-                <span className={styles.sectionHeaderText}>â”€â”€ {label}</span>
+                <span className={styles.sectionHeaderText}>── {label}</span>
                 <div className={styles.sectionHeaderRule} aria-hidden="true" />
               </div>
               {locked ? (
@@ -166,11 +172,10 @@ export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset })
 
       <footer className={styles.footer}>
         <p className={styles.methodology}>
-          <span className={styles.methodologyLabel}>â”€â”€ Methodology</span>
+          <span className={styles.methodologyLabel}>── Methodology</span>
           The five jurors are authored voices, each holding one critical lens; their verdicts
-          are one panel's position, not settled fact. No crowd telemetry or correctness score is implied. Screenshots are composites recreating documented
-          interface patterns â€” no real product is depicted, and any resemblance is the
-          pattern, not the brand.
+          are one panel's position, not settled fact. No crowd telemetry or correctness score is implied.
+          Case imagery combines authored reconstructions with recognizable historical captures; the archive claims the critique, not the source interface.
         </p>
         <a
           href="https://github.com/tanishkfr/design-or-disaster"

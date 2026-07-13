@@ -34,7 +34,7 @@
   }
 }
 
-/* â”€â”€ Document header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Document header ──────────────────────────────── */
 
 .header {
   display: flex;
@@ -62,7 +62,7 @@
   text-transform: uppercase;
 }
 
-/* â”€â”€ Verdict card â€” shareable summary â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Verdict card — shareable summary ─────────────── */
 
 .verdictCard {
   display: flex;
@@ -91,7 +91,7 @@
   gap: var(--space-4);
 }
 
-/* The lens name, not a percentage â€” identity, not a grade */
+/* The lens name, not a percentage — identity, not a grade */
 .cardLensName {
   font-family: var(--font-display);
   font-size: 40px;
@@ -109,7 +109,7 @@
   margin: 0;
 }
 
-/* â”€â”€ Opening statement â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Opening statement ────────────────────────────── */
 
 .opening {
   font-family: var(--font-body);
@@ -121,7 +121,7 @@
   margin: 0 0 var(--space-8);
 }
 
-/* â”€â”€ Body blocks â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Body blocks ──────────────────────────────────── */
 
 .block {
   display: flex;
@@ -137,7 +137,7 @@
   margin: 0;
 }
 
-/* â”€â”€ Quote-back â€” the record quotes you â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Quote-back — the record quotes you ───────────── */
 
 .quoteBack {
   display: flex;
@@ -173,7 +173,7 @@
   margin: 0;
 }
 
-/* â”€â”€ Section divider â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Section divider ──────────────────────────────── */
 
 .rule {
   width: 100%;
@@ -182,7 +182,7 @@
   margin: var(--space-8) 0;
 }
 
-/* â”€â”€ Closing section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Closing section ──────────────────────────────── */
 
 .closing {
   animation: closingEnter var(--duration-slow) var(--ease-out) 500ms both;
@@ -218,7 +218,7 @@
   padding-bottom: 2px;
 }
 
-/* â”€â”€ Actions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Actions ──────────────────────────────────────── */
 
 .actions {
   display: flex;
@@ -268,7 +268,7 @@
   color: var(--text-secondary);
 }
 
-/* â”€â”€ Closure stamp â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ── Closure stamp ────────────────────────────────── */
 
 .stamp {
   font-family: var(--font-mono);
