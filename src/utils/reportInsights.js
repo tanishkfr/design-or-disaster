@@ -46,7 +46,7 @@ function lensSummary(submissions = []) {
 
 export function deriveLeadInsight(profile) {
   const submissions = profile?.submissions ?? []
-  if (!submissions.length) return { type: 'empty', headline: 'No plates filed yet.', body: 'Begin an investigation to leave a record of what your eye makes visible.' }
+  if (!submissions.length) return { type: 'empty', headline: 'No evidence recorded yet.', body: 'Begin an investigation to leave a record of what your eye makes visible.' }
   const lean = lensSummary(submissions)
   if (!lean) return { type: 'forming', headline: 'Your evidence is still unnamed.', body: 'The record needs marked evidence before it can reflect your attention.' }
   if (lean.balanced) return {
@@ -57,7 +57,7 @@ export function deriveLeadInsight(profile) {
   if (lean.distinct === 1) return {
     type: 'single_lens',
     headline: `You keep returning to ${lean.strongest.title.toLowerCase()}.`,
-    body: `${submissions.length} rulings filed, but one kind of evidence dominates the record. Open another plate before treating that habit as truth.`,
+    body: `${submissions.length} rulings filed, but one kind of evidence dominates the record. Review another perspective before treating that habit as truth.`,
   }
   if (lean.strongest.items.length > 1) return {
     type: 'shared_lens',
@@ -89,8 +89,8 @@ export function generateFinalReportContent(profile, cases) {
     total: submissions.length,
     lean,
     opening: lean?.balanced
-      ? `Across ${submissions.length} plates, your attention moved evenly through all five evidence lenses.`
-      : strongest ? `Across ${submissions.length} plates, your attention most often organized itself around ${strongest.title.toLowerCase()}.` : 'Your rulings are filed, but their evidence remains unnamed.',
+      ? `Across ${submissions.length} cases, your attention moved evenly through all five evidence lenses.`
+      : strongest ? `Across ${submissions.length} cases, your attention most often organized itself around ${strongest.title.toLowerCase()}.` : 'Your rulings are filed, but their evidence remains unnamed.',
     paragraphs: strongest ? [
       lean?.balanced
         ? 'This is not a score and the panel is not an answer key. The record shows breadth: no single lens dominated what you chose to make visible.'
@@ -98,7 +98,7 @@ export function generateFinalReportContent(profile, cases) {
       lean?.balanced
         ? 'Equal use does not mean equal sensitivity. It means this archive cannot honestly name a dominant or neglected lens from the evidence available.'
         : weakest ? `${weakest.title} appeared least often. That absence may be a blind spot, a deliberate priority, or a limit of these cases. The record cannot decide which.` : 'No single absence is stable yet.',
-      'The jurors are authored, fallible positions. Their value is the collision between plates: one interface, several incompatible accounts of what matters.',
+      'The jurors are authored, fallible positions. Their value is the collision between perspectives: one interface, several incompatible accounts of what matters.',
     ] : ['The archive can preserve a verdict, but it cannot infer perception that was never marked.'],
     closingLine: 'Judgment begins by selecting evidence.',
     question: 'What does your eye keep making real—and what disappears when it does?',

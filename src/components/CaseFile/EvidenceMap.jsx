@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import styles from './EvidencePlate.module.css'
+import styles from './EvidenceMap.module.css'
 
 const EVIDENCE_LENSES = [
   { key: 'hierarchy', label: 'Hierarchy', color: '#e8a33d' },
@@ -11,11 +11,12 @@ const EVIDENCE_LENSES = [
 
 const lensByKey = Object.fromEntries(EVIDENCE_LENSES.map((lens) => [lens.key, lens]))
 
-export default function EvidencePlate({ src, aspectRatio = '4/3', objectPosition = 'top center', description, evidenceTargets = [], marks, onChange }) {
+export default function EvidenceMap({ src, aspectRatio = '4/3', objectPosition = 'top center', description, evidenceTargets = [], marks, onChange }) {
   const viewerRef = useRef(null)
   const [lens, setLens] = useState('hierarchy')
   const [keyboardPoint, setKeyboardPoint] = useState({ x: 50, y: 50 })
   const [keyboardActive, setKeyboardActive] = useState(false)
+  const [pointerPoint, setPointerPoint] = useState(null)
 
   const isPortrait = (() => {
     const [width, height] = aspectRatio.split('/').map(Number)
@@ -27,12 +28,26 @@ export default function EvidencePlate({ src, aspectRatio = '4/3', objectPosition
     onChange([...marks, { id: crypto.randomUUID(), x, y, lens, note: '' }])
   }
 
-  function placeMark(event) {
-    if (event.detail === 0 || !viewerRef.current) return
+  function pointFromEvent(event) {
+    if (!viewerRef.current) return null
     const bounds = viewerRef.current.getBoundingClientRect()
-    const x = ((event.clientX - bounds.left) / bounds.width) * 100
-    const y = ((event.clientY - bounds.top) / bounds.height) * 100
-    addMark(x, y)
+    return {
+      x: Math.min(98, Math.max(2, ((event.clientX - bounds.left) / bounds.width) * 100)),
+      y: Math.min(98, Math.max(2, ((event.clientY - bounds.top) / bounds.height) * 100)),
+    }
+  }
+
+  function placeMark(event) {
+    if (event.detail === 0) return
+    const point = pointFromEvent(event)
+    if (!point) return
+    addMark(point.x, point.y)
+    setPointerPoint(null)
+  }
+
+  function trackPointer(event) {
+    if (marks.length >= 4 || event.pointerType === 'touch') return
+    setPointerPoint(pointFromEvent(event))
   }
 
   function handleViewerKeyDown(event) {
@@ -69,16 +84,17 @@ export default function EvidencePlate({ src, aspectRatio = '4/3', objectPosition
   }
 
   return (
-    <section className={styles.root} aria-label="Your evidence plate">
-      <div className={styles.plateHeader}>
+    <section className={styles.root} aria-label="Build your evidence map">
+      <div className={styles.mapHeader}>
         <div>
-          <p className={styles.eyebrow}>PLATE 00 · THE INVESTIGATOR</p>
-          <p className={styles.instruction}>Choose what you are looking for, then mark the exact place that decides your ruling.</p>
+          <p className={styles.eyebrow}>Your evidence map</p>
+          <p className={styles.instruction}>Choose what matters, then mark the part of the interface that supports your judgment.</p>
         </div>
-        <span className={styles.count}>{marks.length}/4 MARKS</span>
+        <span className={styles.count}>{marks.length} of 4 markers</span>
       </div>
 
-      <div className={styles.lenses} role="group" aria-label="Evidence lens">
+      <p className={styles.lensPrompt}>What are you looking for?</p>
+      <div className={styles.lenses} role="group" aria-label="What matters in this interface">
         {EVIDENCE_LENSES.map((item) => (
           <button
             key={item.key}
@@ -99,16 +115,22 @@ export default function EvidencePlate({ src, aspectRatio = '4/3', objectPosition
           ref={viewerRef}
           type="button"
           onClick={placeMark}
+          onPointerMove={trackPointer}
+          onPointerLeave={() => setPointerPoint(null)}
+          onPointerDown={() => setKeyboardActive(false)}
           onKeyDown={handleViewerKeyDown}
-          onFocus={() => setKeyboardActive(true)}
           onBlur={() => setKeyboardActive(false)}
           className={styles.viewer}
+          style={{ '--active-lens-color': lensByKey[lens].color }}
           aria-label={`Mark ${lensByKey[lens].label.toLowerCase()} evidence on the interface. Use arrow keys to move the evidence cursor and Enter to place a mark.`}
-          aria-describedby="evidence-plate-help"
+          aria-describedby="evidence-map-help"
           disabled={marks.length >= 4}
         >
           <img src={src} alt={description ?? 'Interface under investigation'} className={styles.image} style={{ aspectRatio, objectPosition }} draggable={false} />
           <span className={styles.vignette} aria-hidden="true" />
+          {pointerPoint && marks.length < 4 && (
+            <span className={styles.pointerPreview} style={{ left: pointerPoint.x + '%', top: pointerPoint.y + '%' }} aria-hidden="true">+</span>
+          )}
           {keyboardActive && marks.length < 4 && (
             <span className={styles.keyboardCursor} style={{ left: `${keyboardPoint.x}%`, top: `${keyboardPoint.y}%` }} aria-hidden="true" />
           )}
@@ -122,12 +144,13 @@ export default function EvidencePlate({ src, aspectRatio = '4/3', objectPosition
               {String(index + 1).padStart(2, '0')}
             </span>
           ))}
-          <span className={styles.exhibitLabel}>EXHIBIT A · CLICK TO MARK</span>
+          <span className={styles.exhibitLabel}>Click anywhere to add a marker</span>
         </button>
       </div>
 
-      <div className={styles.accessibleTools} id="evidence-plate-help">
-        <p className={styles.accessibleHelp}>Use the image directly, move the keyboard cursor with the arrow keys, or choose a named interface region.</p>
+      <p className={styles.inputHelp} id="evidence-map-help">Click the image, or use the arrow keys and Enter, to place a marker.</p>
+      <details className={styles.accessibleTools}>
+        <summary>Choose a named region instead</summary>
         <div className={styles.targetList} aria-label="Named interface regions">
           {evidenceTargets.map((target) => (
             <button
@@ -141,7 +164,7 @@ export default function EvidencePlate({ src, aspectRatio = '4/3', objectPosition
             </button>
           ))}
         </div>
-      </div>
+      </details>
 
       {marks.length > 0 && (
         <ol className={styles.ledger}>
@@ -152,8 +175,8 @@ export default function EvidencePlate({ src, aspectRatio = '4/3', objectPosition
               <input
                 value={mark.note}
                 onChange={(event) => updateMark(mark.id, { note: event.target.value })}
-                placeholder="What does this place make you notice?"
-                aria-label={`Evidence mark ${index + 1} observation`}
+                placeholder="What does this area make you notice?"
+                aria-label={`Marker ${index + 1} observation`}
                 maxLength={100}
                 className={styles.note}
               />

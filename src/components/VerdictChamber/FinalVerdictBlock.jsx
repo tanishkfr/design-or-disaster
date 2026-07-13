@@ -40,10 +40,10 @@ export default function FinalVerdictBlock({ caseData, submission, showNext, onNe
     <div className={styles.block}>
       {isSealed ? (
         <>
-          <div className={styles.jurySplitHeader}><span className={styles.jurySplitLabel}>PLATE 00 SEALED</span></div>
+          <div className={styles.jurySplitHeader}><span className={styles.jurySplitLabel}>YOUR EVIDENCE STANDS</span></div>
           <div className={`${styles.contestedBody} ${textVisible ? styles.visible : ''}`}>
             <div className={styles.contestedRule} aria-hidden="true" />
-            <p className={styles.contestedSummary}>No panel plate, vote count, or official interpretation will be opened. The archive preserves only the evidence you marked and the ruling you filed.</p>
+            <p className={styles.contestedSummary}>No panel perspective, vote count, or official interpretation will be shown. The archive preserves only the evidence you marked and the ruling you filed.</p>
             <p className={styles.contestedClose}>Your perception remains the sole record of this case.</p>
             <div className={styles.contestedRule} aria-hidden="true" />
           </div>

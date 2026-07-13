@@ -96,4 +96,4 @@ if (errors.length) {
   for (const error of errors) console.error(' - ' + error)
   process.exit(1)
 }
-console.log('Validated ten cases, five-plate coverage, assets, encoding, and CSS modules.')
+console.log('Validated ten cases, five-perspective coverage, assets, encoding, and CSS modules.')

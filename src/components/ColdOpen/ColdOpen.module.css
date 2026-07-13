@@ -6,389 +6,202 @@
   padding: 0 var(--space-6) var(--space-12);
 }
 
-/* ─── Entrance stagger ────────────────────────────── */
-
 @keyframes enterUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
-/* ─── Project header ──────────────────────────────── */
 
 .projectHeader {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-1);
-  padding-top: var(--space-8);
-  margin-bottom: 0;
+  padding-top: var(--space-10);
+  text-align: center;
   animation: enterUp var(--duration-slow) var(--ease-out) both;
 }
 
 .projectLabel {
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: -0.01em;
   color: var(--text-primary);
-  line-height: 1.2;
+  font: 600 26px/1.2 var(--font-body);
+  letter-spacing: -0.025em;
 }
 
 .projectSub {
-  font-family: var(--font-mono);
-  font-size: var(--t-case-number);
-  letter-spacing: var(--ls-mono);
-  color: var(--text-tertiary);
-  text-transform: uppercase;
+  color: var(--text-secondary);
+  font: 400 14px/1.5 var(--font-body);
 }
-
-/* ─── Wordmark ────────────────────────────────────── */
-/* Quiet, non-interactive — same register as EXHIBIT A. Present, not navigation. */
 
 .wordmark {
   position: fixed;
   top: var(--space-4);
   left: var(--space-6);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: var(--ls-mono);
   color: var(--text-tertiary);
-  text-transform: uppercase;
-  user-select: none;
-  opacity: 0;
-  animation: enterUp var(--duration-slow) var(--ease-out) both;
-  animation-delay: 0ms;
-}
-
-/* ─── Screenshot ──────────────────────────────────── */
-
-.screenshotWrap {
-  position: relative;
-  width: 100%;
-  max-width: 560px;
-  height: 55vh;
-  margin-top: 40px;
-  margin-bottom: var(--space-8);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  border: 1px solid var(--border-subtle);
-  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.5);
-  animation: enterUp var(--duration-slow) var(--ease-out) both;
-  animation-delay: 0ms;
-}
-
-.screenshot {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-  display: block;
-  filter: saturate(0.7) contrast(1.1) brightness(0.95);
-}
-
-.vignette {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(to bottom, rgba(9, 8, 10, 0.45) 0%, transparent 28%),
-    radial-gradient(ellipse at center, transparent 55%, rgba(9, 8, 10, 0.65) 100%);
-  pointer-events: none;
-}
-
-/* Scanline grain — the only texture in the project */
-.grain {
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    180deg,
-    transparent 0px,
-    transparent 2px,
-    rgba(0, 0, 0, 0.045) 2px,
-    rgba(0, 0, 0, 0.045) 3px
-  );
-  pointer-events: none;
-}
-
-.exhibitLabel {
-  position: absolute;
-  bottom: var(--space-3);
-  left: var(--space-4);
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 500;
+  font: 500 12px/1 var(--font-mono);
   letter-spacing: var(--ls-mono);
-  color: var(--text-tertiary);
-  text-transform: uppercase;
   user-select: none;
 }
 
-/* ─── Meta row ────────────────────────────────────── */
-
-.meta {
+.evidenceShell {
+  width: min(100%, 760px);
+  margin-top: var(--space-8);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 560px;
-  margin-bottom: var(--space-4);
+  flex-direction: column;
+  gap: var(--space-5);
   animation: enterUp var(--duration-slow) var(--ease-out) both;
-  animation-delay: 150ms;
 }
 
-.caseNumber {
-  font-family: var(--font-mono);
-  font-size: var(--t-case-number);
-  font-weight: 500;
-  letter-spacing: var(--ls-mono);
+.rulingLabel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
   color: var(--text-secondary);
-  text-transform: uppercase;
+  font: 600 13px/1.4 var(--font-body);
 }
 
-.pendingLabel {
-  font-family: var(--font-mono);
-  font-size: var(--t-case-number);
-  font-weight: 500;
-  letter-spacing: var(--ls-mono);
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-}
-
-/* ─── Question ────────────────────────────────────── */
-
-.question {
-  font-family: var(--font-display);
-  font-size: 28px;
-  font-style: italic;
-  font-weight: 400;
-  line-height: 1.2;
+.rulingInput {
+  min-height: 82px;
+  resize: vertical;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
   color: var(--text-primary);
-  width: 100%;
-  max-width: 560px;
-  margin-bottom: var(--space-6);
-  padding-bottom: 2px;
-  animation: enterUp var(--duration-slow) var(--ease-out) both;
-  animation-delay: 280ms;
+  padding: var(--space-3);
+  font: 400 var(--t-body-sm)/1.55 var(--font-body);
+  transition: border-color var(--duration-fast);
 }
 
-/* ─── Verdict cards ───────────────────────────────── */
+.rulingInput:focus {
+  border-color: var(--mixed);
+}
 
 .verdictRow {
-  display: flex;
-  gap: var(--space-3);
-  width: 100%;
-  max-width: none;
-  margin-bottom: var(--space-4);
-  transition: opacity var(--duration-base) var(--ease-in);
-  animation: enterUp var(--duration-slow) var(--ease-out) both;
-  animation-delay: 400ms;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
 }
 
-.verdictRowGone {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Neutral until selection — all three cards are visually identical before chosen */
 .verdictCard {
   position: relative;
-  flex: 1;
-  min-height: var(--target-min);
-  padding: var(--space-4) var(--space-3);
-  background: var(--surface);
-  border: 1px solid var(--border-default);
-  border-radius: 3px;
-  font-family: var(--font-body);
-  font-size: var(--t-body-med);
-  font-weight: 600;
-  color: var(--text-tertiary);
-  cursor: pointer;
-  text-align: center;
+  min-height: 52px;
   overflow: hidden;
-  transition:
-    border-color var(--duration-fast) var(--ease-default),
-    background-color var(--duration-fast) var(--ease-default),
-    color var(--duration-fast) var(--ease-default);
+  padding: var(--space-3);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-secondary);
+  font: 600 14px/1.3 var(--font-body);
+  cursor: pointer;
+  transition: border-color var(--duration-fast), color var(--duration-fast), background var(--duration-fast);
 }
 
-.verdictCard:hover:not(.verdictCardSelected) {
-  border-color: var(--border-strong);
+.verdictCard:hover {
+  border-color: var(--border-visible);
   color: var(--text-primary);
 }
 
-/* Color activates only on selection — verdict color is earned, not displayed.
-   No background fill — the card stays neutral, the mark is structural. */
 .verdictCardSelected {
   border-color: var(--vc);
-  color: var(--vc);
-  animation: cardLock 220ms var(--ease-out);
+  background: color-mix(in srgb, var(--vc) 7%, var(--surface));
+  color: var(--text-primary);
 }
 
-@keyframes cardLock {
-  0%   { transform: scale(1); }
-  40%  { transform: scale(0.97); }
-  100% { transform: scale(1); }
-}
-
-/* Left accent bar — draws down on selection */
 .verdictCardAccent {
   position: absolute;
-  left: 0;
-  top: 0;
+  inset: 0 auto 0 0;
   width: 3px;
-  height: 100%;
-  background-color: var(--vc, transparent);
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform var(--duration-fast) var(--ease-out);
+  background: transparent;
 }
 
 .verdictCardSelected .verdictCardAccent {
-  transform: scaleY(1);
+  background: var(--vc);
 }
 
-/* Corner-lock bracket — a viewfinder reticle snapping onto the chosen verdict */
-.verdictCard::before,
-.verdictCard::after {
-  content: '';
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  background-color: var(--vc, transparent);
-  opacity: 0;
-  transition: width 150ms var(--ease-out), height 150ms var(--ease-out), opacity 150ms var(--ease-out);
+.readiness {
+  margin: calc(-1 * var(--space-2)) 0 0;
+  color: var(--text-tertiary);
+  font: 400 13px/1.5 var(--font-body);
 }
-
-.verdictCard::before {
-  height: 2px;
-  width: 0;
-}
-
-.verdictCard::after {
-  width: 2px;
-  height: 0;
-}
-
-.verdictCardSelected::before {
-  width: 14px;
-  opacity: 1;
-}
-
-.verdictCardSelected::after {
-  height: 14px;
-  opacity: 1;
-}
-
-/* ─── Submit button ───────────────────────────────── */
 
 .submitBtn {
-  width: 100%;
-  max-width: none;
-  min-height: var(--target-min);
-  padding: var(--space-4);
-  background: transparent;
+  min-height: 50px;
   border: 1px solid var(--border-default);
   border-radius: var(--radius-sm);
-  font-family: var(--font-body);
-  font-size: var(--t-body-med);
-  font-weight: 600;
+  background: transparent;
   color: var(--text-tertiary);
+  font: 600 14px/1 var(--font-body);
   cursor: not-allowed;
-  animation: enterUp var(--duration-slow) var(--ease-out) both;
-  animation-delay: 400ms;
-  transition:
-    border-color var(--duration-fast) var(--ease-default),
-    background-color var(--duration-fast) var(--ease-default),
-    color var(--duration-fast) var(--ease-default),
-    opacity var(--duration-base) var(--ease-in);
+  transition: border-color var(--duration-fast), background var(--duration-fast), color var(--duration-fast);
 }
 
 .submitBtnActive {
-  background-color: var(--amber);
   border-color: var(--amber);
+  background: var(--amber);
   color: var(--bg);
   cursor: pointer;
 }
 
-.submitBtnGone {
-  opacity: 0;
-  pointer-events: none;
+.submitBtnActive:hover {
+  background: var(--amber-hover);
 }
 
-/* ─── Interstitial ────────────────────────────────── */
-
-/* Near-blackout — this is the emotional thesis statement of the experience */
 .interstitial {
   position: fixed;
+  z-index: 20;
   inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  pointer-events: none;
-  background: rgba(9, 8, 10, 0.95);
+  display: grid;
+  place-content: center;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  background: rgba(9, 8, 10, .96);
+  text-align: center;
 }
 
-.interstitial p {
-  font-family: var(--font-mono);
-  font-size: 15px;
-  font-weight: 400;
+.interstitial p:first-child {
+  color: var(--text-primary);
+  font: 600 24px/1.25 var(--font-body);
+}
+
+.interstitial p:last-child {
   color: var(--text-secondary);
-  letter-spacing: 0.02em;
-  text-align: center;
-  max-width: 420px;
-  line-height: 1.5;
-  padding: 0 var(--space-6);
+  font: 400 15px/1.5 var(--font-body);
 }
 
 .interstitialIn {
-  animation: fadeIn var(--duration-base) var(--ease-out) forwards;
+  animation: interstitialIn 240ms var(--ease-out) both;
 }
 
 .interstitialOut {
-  animation: fadeOut var(--duration-base) var(--ease-in) forwards;
+  animation: interstitialOut 300ms var(--ease-in) both;
 }
 
-@keyframes fadeIn {
+@keyframes interstitialIn {
   from { opacity: 0; }
-  to   { opacity: 1; }
+  to { opacity: 1; }
 }
 
-@keyframes fadeOut {
-  from { opacity: 1; filter: blur(0px); }
-  to   { opacity: 0; filter: blur(2px); }
+@keyframes interstitialOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
-/* ─── Responsive ──────────────────────────────────── */
+@media (max-width: 640px) {
+  .root {
+    padding-inline: var(--space-4);
+  }
 
-@media (max-width: 600px) {
+  .projectHeader {
+    align-items: flex-start;
+    width: 100%;
+    padding-top: var(--space-12);
+    text-align: left;
+  }
+
+  .projectLabel {
+    font-size: 23px;
+  }
+
   .verdictRow {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
-
-  .screenshotWrap {
-    height: 45vh;
-  }
-}
-
-.plateShell { width: min(100%, 760px); margin-top: var(--space-8); display: flex; flex-direction: column; gap: var(--space-5); animation: enterUp var(--duration-slow) var(--ease-out) both; }
-.rulingLabel { display: flex; flex-direction: column; gap: var(--space-2); color: var(--text-tertiary); font: 500 10px/1.4 var(--font-mono); letter-spacing: var(--ls-mono); }
-.rulingInput { min-height: 74px; resize: vertical; border: 1px solid var(--border-subtle); background: var(--surface); color: var(--text-primary); padding: var(--space-3); font: 400 var(--t-body-sm)/1.5 var(--font-body); }
-.rulingInput:focus { border-color: var(--mixed); }
-.readiness { margin: calc(-1 * var(--space-2)) 0 0; color: var(--text-tertiary); font: 500 10px/1.5 var(--font-mono); letter-spacing: .06em; }
-
-
-@media (max-width: 480px) {
-  .root { padding-inline: var(--space-4); }
-  .projectHeader { align-items: flex-start; width: 100%; padding-top: var(--space-12); }
-  .projectSub { line-height: 1.5; }
-  .verdictRow { gap: var(--space-2); }
 }

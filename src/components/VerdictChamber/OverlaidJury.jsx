@@ -21,10 +21,10 @@ export default function OverlaidJury({
   annotations = [],
   availableLenses = [],
   sealed = false,
-  onOpenJurorPlate,
+  onOpenPerspective,
 }) {
   const [active, setActive] = useState('you')
-  const jurorPlates = useMemo(() => JURORS.map((juror) => juror.lens), [])
+  const jurorPerspectives = useMemo(() => JURORS.map((juror) => juror.lens), [])
 
 
   const activeAnnotations = active === 'you' ? [] : active === 'all' ? annotations : annotations.filter((annotation) => annotation.juror === active)
@@ -32,23 +32,22 @@ export default function OverlaidJury({
   const activeLens = active === 'you' || active === 'all' ? null : lensByKey[active]
 
   return (
-    <section className={styles.root} aria-label="Overlaid evidence jury">
+    <section className={styles.root} aria-label="Evidence comparison">
       <div className={styles.header}>
         <div>
-          <p className={styles.eyebrow}>{sealed ? 'SEALED RECORD' : 'THE OVERLAID JURY'}</p>
+          <p className={styles.eyebrow}>{sealed ? 'SEALED RECORD' : 'EVIDENCE COMPARISON'}</p>
           <h2 className={styles.title}>
-            {active === 'you' ? 'What you counted as evidence.' : active === 'all' ? 'Where the five plates agree and collide.' : `What ${activeJuror.title.toLowerCase()} counted as evidence.`}
+            {active === 'you' ? 'What you counted as evidence.' : active === 'all' ? 'Where the five perspectives agree and conflict.' : `What ${activeJuror.title.toLowerCase()} counted as evidence.`}
           </h2>
         </div>
-        <p className={styles.counter}>{active === 'you' ? `PLATE 00 · ${visitorMarks.length} MARKS` : `${activeAnnotations.length} FINDINGS · ${activeLens?.label.toUpperCase()}`}</p>
+        <p className={styles.counter}>{active === 'you' ? `YOUR EVIDENCE · ${visitorMarks.length} MARKS` : `${activeAnnotations.length} FINDINGS · ${activeLens?.label.toUpperCase()}`}</p>
       </div>
 
-      <div className={styles.plates} role="tablist" aria-label="Evidence plates">
-        <button type="button" role="tab" aria-selected={active === 'you'} aria-controls="evidence-plate-stage" onClick={() => setActive('you')} className={`${styles.plateTab} ${active === 'you' ? styles.plateTabActive : ''}`}>
-          <span className={styles.plateNumber}>00</span>
-          <span>You</span>
+      <div className={styles.perspectives} role="tablist" aria-label="Evidence perspectives">
+        <button type="button" role="tab" aria-selected={active === 'you'} aria-controls="evidence-comparison-stage" onClick={() => setActive('you')} className={`${styles.perspectiveTab} ${active === 'you' ? styles.perspectiveTabActive : ''}`}>
+          <span>Your view</span>
         </button>
-        {!sealed && jurorPlates.map((lens, index) => {
+        {!sealed && jurorPerspectives.map((lens) => {
           const available = availableLenses.includes(lens)
           return (
             <button
@@ -56,13 +55,12 @@ export default function OverlaidJury({
               type="button"
               role="tab"
               aria-selected={active === lens}
-              aria-controls="evidence-plate-stage"
+              aria-controls="evidence-comparison-stage"
               disabled={!available}
-              onClick={() => { setActive(lens); onOpenJurorPlate?.(lens) }}
-              className={`${styles.plateTab} ${active === lens ? styles.plateTabActive : ''}`}
-              style={{ '--plate-color': lensByKey[lens]?.color }}
+              onClick={() => { setActive(lens); onOpenPerspective?.(lens) }}
+              className={`${styles.perspectiveTab} ${active === lens ? styles.perspectiveTabActive : ''}`}
+              style={{ '--perspective-color': lensByKey[lens]?.color }}
             >
-              <span className={styles.plateNumber}>{String(index + 1).padStart(2, '0')}</span>
               <span>{JUROR_BY_LENS[lens]?.title.replace('The ', '')}</span>
             </button>
           )
@@ -72,19 +70,18 @@ export default function OverlaidJury({
             type="button"
             role="tab"
             aria-selected={active === 'all'}
-            aria-controls="evidence-plate-stage"
+            aria-controls="evidence-comparison-stage"
             disabled={availableLenses.length < JURORS.length}
-            onClick={() => { setActive('all'); onOpenJurorPlate?.('all') }}
-            className={`${styles.plateTab} ${styles.allTab} ${active === 'all' ? styles.plateTabActive : ''}`}
+            onClick={() => { setActive('all'); onOpenPerspective?.('all') }}
+            className={`${styles.perspectiveTab} ${styles.allTab} ${active === 'all' ? styles.perspectiveTabActive : ''}`}
           >
-            <span className={styles.plateNumber}>ALL</span>
-            <span>Overlay</span>
+            <span>Combined</span>
           </button>
         )}
       </div>
 
-      <div className={styles.stage} id="evidence-plate-stage" role="tabpanel">
-        <img src={src} alt={description ?? 'Interface with selected evidence plate'} className={styles.image} style={{ aspectRatio, objectPosition }} draggable={false} />
+      <div className={styles.stage} id="evidence-comparison-stage" role="tabpanel">
+        <img src={src} alt={description ?? 'Interface with selected evidence perspective'} className={styles.image} style={{ aspectRatio, objectPosition }} draggable={false} />
         <span className={styles.vignette} aria-hidden="true" />
 
         {visitorMarks.map((mark, index) => (
@@ -115,7 +112,7 @@ export default function OverlaidJury({
             <span className={styles.jurorBadge}>{String(index + 1).padStart(2, '0')}</span>
           </span>
         ))}
-        <span className={styles.exhibit}>EXHIBIT A · PLATES SHARE ONE COORDINATE SYSTEM</span>
+        <span className={styles.exhibit}>All marks share the same image coordinates</span>
       </div>
 
       <ol className={styles.legend}>
@@ -136,7 +133,7 @@ export default function OverlaidJury({
             ))}
       </ol>
 
-      {sealed && <p className={styles.sealedNote}>No external plate will be opened. This case leaves the archive with only the evidence you chose to see.</p>}
+      {sealed && <p className={styles.sealedNote}>No outside perspective will be shown. This case keeps only the evidence you chose to see.</p>}
     </section>
   )
 }
