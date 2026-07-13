@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { JUROR_BY_LENS } from '../../data/jurors'
+import { JURORS, JUROR_BY_LENS } from '../../data/jurors'
 import styles from './OverlaidJury.module.css'
 
 const EVIDENCE_LENSES = [
@@ -16,6 +16,7 @@ export default function OverlaidJury({
   src,
   aspectRatio = '4/3',
   objectPosition = 'top center',
+  description,
   visitorMarks = [],
   annotations = [],
   availableLenses = [],
@@ -23,12 +24,12 @@ export default function OverlaidJury({
   onOpenJurorPlate,
 }) {
   const [active, setActive] = useState('you')
-  const jurorPlates = useMemo(() => [...new Set(annotations.map((annotation) => annotation.juror))], [annotations])
+  const jurorPlates = useMemo(() => JURORS.map((juror) => juror.lens), [])
 
 
-  const activeAnnotations = active === 'you' ? [] : annotations.filter((annotation) => annotation.juror === active)
-  const activeJuror = active === 'you' ? null : JUROR_BY_LENS[active]
-  const activeLens = active === 'you' ? null : lensByKey[active]
+  const activeAnnotations = active === 'you' ? [] : active === 'all' ? annotations : annotations.filter((annotation) => annotation.juror === active)
+  const activeJuror = active === 'you' || active === 'all' ? null : JUROR_BY_LENS[active]
+  const activeLens = active === 'you' || active === 'all' ? null : lensByKey[active]
 
   return (
     <section className={styles.root} aria-label="Overlaid evidence jury">
@@ -36,14 +37,14 @@ export default function OverlaidJury({
         <div>
           <p className={styles.eyebrow}>{sealed ? 'SEALED RECORD' : 'THE OVERLAID JURY'}</p>
           <h2 className={styles.title}>
-            {active === 'you' ? 'What you counted as evidence.' : `What ${activeJuror.title.toLowerCase()} counted as evidence.`}
+            {active === 'you' ? 'What you counted as evidence.' : active === 'all' ? 'Where the five plates agree and collide.' : `What ${activeJuror.title.toLowerCase()} counted as evidence.`}
           </h2>
         </div>
-        <p className={styles.counter}>{active === 'you' ? `PLATE 00 Â· ${visitorMarks.length} MARKS` : `${activeAnnotations.length} FINDINGS Â· ${activeLens?.label.toUpperCase()}`}</p>
+        <p className={styles.counter}>{active === 'you' ? `PLATE 00 · ${visitorMarks.length} MARKS` : `${activeAnnotations.length} FINDINGS · ${activeLens?.label.toUpperCase()}`}</p>
       </div>
 
       <div className={styles.plates} role="tablist" aria-label="Evidence plates">
-        <button type="button" role="tab" aria-selected={active === 'you'} onClick={() => setActive('you')} className={`${styles.plateTab} ${active === 'you' ? styles.plateTabActive : ''}`}>
+        <button type="button" role="tab" aria-selected={active === 'you'} aria-controls="evidence-plate-stage" onClick={() => setActive('you')} className={`${styles.plateTab} ${active === 'you' ? styles.plateTabActive : ''}`}>
           <span className={styles.plateNumber}>00</span>
           <span>You</span>
         </button>
@@ -55,6 +56,7 @@ export default function OverlaidJury({
               type="button"
               role="tab"
               aria-selected={active === lens}
+              aria-controls="evidence-plate-stage"
               disabled={!available}
               onClick={() => { setActive(lens); onOpenJurorPlate?.(lens) }}
               className={`${styles.plateTab} ${active === lens ? styles.plateTabActive : ''}`}
@@ -65,10 +67,24 @@ export default function OverlaidJury({
             </button>
           )
         })}
+        {!sealed && (
+          <button
+            type="button"
+            role="tab"
+            aria-selected={active === 'all'}
+            aria-controls="evidence-plate-stage"
+            disabled={availableLenses.length < JURORS.length}
+            onClick={() => { setActive('all'); onOpenJurorPlate?.('all') }}
+            className={`${styles.plateTab} ${styles.allTab} ${active === 'all' ? styles.plateTabActive : ''}`}
+          >
+            <span className={styles.plateNumber}>ALL</span>
+            <span>Overlay</span>
+          </button>
+        )}
       </div>
 
-      <div className={styles.stage}>
-        <img src={src} alt="Interface with selected evidence plate" className={styles.image} style={{ aspectRatio, objectPosition }} draggable={false} />
+      <div className={styles.stage} id="evidence-plate-stage" role="tabpanel">
+        <img src={src} alt={description ?? 'Interface with selected evidence plate'} className={styles.image} style={{ aspectRatio, objectPosition }} draggable={false} />
         <span className={styles.vignette} aria-hidden="true" />
 
         {visitorMarks.map((mark, index) => (
@@ -92,14 +108,14 @@ export default function OverlaidJury({
               width: `${annotation.width}%`,
               height: `${annotation.height}%`,
               '--ruling-color': rulingColor[annotation.type],
-              '--lens-color': activeLens?.color,
+              '--lens-color': lensByKey[annotation.juror]?.color,
             }}
             aria-hidden="true"
           >
             <span className={styles.jurorBadge}>{String(index + 1).padStart(2, '0')}</span>
           </span>
         ))}
-        <span className={styles.exhibit}>EXHIBIT A Â· PLATES SHARE ONE COORDINATE SYSTEM</span>
+        <span className={styles.exhibit}>EXHIBIT A · PLATES SHARE ONE COORDINATE SYSTEM</span>
       </div>
 
       <ol className={styles.legend}>
@@ -112,9 +128,9 @@ export default function OverlaidJury({
               </li>
             ))
           : activeAnnotations.map((annotation, index) => (
-              <li key={`${annotation.juror}-${index}`} className={styles.legendRow} style={{ '--lens-color': activeLens?.color }}>
+              <li key={`${annotation.juror}-${index}`} className={styles.legendRow} style={{ '--lens-color': lensByKey[annotation.juror]?.color }}>
                 <span>{String(index + 1).padStart(2, '0')}</span>
-                <strong>{activeLens?.label}</strong>
+                <strong>{lensByKey[annotation.juror]?.label}</strong>
                 <p>{annotation.label}</p>
               </li>
             ))}

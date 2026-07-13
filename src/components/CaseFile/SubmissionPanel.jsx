@@ -27,16 +27,16 @@ function buildFinding(verdict, confidence) {
   return confidence ? `I read this as ${position}. ${CONFIDENCE_PHRASE[confidence]}` : `I read this as ${position}.`
 }
 
-export default function SubmissionPanel({ exiting, onSubmit, inferConfidence = false, plateReady, plateCount }) {
+export default function SubmissionPanel({ exiting, onSubmit, plateReady, plateCount }) {
   const [verdict, setVerdict] = useState(null)
   const [confidence, setConfidence] = useState(null)
   const [writtenRuling, setWrittenRuling] = useState('')
   const rulingComplete = writtenRuling.trim().length > 0
-  const isComplete = plateReady && verdict !== null && rulingComplete && (inferConfidence || confidence !== null)
+  const isComplete = plateReady && verdict !== null && rulingComplete && confidence !== null
 
   function submit() {
     if (!isComplete || exiting) return
-    onSubmit({ verdict, confidence: inferConfidence ? null : confidence, writtenRuling: writtenRuling.trim() })
+    onSubmit({ verdict, confidence, writtenRuling: writtenRuling.trim() })
   }
 
   return (
@@ -81,13 +81,12 @@ export default function SubmissionPanel({ exiting, onSubmit, inferConfidence = f
           placeholder="State what your plate proves in one sentence."
           maxLength={180}
           rows={3}
-          spellCheck={false}
+          spellCheck
         />
       </div>
 
-      {inferConfidence ? (
-        <p className={styles.inferredNote}>Confidence is no longer self-reported. The clock is running.</p>
-      ) : (
+      <div className={styles.confidenceBlock}>
+        <p className={styles.inferredNote}>Confidence is yours to report. Take the time you need.</p>
         <div className={styles.confidenceColumn} role="group" aria-label="Confidence level">
           {CONFIDENCE_OPTIONS.map(({ key, label }) => (
             <button key={key} className={`${styles.confidenceOption} ${confidence === key ? styles.confidenceSelected : ''}`} onClick={() => setConfidence(key)} aria-pressed={confidence === key}>
@@ -95,7 +94,7 @@ export default function SubmissionPanel({ exiting, onSubmit, inferConfidence = f
             </button>
           ))}
         </div>
-      )}
+      </div>
 
       <div className={styles.findingSection}>
         <div className={styles.findingRule} aria-hidden="true" />

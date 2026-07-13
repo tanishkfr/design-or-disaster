@@ -4,7 +4,7 @@ import styles from './FinalReport.module.css'
 
 const closedDate = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
 
-export default function FinalReport({ profile, onRestart, onBack }) {
+export default function FinalReport({ profile, onRestart, onBack, isExhibitComplete = false }) {
   const content = profile ? generateFinalReportContent(profile, CASES) : null
 
   // Fallback prose for zero-submission edge case
@@ -13,7 +13,7 @@ export default function FinalReport({ profile, onRestart, onBack }) {
       <div className={styles.page}>
         <div className={styles.container}>
           <header className={styles.header}>
-            <span className={styles.docLabel}>Design Eye Â· Investigation Record</span>
+            <span className={styles.docLabel}>Design Eye · Investigation Record</span>
             <span className={styles.docMeta}>No cases reviewed</span>
           </header>
           <p className={styles.opening}>No cases have been reviewed yet.</p>
@@ -22,7 +22,7 @@ export default function FinalReport({ profile, onRestart, onBack }) {
             <p className={styles.question}>Return to the archive to begin an investigation.</p>
           </section>
           <div className={styles.actions}>
-            <button className={styles.backBtn} onClick={onBack}>â† Archive</button>
+            <button className={styles.backBtn} onClick={onBack}>← Archive</button>
           </div>
         </div>
       </div>
@@ -36,13 +36,13 @@ export default function FinalReport({ profile, onRestart, onBack }) {
       <div className={styles.container}>
 
         <header className={styles.header}>
-          <span className={styles.docLabel}>Design Eye Â· Investigation Record</span>
+          <span className={styles.docLabel}>Design Eye · Investigation Record</span>
           <span className={styles.docMeta}>
-            {total >= CASES.length - 1 ? 'Investigation Complete' : `${total} rulings filed`} Â· {closedDate}
+            {isExhibitComplete ? 'Five-minute exhibit complete' : total >= CASES.length - 1 ? 'Investigation complete' : `${total} rulings filed`} · {closedDate}
           </span>
         </header>
 
-        {/* â”€â”€ Lean card â€” the shareable summary. Not a grade: a mirror. â”€â”€ */}
+        {/* ── Lean card — the shareable summary. Not a grade: a mirror. ── */}
         <div className={styles.verdictCard}>
           <span className={styles.cardLabel}>Your Design Eye</span>
           {lean ? (
@@ -51,8 +51,9 @@ export default function FinalReport({ profile, onRestart, onBack }) {
                 <span className={styles.cardLensName}>{lean.strongest.title}</span>
               </div>
               <p className={styles.cardMeta}>
-                You marked {lean.strongest.title.toLowerCase()} evidence in {lean.strongest.count} cases.
-                {' '}Least visible: {lean.weakest.title}.
+                {lean.balanced
+                  ? `All five lenses entered the record equally across ${total} rulings.`
+                  : `You marked ${lean.strongest.title.toLowerCase()} evidence in ${lean.strongest.count} cases. Least visible: ${lean.weakest.title}.`}
               </p>
             </>
           ) : (
@@ -68,7 +69,7 @@ export default function FinalReport({ profile, onRestart, onBack }) {
           ))}
         </section>
 
-        {/* â”€â”€ Quote-back â€” the record was listening â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+        {/* ── Quote-back — the record was listening ───────── */}
         {rulingQuote && (
           <>
             <div className={styles.rule} />
@@ -84,7 +85,7 @@ export default function FinalReport({ profile, onRestart, onBack }) {
           </>
         )}
 
-        {/* â”€â”€ Sealed ruling â€” the finale that stands alone â”€â”€ */}
+        {/* ── Sealed ruling — the finale that stands alone ── */}
         {sealedRuling && (
           <>
             <div className={styles.rule} />
@@ -107,7 +108,7 @@ export default function FinalReport({ profile, onRestart, onBack }) {
 
         <div className={styles.actions}>
           <button className={styles.backBtn} onClick={onBack}>
-            â† Archive
+            ← Archive
           </button>
           <button className={styles.restartBtn} onClick={onRestart}>
             Restart Investigation
@@ -115,7 +116,7 @@ export default function FinalReport({ profile, onRestart, onBack }) {
         </div>
 
         <p className={styles.stamp}>
-          Investigation closed Â· {total} rulings filed Â· {closedDate}
+          {isExhibitComplete ? 'Exhibit complete' : 'Investigation closed'} · {total} rulings filed · {closedDate}
         </p>
 
       </div>

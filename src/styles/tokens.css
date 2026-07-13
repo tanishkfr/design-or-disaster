@@ -12,19 +12,19 @@
 
   /* ─── Text ────────────────────────────────────────── */
   --text-primary:    #F0EAD6;
-  --text-secondary:  #9A949F;
-  --text-tertiary:   #5E5966;
+  --text-secondary:  #A9A3AC;
+  --text-tertiary:   #8B8492;
 
   /* ─── Verdict — Guilty ────────────────────────────── */
-  --guilty:          #C8432A;
+  --guilty:          #E1654D;
   --guilty-dim:      #3D1510;
 
   /* ─── Verdict — Clear ─────────────────────────────── */
-  --clear:           #4A8C5C;
+  --clear:           #68AA7A;
   --clear-dim:       #102416;
 
   /* ─── Verdict — Mixed ─────────────────────────────── */
-  --mixed:           #B87D2A;
+  --mixed:           #D39A45;
   --mixed-dim:       #2E1F08;
 
   /* ─── Accent ──────────────────────────────────────── */
@@ -32,7 +32,7 @@
   --amber-dim:       #2A1D08;
 
   /* ─── Landmark ────────────────────────────────────── */
-  --landmark:        #8B6FC8;
+  --landmark:        #A88BE3;
   --landmark-dim:    #1A1230;
 
   /* ─── Typography ──────────────────────────────────── */
@@ -41,10 +41,10 @@
   --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
 
   /* ─── Type Scale ──────────────────────────────────── */
-  --t-case-number: 11px;   /* Mono 500 — CASE #007 */
+  --t-case-number: 12px;   /* Mono 500 — CASE #007 */
   --t-label:       12px;   /* Mono 500 — status tags, category codes */
-  --t-body-sm:     13px;   /* Body 400 — meta copy, timestamps */
-  --t-body:        15px;   /* Body 400 — juror reasoning, evidence copy */
+  --t-body-sm:     14px;   /* Body 400 — meta copy, timestamps */
+  --t-body:        16px;   /* Body 400 — juror reasoning, evidence copy */
   --t-body-med:    15px;   /* Body 600 — UI labels, navigation */
   --t-title:       22px;   /* Display 400 italic — case titles */
   --t-verdict:     32px;   /* Display 400 italic — final verdict text */
@@ -60,8 +60,10 @@
   --space-2:  8px;
   --space-3:  12px;
   --space-4:  16px;
+  --space-5:  20px;
   --space-6:  24px;
   --space-8:  32px;
+  --space-10: 40px;
   --space-12: 48px;
   --space-16: 64px;
 
@@ -70,6 +72,9 @@
   --radius-md:   8px;
   --radius-lg:   12px;
   --radius-full: 9999px;
+
+  /* Interaction */
+  --target-min: 44px;
 
   /* ─── Motion ──────────────────────────────────────── */
   --duration-fast:   150ms;

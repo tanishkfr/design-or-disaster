@@ -30,7 +30,7 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
     }
 
     const timers = jurorRulings.map((_, index) =>
-      setTimeout(() => setArrivedCount(index + 1), 700 + index * 850),
+      setTimeout(() => setArrivedCount((current) => Math.max(current, index + 1)), 500 + index * 650),
     )
     return () => {
       timers.forEach(clearTimeout)
@@ -54,7 +54,7 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
       )}
 
       <header className={styles.header}>
-        <button className={styles.backBtn} onClick={onBack} aria-label="Return to archive">â† Archive</button>
+        <button className={styles.backBtn} onClick={onBack} aria-label="Return to archive">← Archive</button>
         <span className={styles.caseNumber}>{caseData.number}</span>
         <span className={`${styles.chamberLabel} ${styles.chamberLabelVisible}`}>{sealed ? 'SEALED PLATE' : 'OVERLAID JURY'}</span>
       </header>
@@ -64,6 +64,7 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
           src={caseData.screenshot}
           aspectRatio={caseData.screenshotAspect ?? '4/3'}
           objectPosition={caseData.screenshotPosition ?? 'top center'}
+          description={caseData.screenshotDescription}
           visitorMarks={submission.evidencePlate ?? []}
           annotations={sealed ? [] : caseData.annotations ?? []}
           availableLenses={availableLenses}
@@ -88,7 +89,12 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
             <div className={styles.divider} aria-hidden="true" />
             <section className={styles.deliberation} aria-label="Jury deliberation">
               <div className={styles.deliberationHeader}>
-                <span className={styles.deliberationLabel}>Five plates Â· incompatible evidence</span>
+                <span className={styles.deliberationLabel}>Five plates · incompatible evidence</span>
+                {arrivedCount < jurorRulings.length && (
+                  <button className={styles.revealAllBtn} type="button" onClick={() => setArrivedCount(jurorRulings.length)}>
+                    Open all five plates
+                  </button>
+                )}
                 <div className={styles.jurorDots} aria-hidden="true">
                   {jurorRulings.map((ruling, index) => (
                     <div key={ruling.juror} className={`${styles.jurorDot} ${index < arrivedCount ? styles[`jurorDot_${ruling.ruling}`] : ''}`} />

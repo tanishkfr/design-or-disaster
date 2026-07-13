@@ -145,7 +145,7 @@
 /* Title case, not all-caps — evidence labels, not system categories */
 .tag {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   letter-spacing: var(--ls-label);
   color: var(--text-tertiary);
@@ -228,7 +228,6 @@
   border-radius: 0;
   padding: var(--space-2) 0;
   resize: none;
-  outline: none;
   transition: border-bottom-color var(--duration-fast) var(--ease-default);
 }
 
@@ -256,6 +255,12 @@
 /* ─── Confidence column ───────────────────────────── */
 /* Instrument Serif italic — this is personal judgment, not a rating scale */
 
+.confidenceBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
 .confidenceColumn {
   display: flex;
   flex-direction: column;
@@ -272,6 +277,7 @@
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
+  min-height: var(--target-min);
   padding: var(--space-2) 0;
   cursor: pointer;
   text-align: left;
@@ -341,6 +347,7 @@
   background: none;
   border: 1px solid transparent;
   border-radius: 20px;
+  min-height: var(--target-min);
   padding: var(--space-2) var(--space-4);
   cursor: default;
   text-align: left;
