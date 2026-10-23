@@ -457,6 +457,10 @@
 .recordAction {
   min-height: 52px;
   font: 600 14px var(--font-body);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   width: 100%;
   border: 1px solid var(--border-default);
   padding: 14px;

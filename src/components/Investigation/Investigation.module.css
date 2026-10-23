@@ -113,11 +113,13 @@
 .primary {
   min-height: 50px;
   padding: 15px 22px;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: var(--amber);
   color: var(--bg);
   font: 600 14px/1.4 var(--font-body);
-  text-align: left;
+  text-align: center;
   border: 1px solid var(--amber);
   width: fit-content;
 }
@@ -291,6 +293,9 @@
   flex-wrap: wrap;
 }
 .modeRail button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 44px;
   padding: 12px 20px;
   border: 1px solid var(--border-default);
@@ -332,6 +337,9 @@
   color: var(--text-secondary);
 }
 .savedFrames button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 44px;
   padding: 10px 14px;
   border: 1px solid var(--border-default);

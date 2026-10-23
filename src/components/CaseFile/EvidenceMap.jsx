@@ -230,13 +230,19 @@ export default function EvidenceMap({
           aria-pressed={tool === 'point'}
           onClick={() => setTool('point')}
         >
-          ＋ Point
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path d="M8 3v10M3 8h10" />
+          </svg>
+          Point
         </button>
         <button
           aria-pressed={tool === 'region'}
           onClick={() => setTool('region')}
         >
-          ▧ Region
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <rect x="3" y="3" width="10" height="10" strokeDasharray="2 2" />
+          </svg>
+          Region
         </button>
         <span>
           {exhibit
