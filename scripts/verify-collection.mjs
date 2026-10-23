@@ -40,6 +40,7 @@ const observations = {
   'case-015': ['The blunt masthead gives the small collection a deliberate visual voice.', 'The bag records my chosen size and makes the absence of checkout explicit.', 'brand-expression', 'product-information'],
 }
 async function locateFinding(page, id, second = false) {
+  await page.getByText('Classification & position', { exact: true }).click()
   const target = await page.evaluate(({ key, id, second, region }) => {
     const r = JSON.parse(localStorage.getItem(key)).records[id]
     const look = second ? r.secondLook : r.firstLook

@@ -202,7 +202,7 @@ export default function EvidenceMap({
 
   return (
     <section className={styles.root} aria-label="Build your evidence map">
-      <div className={styles.mapHeader}>
+      {!editorTarget && <div className={styles.mapHeader}>
         <div>
           <h2 className={styles.eyebrow}>{heading}</h2>
           {!editorTarget && <p className={styles.instruction}>
@@ -218,14 +218,14 @@ export default function EvidenceMap({
               ? ' finding'
               : ' findings'}
         </span>
-      </div>
+      </div>}
 
       <div
         className={styles.tools}
         role="group"
         aria-label="Evidence instrument"
       >
-        <span>INSTRUMENT</span>
+        {!editorTarget && <span>INSTRUMENT</span>}
         <button
           aria-pressed={tool === 'point'}
           onClick={() => setTool('point')}
@@ -244,11 +244,11 @@ export default function EvidenceMap({
           </svg>
           Region
         </button>
-        <span>
+        {!editorTarget && <span>
           {exhibit
             ? 'Frozen exhibit · Explore to interact'
             : 'Static exhibit · mark to inspect'}
-        </span>
+        </span>}
       </div>
       {!neutral && (
         <>
@@ -414,7 +414,7 @@ export default function EvidenceMap({
       </details>
 
       <Editor target={editorTarget}>
-      <p className={styles.inputHelp} role="status">
+      <p className={editorTarget ? styles.announcement : styles.inputHelp} role="status">
         {marks.length
           ? `${marks.length} finding${marks.length === 1 ? '' : 's'} placed. Describe each observation below.`
           : 'No findings yet. Place your first mark.'}
@@ -440,10 +440,11 @@ export default function EvidenceMap({
               >
                 {String(index + 1).padStart(2, '0')}
               </button>
-              <span className={styles.ledgerLens}>
-                {lensByKey[mark.lens]?.label ?? 'Unclassified'}
-              </span>
+              <label className={styles.ledgerLens} htmlFor={`${helpId}-${mark.id}`}>
+                {neutral ? 'Observation' : lensByKey[mark.lens]?.label ?? 'Observation'}
+              </label>
               <textarea
+                id={`${helpId}-${mark.id}`}
                 ref={(element) => {
                   noteRefs.current[mark.id] = element
                 }}
@@ -452,7 +453,7 @@ export default function EvidenceMap({
                 onChange={(event) =>
                   updateMark(mark.id, { note: event.target.value })
                 }
-                placeholder="What does this area make you notice?"
+                placeholder="What stands out?"
                 aria-label={`Marker ${index + 1} observation`}
                 maxLength={100}
                 rows={2}
@@ -473,8 +474,11 @@ export default function EvidenceMap({
       {marks
         .filter((mark) => mark.id === selected)
         .map((mark) => (
-          <div
+          <details className={styles.adjustments}
             key={mark.id}
+          >
+          <summary>Classification &amp; position</summary>
+          <div
             className={styles.geometry}
             aria-label="Edit selected evidence position"
           >
@@ -516,6 +520,7 @@ export default function EvidenceMap({
               ),
             )}
           </div>
+          </details>
         ))}
       {marks.length > 0 && <button className={styles.returnToExhibit} onClick={() => {
         viewerRef.current?.focus({ preventScroll: true })

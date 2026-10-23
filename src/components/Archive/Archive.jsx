@@ -147,8 +147,8 @@ export default function Archive({
       >
         <h2>Five exhibits. Two looks. Your judgment.</h2>
         <p>
-          Each working exhibit is an authored simulation. Begin anywhere; the
-          sealed case closes the suggested sequence.
+          Choose an exhibit. Explore it, mark one finding, then make your first
+          judgment. Each exhibit is a simulation.
         </p>
         <div className={styles.collectionLayout}>
         <div className={styles.collectionRows}>

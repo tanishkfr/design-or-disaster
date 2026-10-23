@@ -217,7 +217,7 @@ export default function Investigation({
         </h1>
         </div>
         <p className={styles.saved}>
-          Saved locally / {complete ? 'complete' : LABELS[stage]}
+          Saved locally
         </p>
       </div>
       {observation && (
@@ -247,8 +247,8 @@ export default function Investigation({
                 {sealed
                   ? 'This evidence is sealed.'
                   : mode === 'explore'
-                    ? 'Explore to try it. Mark to freeze this view and describe your evidence.'
-                    : 'Frozen for marking. Place a point or drag a region, then describe it below.'}
+                    ? 'Try the exhibit, then mark what stands out.'
+                    : 'Select an area, then add a short note.'}
               </p>
               <a href="#look-inspector" onClick={(e) => {
                 e.preventDefault()
@@ -327,8 +327,8 @@ export default function Investigation({
               )}
             </div>
             <aside className={styles.inspector} id="look-inspector" tabIndex="-1">
-              <div className={styles.inspectorHead}><h2>{first ? 'Your first evidence' : 'Your second evidence'}</h2><span>{interactive ? mode === 'explore' ? 'Explore / live' : 'Mark / frozen' : 'Mark / still'}</span></div>
-              <p>{first ? config.instruction : config.task}</p>
+              <div className={styles.inspectorHead}><h2>Your findings</h2></div>
+              {(!interactive || mode === 'explore') && <p>{first ? config.instruction : config.task}</p>}
               {interactive && mode === 'explore' && !sealed && <button className={styles.textButton} onClick={() => switchMode('mark')}>Freeze this view to mark →</button>}
               <div ref={setEditorTarget} className={styles.editorSlot} />
               {!first && (
@@ -348,12 +348,10 @@ export default function Investigation({
               {!sealed && (
                 <p className={styles.readiness} role="status">
                   {evidenceReady(look.marks)
-                    ? `${look.marks.length} described finding${look.marks.length === 1 ? '' : 's'} ready. You can make your judgment.`
+                    ? 'Ready for your judgment.'
                     : look.marks.length
                       ? 'Describe each finding to continue.'
-                      : interactive && mode === 'explore'
-                        ? 'When something stands out, choose Mark above the exhibit.'
-                        : 'Place and describe one finding to continue.'}
+                      : 'One finding and a short note are enough.'}
                 </p>
               )}
               <details className={styles.guidance}><summary>How this look works</summary><p>One described point or region is enough. Classification is optional. {first ? 'Context opens after you seal your first judgment.' : 'A different verdict is optional; both judgments stay on record.'}</p></details>
