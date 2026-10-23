@@ -154,6 +154,7 @@ try {
   await page
     .getByRole('textbox', { name: 'Marker 1 observation' })
     .fill('The controls form an equal row.')
+  await page.getByText('Classification & position', { exact: true }).click()
   await page
     .getByRole('combobox', { name: 'Evidence classification' })
     .selectOption('hierarchy')

@@ -273,6 +273,7 @@ try {
     await page
       .getByRole('textbox', { name: 'Marker 1 observation' })
       .fill('Completion confirms where the demo task ends.')
+    await page.getByText('Classification & position', { exact: true }).click()
     await page
       .getByRole('spinbutton', { name: 'Evidence x percent' })
       .fill('12')

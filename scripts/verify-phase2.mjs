@@ -106,6 +106,7 @@ try {
     await page
       .getByRole('textbox', { name: 'Marker 2 observation' })
       .fill('The action row competes with the balance.')
+    await page.getByText('Classification & position', { exact: true }).click()
     await page
       .getByRole('spinbutton', { name: 'Evidence x percent' })
       .fill('15')

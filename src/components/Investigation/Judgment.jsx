@@ -28,8 +28,8 @@ export default function Judgment({
         {sealed
           ? 'This judgment is sealed. Looking back does not change it.'
           : second
-            ? 'A different verdict is optional. Both decisions will remain on record.'
-            : 'This is your first reading. Sealing it preserves the evidence and reasoning together.'}
+            ? 'Keeping your verdict is fine. Both judgments stay saved.'
+            : 'Your evidence and reasoning stay sealed with this judgment.'}
       </p>
       <div
         className={styles.verdicts}
@@ -50,7 +50,7 @@ export default function Judgment({
       <label className={styles.written}>
         Your reasoning
         <textarea
-          rows={4}
+          rows={3}
           maxLength={800}
           value={value.writtenRuling}
           readOnly={sealed}

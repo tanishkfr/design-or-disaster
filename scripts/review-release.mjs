@@ -53,6 +53,8 @@ try {
     await page.locator('[aria-label="Named interface regions"] button').first().click()
     await page.getByRole('textbox', { name: 'Marker 1 observation' }).fill('Synthetic review: this named region supports my reading.')
     await scan(`${id}-mark`)
+    await page.getByText('Classification & position', { exact: true }).click()
+    await scan(`${id}-finding-options`)
     await button('Make first judgment →').click()
     await scan(`${id}-judgment`)
   }

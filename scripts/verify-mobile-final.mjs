@@ -3,7 +3,7 @@ import { spawn } from 'node:child_process'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import assert from 'node:assert/strict'
 
-const out='output/final-fixes/mobile'
+const out=process.env.VERIFY_OUT??'output/final-fixes/mobile'
 mkdirSync(out,{recursive:true})
 const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','preview','--host','127.0.0.1','--port','5213','--strictPort'],{stdio:'pipe',windowsHide:true})
 const browser=await chromium.launch({channel:'chrome'})
@@ -27,6 +27,7 @@ try{
   await viewer.press('Enter')
   const note=page.getByRole('textbox',{name:'Marker 1 observation'})
   await note.fill('This lower evidence should be visible when I return from its corresponding observation.')
+  await page.getByText('Classification & position', { exact: true }).click()
   await page.getByRole('spinbutton',{name:'Evidence y percent',exact:true}).fill('90')
   await page.getByRole('button',{name:'Return to exhibit ↑',exact:true}).click()
   const mark=viewer.locator('[class*="selectedMark"]')

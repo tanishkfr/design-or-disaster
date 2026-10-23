@@ -77,6 +77,7 @@ try {
   await activate(button('Region'))
   await activate(viewer)
   await type(page.getByRole('textbox', { name: 'Marker 1 observation' }), 'The action row is equally weighted; whether that helps depends on the task.')
+  await activate(page.getByText('Classification & position', { exact: true }))
   await type(page.getByRole('spinbutton', { name: 'Evidence width percent', exact: true }), '22')
   assert.equal(await page.getByRole('spinbutton', { name: 'Evidence width percent', exact: true }).inputValue(), '22')
   results.push('Tab-only point/rectangle creation, editing, deletion and focus recovery')
