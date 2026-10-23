@@ -25,12 +25,15 @@ export default function CaseFile({ caseId, onBack, onSubmit }) {
     return (
       <div className={styles.errorState}>
         <p className={styles.errorText}>Case not found.</p>
-        <button className={styles.backBtn} onClick={onBack}>← Archive</button>
+        <button className={styles.backBtn} onClick={onBack}>
+          ← Archive
+        </button>
       </div>
     )
   }
 
-  const evidenceReady = evidenceMap.length > 0 && evidenceMap.every((mark) => mark.note.trim())
+  const evidenceReady =
+    evidenceMap.length > 0 && evidenceMap.every((mark) => mark.note.trim())
 
   function handleSubmit({ verdict, confidence, writtenRuling }) {
     setPanelExiting(true)
@@ -52,13 +55,30 @@ export default function CaseFile({ caseId, onBack, onSubmit }) {
   return (
     <div className={styles.root}>
       <header className={styles.header}>
-        <button className={styles.backBtn} onClick={onBack} aria-label="Return to archive">← Archive</button>
+        <button
+          className={styles.backBtn}
+          onClick={onBack}
+          aria-label="Return to archive"
+        >
+          ← Archive
+        </button>
         <span className={styles.headerCaseNumber}>{caseData.number}</span>
         <StatusTag status={resolveStatus(caseData)} />
       </header>
 
+      <div className={styles.caseHeading}>
+        <div>
+          <p>{caseData.number} / INVESTIGATION</p>
+          <h1>{caseData.title}</h1>
+        </div>
+        <a href="#inspector" onClick={(e) => {
+          e.preventDefault()
+          document.getElementById('inspector')?.focus()
+        }}>Write your ruling ↓</a>
+      </div>
       <div className={styles.body}>
         <div className={styles.left}>
+          {caseData.imageNotice && <p className={styles.imageNotice}>{caseData.imageNotice}</p>}
           <EvidenceMap
             src={caseData.screenshot}
             aspectRatio={caseData.screenshotAspect ?? '4/3'}
@@ -68,13 +88,10 @@ export default function CaseFile({ caseId, onBack, onSubmit }) {
             marks={evidenceMap}
             onChange={setEvidenceMap}
           />
-          <div className={styles.caseIdentity}>
-            <h1 className={styles.caseTitle}>{caseData.title}</h1>
-            <p className={styles.caseContext}>{caseData.context}</p>
-          </div>
         </div>
 
-        <div className={styles.right}>
+        <div className={styles.right} id="inspector" tabIndex="-1">
+          <h2 className={styles.inspectorTitle}>The inspector</h2>
           <SubmissionPanel
             exiting={panelExiting}
             onSubmit={handleSubmit}

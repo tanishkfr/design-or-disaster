@@ -1,20 +1,20 @@
 :root {
   /* ─── Backgrounds ─────────────────────────────────── */
-  --bg:              #09080A;
-  --surface:         #111013;
-  --surface-raised:  #18161A;
-  --surface-overlay: #1F1C22;
+  --bg:              #0B0D10;
+  --surface:         #181B20;
+  --surface-raised:  #282B31;
+  --surface-overlay: #30343B;
 
   /* ─── Borders ─────────────────────────────────────── */
-  --border-subtle:   #211E25;
-  --border-default:  #2E2A34;
-  --border-strong:   #3D3844;
-  --border-visible:  #514A59;
+  --border-subtle:   #252930;
+  --border-default:  #363B43;
+  --border-strong:   #4C535D;
+  --border-visible:  #69727F;
 
   /* ─── Text ────────────────────────────────────────── */
-  --text-primary:    #F0EAD6;
-  --text-secondary:  #A9A3AC;
-  --text-tertiary:   #8B8492;
+  --text-primary:    #F3F1EB;
+  --text-secondary:  #B5B8BE;
+  --text-tertiary:   #979CA5;
 
   /* ─── Verdict — Guilty ────────────────────────────── */
   --guilty:          #E1654D;
@@ -29,18 +29,19 @@
   --mixed-dim:       #2E1F08;
 
   /* ─── Accent ──────────────────────────────────────── */
-  --amber:           #F5A623;
-  --amber-dim:       #2A1D08;
-  --amber-hover:     #FFB444;
+  --amber:           #FF634D;
+  --amber-dim:       #321B18;
+  --amber-hover:     #FF8B79;
 
   /* ─── Landmark ────────────────────────────────────── */
   --landmark:        #A88BE3;
   --landmark-dim:    #1A1230;
 
   /* ─── Typography ──────────────────────────────────── */
+  --font-editorial: 'Instrument Serif', Georgia, serif;
   --font-display: 'Instrument Serif', Georgia, serif;
   --font-mono:    'IBM Plex Mono', 'Courier New', monospace;
-  --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body:    'Archivo', system-ui, sans-serif;
 
   /* ─── Type Scale ──────────────────────────────────── */
   --t-case-number: 12px;   /* Mono 500 — CASE #007 */
@@ -70,10 +71,10 @@
   --space-16: 64px;
 
   /* ─── Border Radius ───────────────────────────────── */
-  --radius-sm:   4px;
-  --radius-md:   8px;
-  --radius-lg:   12px;
-  --radius-full: 9999px;
+  --radius-sm:   0px;
+  --radius-md:   0px;
+  --radius-lg:   0px;
+  --radius-full: 0px;
 
   /* Interaction */
   --target-min: 44px;

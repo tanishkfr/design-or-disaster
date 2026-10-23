@@ -1,0 +1,45 @@
+# Phase 2.3 independent audit
+
+Date: 22 October 2026. Baseline: `0b5c885287d0da360713542cb8b80f8c9f3dc590` on `codex/phase-2-2-complete`; tracked files clean. Work proceeds on `codex/phase-2-3-refinement`. Three untracked images and existing generated output are preserved.
+
+This is an agent-led heuristic and implementation review. It is not independent participant research, an external designer's endorsement, or an assistive-technology certification. Fresh browser contexts were used for the initial cover/index/marking walkthrough. The existing five-case suite also completed its 15 baseline journeys and real exports.
+
+## Prioritized issue register
+
+| ID / severity | Screen and observable problem | Why it matters / review lens | Correction and acceptance condition |
+| --- | --- | --- | --- |
+| A01 / P1 | Cover speaks of what the visitor “missed” and a single call, without explaining the second judgment; footer promotes ten cases although the primary route contains five. | First-time orientation and research framing: primes correction rather than reconsideration. | Explain explore → evidence → first call → context → second call, with no preferred outcome. Clearly distinguish five investigations and the original archive. |
+| A02 / P1 | Cover highlight is measured against the entire preview, extends beyond the actual image and only covers part of the described action row. The visible handle does not drag on touch. | Instrument credibility: decorative geometry contradicts the project's spatial premise. | Tie highlight percentages to the actual image plane. Handle drags on pointer/touch; native range retains keyboard control. Inspect at three widths. |
+| A03 / P1 | Observation title is the same question for every case; case identity appears only in footer/header number. At mobile widths instructions arrive after a long exhibit. | Recognition and task orientation. | Put the actual case title and current prompt above the exhibit, with immediate mode guidance. Preserve stages and saved records. |
+| A04 / P1 | Removing the final evidence note leaves `document.activeElement` at body (reproduced at all three widths). Mode capture returns focus to Explore even after choosing Mark. | Keyboard recovery and meaningful focus. | Focus a surviving note or the marking surface after removal; focus the active mode after switching. Regression checks use real keyboard input. |
+| A05 / P1 | Mobile evidence text is a one-line field showing only a fragment of the visitor's sentence. A disabled judgment action has no explicit local explanation of missing evidence. | Writing, cognitive load and recovery. | Wrapping observations with room to read/edit; concise status explains whether a described mark is missing. No increased note limit or arbitrary mark quota. |
+| A06 / P1 | Same-region perspective labels stack at identical coordinates. The side represented by each layer is only named below the image. | Reveal needs to communicate competing accounts, not just overlapping rectangles. | Group identical region labels and number them against the reading text; label both sides above the image. Preserve exact geometry and range state. |
+| A07 / P1 | About describes the old route and “documented public consequences”; several legacy positions assert population effects, manufacturer timelines, scroll hijacking or absent recovery from static images. | Research honesty: authored opinion is presented with factual authority. | Correct specific unsupported assertions and identify the legacy archive as authored visual readings. Preserve case IDs, images, verdict contracts and disagreement. No fabricated sourcing. |
+| A08 / P2 | Evidence cursor suppresses the native pointer, including the brief interval before its custom preview exists; keyboard cursor can move beyond the viewport on a tall frozen exhibit. | Precision and discoverability. | Keep a native crosshair, immediate preview and bring a keyboard-position cursor into view without smooth scrolling. No global cursor. |
+| A09 / P2 | Banking returns no explanation for zero search matches, and its current route has no programmatic selected state. Several exhibit page changes remove the initiating element without moving focus. | Recovery and keyboard continuity across the five simulations. | Empty result message, selected navigation state and scoped focus after page replacement. No changes to task mechanics or capture schema. |
+| A10 / P2 | Every top-level navigation fades/moves out for 200ms before switching, including reduced motion. Browser history doesn't restore focus. | Motion should orient without delaying tools or keyboard users. | Immediate reduced-motion/keyboard navigation; short opacity-only pointer exit; clean timers; restore main focus on history. Keep direct manipulation immediate. |
+| A11 / P2 | Design Eye is a long uninterrupted document with no case navigation and dense inline lens counts. The legacy lead insight infers what the eye sees “first” from frequency alone. | A useful record should be navigable and descriptive. | Add document anchors and readable count rows; replace unsupported ordering/personality inferences. Preserve ties, missing values, print completeness and sealed privacy. |
+| A12 / P2 | Full cross-browser, production-preview performance, actual screen-reader and external participant evidence is absent from the supplied baseline. | Passing source journeys does not establish general release readiness. | Run available engines and production preview, measure actual resources/timing, inspect actual exports, and leave unavailable gates explicitly open. |
+
+P0 = task/data blocker; P1 = material clarity, integrity or access problem; P2 = recoverable friction. No P0 observed in baseline journeys. Acceptance status and exact evidence are recorded in `PHASE-2.3-HANDOFF.md` after corrections.
+
+## Additional findings during acceptance
+
+- **A13 / P1 — Route collisions:** in-page fragment links shared the hash used by application routing. Focus links now prevent fragment navigation and explicitly focus their destination. The fresh Tab-only journey checks the skip link, findings link and report anchors without losing the route.
+- **A14 / P1 — Malformed legacy storage:** valid JSON with a non-array submissions field could crash the archive. Read/write guards now preserve unreadable original data, show a warning and permit replacement only through the existing confirmed reset. New-schema records retain their existing separate validation. Browser denial and malformed legacy structure are covered.
+- **A15 / P1 — PDF pagination:** rendered export review exposed missing lower rows in a tall banking capture, despite expected saved statements being present in extracted text. Print now uses layout-aware zoom where supported; the coordinate system stays frozen. Both the lower transactions and embedded fonts are part of export regression inspection.
+- **A16 / P2 — Touch scrolling in Mark:** a tall captured surface reserved all touch gestures. Point now allows vertical scrolling; Region deliberately retains dragging. A real Chrome touch-event emulation confirms a swipe scrolls without placing an accidental mark.
+
+The intermittent tablet click encountered during expanded capture was isolated to full-page screenshot resizing with a focused numeric input. Event traces show scroll restoration between pointerdown and pointerup. The same five journeys pass without that screenshot; normal Tab exit from numeric editing before capture also passes. Diagnostic evidence is retained under `output/phase-2.3/diagnostic/` and `diagnostic-without-marking-capture/`. No product workaround or hidden retry was added for it.
+
+## Creative direction retained
+
+The strong elements are the oversized Archivo/serif cover pairing, signal slash, open numbered archive, independently styled exhibits and paired preserved evidence. Preserve those. The signature moment is an annotation becoming an inspectable argument across two looks and authored competing readings. Refinements should make that moment clearer, more precise and easier to reach.
+
+## Five-case critique
+
+- Banking: calm hierarchy is credible, but empty search and focus recovery need work. A fictional refund/transfer task is a prompt for interpretation, not a task-performance experiment.
+- Benefits: interruption is voluntary, recovery is explicit and fictional; preserve both instead of manufacturing a timeout failure. The supplied image cannot prove runtime behavior.
+- Portfolio: finite optional arrows and native scrolling make expression inspectable. Keep the settled-capture disclosure; a screenshot cannot preserve a motion phase or prove scroll hijacking.
+- Bulletin: the dense list genuinely exposes price/location and retains filters. Its strengths should coexist with uncertainty about sellers; a shortlist is not verification.
+- Fashion: product/size/bag interaction and direct visual voice support an independent closing judgment. Keep all outside interpretations absent, including deep links and exports.

@@ -13,23 +13,22 @@ export default function About({ onBack }) {
         <h1 className={styles.title}>About This Archive</h1>
 
         <p className={styles.opening}>
-          Design or Disaster is a verdict chamber, not a lesson. It asks you to rule on
-          an interface before you know enough, then places your verdict beside five
-          critics who do not agree with each other, let alone with you. The point is
-          not to learn the answer. The point is to discover which lens your judgment
-          reached for first.
+          Design or Disaster asks what a judgment counts as evidence. Explore an
+          interface, mark what matters and make a first call. Open the context,
+          investigate again, and make an independent second call. Keeping your
+          verdict is as valid as changing it.
         </p>
 
         <section className={styles.block}>
           <h2 className={styles.sectionLabel}>── The Structure</h2>
           <p className={styles.prose}>
-            Ten cases, argued in four movements. Movement I is consensus — the jury
-            agrees, and you learn how each lens reads a screen. Movement II is the
-            divide — the panel splits, and there's no clean answer to lean on. Movement
-            III holds the landmarks: cases with documented public consequences, where
-            design judgment carries visible public stakes. Confidence remains yours to report. The
-            investigation closes on a single sealed case. No panel verdict is entered
-            there. Yours is the only ruling on record.
+            Five Second Look investigations pair evidence and reasoning around
+            provenance-labeled context. The original ten-case single-look archive
+            remains available as a separate route, including its short path.
+            Working exhibits are local authored simulations. Historical-looking
+            images support visual critique; they do not establish product history
+            or measured user outcomes. The sealed fashion finale has no outside
+            interpretation. Yours is the only ruling on record.
           </p>
         </section>
 
@@ -48,9 +47,10 @@ export default function About({ onBack }) {
         <section className={styles.block}>
           <h2 className={styles.sectionLabel}>── Your Design Eye</h2>
           <p className={styles.prose}>
-            The report at the end of an investigation does not grade you against the panel. It shows which evidence lenses you used most and which remained least visible — the software declining
-            to be the authority, and telling you instead which authority you already
-            carry.
+            Your record preserves submitted judgments, written reasons, marked
+            states and explicitly selected lenses. Changes and reaffirmations are
+            descriptive counts. Missing data and ties remain visible. The report
+            does not infer your personality, expertise or improvement.
           </p>
         </section>
 
@@ -58,9 +58,35 @@ export default function About({ onBack }) {
           <h2 className={styles.sectionLabel}>── Methodology</h2>
           <p className={styles.prose}>
             The five jurors are authored voices, each holding one critical lens; their
-            verdicts are one panel's position, not settled fact. No crowd telemetry or correctness score is implied.
-            The case imagery combines authored reconstructions with recognizable historical captures. Products remain visible
-            where the design under discussion would become meaningless without context; the archive claims the critique, not the source interface.
+            verdicts are interpretations, not expert findings. No crowd telemetry or correctness score is implied.
+            Seven case images have matching HTML/CSS reconstruction sources in
+            this project's history: Banking, Broadsheet, Hamburger Navigation,
+            Benefits, Nova OS, Animated Portfolio and Fashion. Their visible
+            product names and interface conventions do not imply affiliation or
+            ownership of those products. These are constructed critique objects,
+            not verified historical captures.
+          </p>
+          <p className={styles.prose}>
+            Three formerly supplied captures have been replaced with original
+            fictional reconstructions: Flare uses invented contacts, Open Self
+            presents an unfilled identity form, and Bulletin is a fictional
+            category directory. Their inspectable HTML/CSS sources contain no
+            imported images, personal details or third-party logos. The old
+            captures are not cleared or redistributed by this update. Earlier
+            saved notes and coordinates remain unchanged and may describe an
+            older image; affected legacy cases disclose this difference.
+          </p>
+        </section>
+
+        <section className={styles.block}>
+          <h2 className={styles.sectionLabel}>── Local records and privacy</h2>
+          <p className={styles.prose}>
+            Evidence, notes and demo entries are saved in this browser's local
+            storage. They are not encrypted or protected from another person
+            using the same browser profile. Use fictional details, especially on
+            a shared computer. The confirmed reset removes this project's local
+            records; downloaded exports remain wherever you saved them. Fonts
+            load from Google Fonts, which receives those font requests.
           </p>
         </section>
 

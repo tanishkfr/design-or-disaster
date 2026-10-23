@@ -51,23 +51,23 @@ export function deriveLeadInsight(profile) {
   if (!lean) return { type: 'forming', headline: 'Your evidence is still unnamed.', body: 'The record needs marked evidence before it can reflect your attention.' }
   if (lean.balanced) return {
     type: 'balanced',
-    headline: 'Your eye resisted a single default.',
+    headline: 'All five lenses appear equally often.',
     body: `Across ${submissions.length} rulings, all five evidence lenses entered the record equally. The pattern is breadth, not a winner.`,
   }
   if (lean.distinct === 1) return {
     type: 'single_lens',
-    headline: `You keep returning to ${lean.strongest.title.toLowerCase()}.`,
-    body: `${submissions.length} rulings filed, but one kind of evidence dominates the record. Review another perspective before treating that habit as truth.`,
+    headline: `Only ${lean.strongest.title.toLowerCase()} is classified in this record.`,
+    body: `${submissions.length} rulings filed with one classified lens. This count cannot establish your habits or what you noticed without classifying.`,
   }
   if (lean.strongest.items.length > 1) return {
     type: 'shared_lens',
     headline: `${lean.strongest.title} share your attention.`,
-    body: `You used each of those lenses in ${lean.strongest.count} cases. The record contains a tie; it does not manufacture a winner.`,
+    body: `You used each of those lenses in ${lean.strongest.count} ${lean.strongest.count === 1 ? 'case' : 'cases'}. The record contains a tie; it does not manufacture a winner.`,
   }
   return {
     type: 'lens',
-    headline: `${lean.strongest.title} is what your eye preserves first.`,
-    body: `You marked ${lean.strongest.description} in ${lean.strongest.count} cases. ${lean.weakest.title} is least visible in your record.`,
+    headline: `${lean.strongest.title} appears most often in your record.`,
+    body: `You marked ${lean.strongest.description} in ${lean.strongest.count} ${lean.strongest.count === 1 ? 'case' : 'cases'}. ${lean.weakest.title} is least visible in your record.`,
   }
 }
 
@@ -89,8 +89,8 @@ export function generateFinalReportContent(profile, cases) {
     total: submissions.length,
     lean,
     opening: lean?.balanced
-      ? `Across ${submissions.length} cases, your attention moved evenly through all five evidence lenses.`
-      : strongest ? `Across ${submissions.length} cases, your attention most often organized itself around ${strongest.title.toLowerCase()}.` : 'Your rulings are filed, but their evidence remains unnamed.',
+      ? `Across ${submissions.length} ${submissions.length === 1 ? 'case' : 'cases'}, your attention moved evenly through all five evidence lenses.`
+      : strongest ? `Across ${submissions.length} ${submissions.length === 1 ? 'case' : 'cases'}, your attention most often organized itself around ${strongest.title.toLowerCase()}.` : 'Your rulings are filed, but their evidence remains unnamed.',
     paragraphs: strongest ? [
       lean?.balanced
         ? 'This is not a score and the panel is not an answer key. The record shows breadth: no single lens dominated what you chose to make visible.'

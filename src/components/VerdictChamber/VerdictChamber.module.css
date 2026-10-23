@@ -1,11 +1,19 @@
 @keyframes chamberEnter {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ─── Root ────────────────────────────────────────── */
@@ -220,13 +228,23 @@
   height: 7px;
   border-radius: 50%;
   border: 1px solid var(--border-default);
-  transition: background-color var(--duration-base) var(--ease-out),
-              border-color var(--duration-base) var(--ease-out);
+  transition:
+    background-color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
 }
 
-.jurorDot_guilty     { background-color: var(--guilty);  border-color: var(--guilty); }
-.jurorDot_not_guilty { background-color: var(--clear);   border-color: var(--clear); }
-.jurorDot_mixed      { background-color: var(--mixed);   border-color: var(--mixed); }
+.jurorDot_guilty {
+  background-color: var(--guilty);
+  border-color: var(--guilty);
+}
+.jurorDot_not_guilty {
+  background-color: var(--clear);
+  border-color: var(--clear);
+}
+.jurorDot_mixed {
+  background-color: var(--mixed);
+  border-color: var(--mixed);
+}
 
 /* ─── Juror list ──────────────────────────────────── */
 /* Zero gap between entries — left borders form one continuous segmented rail */
@@ -277,5 +295,51 @@
   .backBtn {
     min-height: var(--target-min);
     padding-inline: var(--space-2);
+  }
+}
+
+.content {
+  max-width: 1200px;
+  padding: 48px;
+}
+.screenTint {
+  display: none;
+}
+.header {
+  min-height: 76px;
+  padding-inline: 48px;
+}
+.backBtn {
+  min-height: 44px;
+}
+.caseTitle {
+  font: 500 28px var(--font-body);
+  font-style: normal;
+}
+.categoryTag {
+  border: 0;
+  padding: 0;
+}
+.caseContext {
+  line-height: 1.7;
+}
+.jurorList {
+  gap: 0;
+}
+@media (max-width: 750px) {
+  .content {
+    padding: 28px 20px;
+  }
+  .header {
+    padding: 10px 20px;
+    gap: 12px;
+  }
+  .caseTitleRow {
+    align-items: start;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .caseTitle {
+    font-size: 26px;
   }
 }

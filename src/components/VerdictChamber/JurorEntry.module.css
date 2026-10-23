@@ -24,9 +24,15 @@
 }
 
 /* Left border verdict colour */
-.guilty    { border-left-color: var(--guilty); }
-.not_guilty { border-left-color: var(--clear); }
-.mixed     { border-left-color: var(--mixed); }
+.guilty {
+  border-left-color: var(--guilty);
+}
+.not_guilty {
+  border-left-color: var(--clear);
+}
+.mixed {
+  border-left-color: var(--mixed);
+}
 
 /* ─── Header row ──────────────────────────────────── */
 
@@ -80,9 +86,15 @@
   letter-spacing: var(--ls-mono);
 }
 
-.guilty    .rulingLabel { color: var(--guilty); }
-.not_guilty .rulingLabel { color: var(--clear); }
-.mixed     .rulingLabel { color: var(--mixed); }
+.guilty .rulingLabel {
+  color: var(--guilty);
+}
+.not_guilty .rulingLabel {
+  color: var(--clear);
+}
+.mixed .rulingLabel {
+  color: var(--mixed);
+}
 
 .rulingDot {
   width: 6px;
@@ -91,9 +103,15 @@
   flex-shrink: 0;
 }
 
-.guilty    .rulingDot { background: var(--guilty); }
-.not_guilty .rulingDot { background: var(--clear); }
-.mixed     .rulingDot { background: var(--mixed); }
+.guilty .rulingDot {
+  background: var(--guilty);
+}
+.not_guilty .rulingDot {
+  background: var(--clear);
+}
+.mixed .rulingDot {
+  background: var(--mixed);
+}
 
 /* ─── Investigator (sixth juror) — your ruling in the record ── */
 
@@ -105,9 +123,15 @@
   border-bottom: 1px solid var(--border-subtle);
 }
 
-.investigator .lens { color: var(--amber); }
-.investigator .rulingLabel { color: var(--amber); }
-.investigator .rulingDot { background: var(--amber); }
+.investigator .lens {
+  color: var(--amber);
+}
+.investigator .rulingLabel {
+  color: var(--amber);
+}
+.investigator .rulingDot {
+  background: var(--amber);
+}
 
 /* ─── Reasoning ───────────────────────────────────── */
 
@@ -121,10 +145,70 @@
   line-height: 1.6;
 }
 
-
 @media (max-width: 640px) {
-  .wrapper { transform: none; }
-  .entry { padding: var(--space-4); }
-  .header { align-items: flex-start; gap: var(--space-2); }
-  .identity { flex-wrap: wrap; }
+  .wrapper {
+    transform: none;
+  }
+  .entry {
+    padding: var(--space-4);
+  }
+  .header {
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  .identity {
+    flex-wrap: wrap;
+  }
+}
+
+.wrapper {
+  transform: none;
+}
+.entry {
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--border-default);
+  padding: 24px 0;
+  transform: none;
+}
+.entry:not(.arrived) {
+  display: none;
+}
+.investigator {
+  background: none;
+  border: 0;
+  border-top: 1px solid var(--border-default);
+}
+.reasoning {
+  font-style: normal;
+  font-size: 15px;
+  line-height: 1.75;
+  max-width: 78ch;
+}
+.title {
+  font-size: 18px;
+}
+.rulingLabel {
+  font-size: 10px;
+}
+.identity {
+  gap: 12px;
+}
+@media (max-width: 640px) {
+  .header {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .entry {
+    padding: 20px 0;
+  }
+  .identity {
+    gap: 8px;
+  }
+  .lens {
+    font-size: 10px;
+  }
+  .reasoning {
+    font-size: 14px;
+  }
 }

@@ -25,7 +25,7 @@
 .title {
   margin: var(--space-1) 0 0;
   color: var(--text-primary);
-  font: 600 clamp(1.35rem, 3vw, 2rem)/1.25 var(--font-body);
+  font: 600 clamp(1.35rem, 3vw, 2rem) / 1.25 var(--font-body);
   letter-spacing: -0.025em;
 }
 
@@ -50,7 +50,10 @@
   color: var(--text-secondary);
   font: 500 13px/1 var(--font-body);
   cursor: pointer;
-  transition: border-color var(--duration-fast), color var(--duration-fast), background var(--duration-fast);
+  transition:
+    border-color var(--duration-fast),
+    color var(--duration-fast),
+    background var(--duration-fast);
 }
 
 .perspectiveTab:hover:not(:disabled) {
@@ -60,12 +63,16 @@
 
 .perspectiveTabActive {
   border-color: var(--perspective-color, var(--mixed));
-  background: color-mix(in srgb, var(--perspective-color, var(--mixed)) 8%, var(--surface));
+  background: color-mix(
+    in srgb,
+    var(--perspective-color, var(--mixed)) 8%,
+    var(--surface)
+  );
   color: var(--text-primary);
 }
 
 .perspectiveTab:disabled {
-  opacity: .28;
+  opacity: 0.28;
   cursor: not-allowed;
 }
 
@@ -89,14 +96,14 @@
   display: block;
   width: 100%;
   object-fit: cover;
-  filter: saturate(.96) contrast(1.02);
+  filter: saturate(0.96) contrast(1.02);
 }
 
 .vignette {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(9, 8, 10, .24), transparent 18%);
+  background: linear-gradient(to top, rgba(9, 8, 10, 0.24), transparent 18%);
 }
 
 .visitorMark {
@@ -107,17 +114,17 @@
   width: 30px;
   height: 30px;
   translate: -50% -50%;
-  border: 2px solid rgba(255, 255, 255, .82);
+  border: 2px solid rgba(255, 255, 255, 0.82);
   border-radius: 50%;
   background: var(--visitor-color);
   color: #0b0a0c;
   font: 700 10px/1 var(--font-mono);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .42);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.42);
   transition: opacity var(--duration-base);
 }
 
 .visitorMarkGhost {
-  opacity: .3;
+  opacity: 0.3;
 }
 
 .jurorMark {
@@ -125,7 +132,7 @@
   z-index: 2;
   border: 1px solid var(--ruling-color);
   background: color-mix(in srgb, var(--lens-color) 9%, transparent);
-  animation: perspectiveEnter .3s var(--ease-out) both;
+  animation: perspectiveEnter 0.3s var(--ease-out) both;
 }
 
 .jurorMark::before,
@@ -170,7 +177,7 @@
   bottom: var(--space-3);
   padding: 6px 9px;
   border-radius: var(--radius-sm);
-  background: rgba(9, 8, 10, .78);
+  background: rgba(9, 8, 10, 0.78);
   color: var(--text-secondary);
   font: 500 12px/1.2 var(--font-body);
 }
@@ -217,8 +224,14 @@
 }
 
 @keyframes perspectiveEnter {
-  from { opacity: 0; transform: scale(.99); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @media (max-width: 640px) {
@@ -234,5 +247,146 @@
   .legendRow {
     grid-template-columns: 1.5rem 4rem minmax(0, 1fr);
     gap: var(--space-2);
+  }
+}
+
+.title {
+  font: 500 clamp(26px, 3vw, 42px) / 1.12 var(--font-body);
+  letter-spacing: -0.03em;
+  max-width: 720px;
+}
+.eyebrow {
+  font: 11px var(--font-mono);
+  margin-bottom: 14px;
+}
+.perspectives {
+  gap: 0;
+  border-bottom: 1px solid var(--border-default);
+  padding: 0;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+.perspectiveTab {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  padding: 14px 16px;
+}
+.perspectiveTabActive {
+  border-bottom-color: var(--perspective-color, var(--amber));
+  background: var(--surface);
+}
+.allTab {
+  position: static;
+}
+.stage {
+  border: 0;
+  border-radius: 0;
+  max-width: 100%;
+  margin-inline: auto;
+}
+.image {
+  filter: none;
+}
+.vignette {
+  display: none;
+}
+.evidenceLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.visitorRegion {
+  position: absolute;
+  border: 2px solid var(--visitor-color);
+  background: color-mix(in srgb, var(--visitor-color) 12%, transparent);
+  color: #0b0d10;
+  font: 700 12px var(--font-mono);
+  text-shadow: 0 1px 2px white;
+}
+.revealControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px 0;
+  font-size: 13px;
+}
+.revealControls button {
+  min-height: 44px;
+  border-bottom: 1px solid var(--amber);
+  color: var(--amber);
+}
+.revealControls label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+.revealControls input {
+  accent-color: var(--amber);
+  min-height: 44px;
+  max-width: 150px;
+}
+.revealDivider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 5;
+  width: 32px;
+  transform: translateX(-50%);
+  cursor: ew-resize;
+  touch-action: none;
+  display: grid;
+  place-items: center;
+}
+.revealDivider::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 50%;
+  width: 2px;
+  background: var(--amber);
+}
+.revealDivider span {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  background: var(--amber);
+  color: var(--bg);
+  font-size: 20px;
+}
+.legendRow {
+  border: 0;
+  border-top: 1px solid var(--border-default);
+  background: none;
+  box-shadow: none;
+  padding: 16px 0;
+  font-size: 13px;
+}
+.exhibit {
+  display: none;
+}
+@media (max-width: 640px) {
+  .perspectiveTab {
+    font-size: 12px;
+    padding: 12px;
+  }
+  .revealControls label {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .revealControls input {
+    max-width: 100%;
+    width: 100%;
+  }
+  .legendRow {
+    grid-template-columns: 24px 65px minmax(0, 1fr);
+  }
+  .title {
+    font-size: 30px;
   }
 }

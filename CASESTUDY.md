@@ -1,72 +1,106 @@
-# Design or Disaster? - Case Docket
+# Design or Disaster?
 
-Context: self-directed research-through-design
-Year: 2026
-Role: independent interaction designer, critic, writer, and engineer
-Status: working spatial-critique archive
-Tools: React, JavaScript, Vite, CSS Modules, browser-local state
-AI disclosure: AI assisted ideation, critique, writing iteration, and code iteration. Final concept selection, case construction, design decisions, editing, and authorship remain with Tanishk Salagame.
-Live: https://design-or-disaster.vercel.app/
-Source: https://github.com/tanishkfr/design-or-disaster
+**What does a design judgment select as evidence before it becomes a verdict?**
 
-## Question before the court
+An interactive design publication by Tanishk Salagame. Visitors explore five fictional interfaces, mark what matters, seal a first judgment, open context, then make an independent second call. Disagreement becomes something you can inspect.
 
-What does a design judgment select as evidence before it becomes a verdict?
+2026 · Self-directed project · Concept, interaction and visual design, authored scenarios, critical writing and frontend engineering.
 
-Design or Disaster? is not a quiz about whether an interface is good. It is an archive of incompatible perception.
+[Open the visual case study](portfolio-case-study/index.html). It works offline and uses actual application screenshots. The main portfolio website was not changed.
 
-## The interaction grammar
+![Actual case catalogue with a selected exhibit](portfolio-case-study/media/catalogue.png)
 
-Every case begins with one interface image. Before the visitor can rule, they build an evidence map:
+## The problem: a verdict hides the route to it
 
-1. choose an evidence lens: hierarchy, access, task, trust, or feeling;
-2. locate the exact coordinate or named region that matters;
-3. describe what that place makes visible;
-4. write the sentence the evidence supports;
-5. seal a verdict and self-report confidence.
+“Good” and “bad” compress a design judgment into a label. They leave out what the critic noticed, whose task they imagined and which uncertainty they accepted. This project asks visitors to leave an inspectable trace between an impression and a verdict. It does not claim that one interpretation is universally correct.
 
-The cold open starts with this grammar immediately. No generic opinion prompt precedes the evidence.
+## What the first version could not show
 
-## Five perspectives
+The original ten-case archive paired static images with spatial notes and five authored critical positions. It made attention visible, but had four real limits:
 
-Five authored jurors inspect the same coordinate system through different critical lenses. Every open case includes one annotated perspective per juror. The visitor can isolate one perspective or open the combined view to see agreement, collision, and omission.
+- A still image could not demonstrate runtime behavior, such as draft recovery.
+- Choosing a lens before looking could influence attention.
+- Authored jurors could be mistaken for an authoritative answer.
+- One final ruling could not preserve the evolution of reasoning.
 
-The panel is intentionally fallible. Agreement can occur, but agreement is not accuracy. No live telemetry, crowd distribution, or correctness percentage is implied.
+These are limitations of the design, not participant findings. The archive and its short route remain available; existing records retain their original meaning.
 
-Curator notes remain closed until after the visitor files a ruling. Archive cards do not reveal a pending case's status.
+## The breakthrough: preserve the first look
 
-## Two valid paths
+**Explore → mark evidence → seal a first judgment → open context → investigate again → seal a second judgment → reflect.**
 
-The five-minute version contains the cold open, a contested motion-heavy case, and the sealed finale. It communicates the thesis without requiring a portfolio reviewer to complete the entire archive.
+The first judgment is an immutable snapshot. The second requires independent evidence, reason and self-reported confidence. Changing a verdict receives no reward; reaffirmation is equally valid. Different wording is recorded as different wording, never as measured learning.
 
-The full investigation contains ten cases across three movements. A visitor can return through the archive, revisit completed records, and build a longer Design Eye trace.
+![Two preserved judgments and their evidence](portfolio-case-study/media/two-looks.png)
 
-## The Design Eye record
+## Three interactions carry the argument
 
-The report reflects which evidence lenses the visitor repeatedly selected and which stayed least visible. When several lenses tie, the report preserves the tie instead of inventing a winner. It is a trace of selection, not a grade against authority.
+### Split: one interface, two interpretations
 
-## The sealed case
+The cover places a reading over the interface it describes. A direct handle and native range support pointer, touch and keyboard. The purpose is to introduce disagreement through a shared object. The strongest existing cover composition was preserved.
 
-The final case withholds outside perspectives, panel rulings, and official interpretation. The visitor's evidence remains the only record. The archive ends by returning responsibility rather than revealing an answer.
+![The actual cover and Split instrument](portfolio-case-study/media/cover.png)
 
-## Accessibility and control
+### Instrument: evidence becomes spatial
 
-The evidence map supports pointer input, arrow-key movement, Enter or Space placement, and named region buttons. Visible focus, minimum target sizing, a skip link, responsive layouts, descriptive image alternatives, and reduced-motion behavior are part of the interaction contract.
+Explore operates a working exhibit; Mark freezes its state. A click used as evidence cannot also activate a payment or navigate away. Points and rectangles belong to a captured layout with logical dimensions, preserving alignment as the view scales.
 
-## Findings entered into the record
+This pass brings observations and geometry into the desktop inspector beside the exhibit. Selecting an existing mark focuses its numbered note. Mobile has a compact stage disclosure, optional placement help and judgment controls before optional evidence review. Keyboard, named-region and numerical alternatives remain available.
 
-- Judgment becomes inspectable when evidence must be spatially located before a verdict.
-- One screen can sustain several coherent but incompatible accounts.
-- A blind spot is not simply a wrong answer; it is evidence that never entered a person's evidence map.
-- The panel is most useful as structured disagreement, not institutional authority.
-- Preserving a tie can be more truthful than manufacturing a personalized insight.
+![Evidence and observation together in the workbench](portfolio-case-study/media/instrument.png)
 
-## Limits and disclosure
+### Reveal: inspect the disagreement
 
-The jurors, cases, annotations, and several interface images are authored or reconstructed composites designed to stage critical positions. Recognizable historical captures are used as critique objects, not claimed as source interfaces or original product work. The project is not a survey of experts, usability study, or population-level result. The record remains in browser-local storage.
+Visitor marks and authored readings share an explicitly selected coordinate plane. Conflicting readings of the same region use a common boundary and numbered arguments. If a selected frame lacks a region, the interface says so. The panel offers interpretations, not a verdict to match.
 
-## Ruling
+![Shared evidence and distinct authored readings](portfolio-case-study/media/reveal.png)
 
-Design or Disaster? contributes the evidence map as an interaction grammar for critique: mark first, argue second, compare perception, then live with the ruling.
+## Five exhibits needed five different mechanics
 
-The image to remember is five perspectives mapped onto one interface, each showing that attention has its own geometry.
+| Exhibit | What a visitor can actually investigate |
+| --- | --- |
+| Banking | Find a refund and try a fictional transfer: calm hierarchy meets a specific task. |
+| Benefits | Begin with a reconstructed still, then test validation, voluntary interruption and recovery. |
+| Portfolio | Pause finite motion, inspect a project role and find contact information. |
+| Bulletin | Filter dense fictional listings and shortlist an item without treating its seller as verified. |
+| Fashion | Inspect a garment, choose a size and try the local bag. The sealed finale has no outside reading. |
+
+The catalogue previews actual exhibits on desktop focus or hover. Mobile offers explicit preview expansion alongside direct entry, so visitors can compare identities without scrolling through five large images. Every working interface is authored; nothing is sent to a real service.
+
+## Decisions and costs
+
+**Publication and instrument.** Near-black, warm paper, signal red and the D/D slash frame exhibits with distinct visual languages. A new visual system would have weakened the relationship. Precision interactions remain immediate; no decorative motion was added.
+
+**Spatial evidence.** A specific mark makes reasoning inspectable, but requires precise geometry and accessible alternatives. Freezing the layout protects marks from reflow; small exhibit text then behaves like image content. Named regions, notes and numerical controls offer separate routes. Physical-device magnification still needs acceptance testing.
+
+**Local-first records.** No account or submission service is needed. The cost is that records belong to a browser profile, are unencrypted and do not automatically follow visitors across devices. Reset is deliberate; downloaded copies remain.
+
+**Authored voices, independent closure.** Jurors make disagreement inspectable without presenting generated text as empirical expertise. The sealed finale withholds those voices. A score, winning verdict or behavioral diagnosis would undermine the proposition.
+
+## A record worth keeping
+
+Design Eye describes current saved decisions, explicit confidence and classifications. It distinguishes reaffirmation, changed verdicts and incomplete attempts. A new **1600 × 2263 PNG** puts all five judgment patterns on one editorial sheet, with up to two lines from each submitted reason. Excerpt limits are explicit; the full PNG and PDF remain available.
+
+The portable text HTML edition preserves notes, judgments, confidence, opened context and reflection offline. It supplies a nonvisual alternative. Extractable PDF text does not establish accessible tagging or PDF/UA conformance.
+
+![Actual compact export using synthetic test records](portfolio-case-study/media/one-page.png)
+
+## What this pass demonstrates
+
+Matched Banking captures at 390px show the note-to-next-action gap falling from **608px to 251px**, and the judgment page from **2573px to 1394px**. These are layout measurements from the same synthetic task, not participant speed or satisfaction. They demonstrate less separation between interdependent actions; first-time comprehension remains open.
+
+![Matched mobile evidence workflow](portfolio-case-study/media/mobile-comparison.png)
+
+Automated tests, scripted browser journeys, sequential Tab journeys, axe and rendered exports supply implementation evidence. Agent-led heuristic review identified the refinements. None substitutes for participant research. Exact current results are in [the excellence handoff](PORTFOLIO-EXCELLENCE-HANDOFF.md).
+
+## What remains unproven
+
+No participant sessions occurred. A neutral five-person kit is ready; there are no invented quotes, success rates or learning outcomes. Actual screen-reader output, physical touch, genuine Safari and stable Firefox acceptance remain open. Available Firefox runs use the Playwright Nightly engine.
+
+Seven earlier reconstruction origins are documented. The final review replaces three uncleared supplied captures with original fictional exhibits. Saved notes and coordinates remain unchanged, and affected legacy cases disclose that the underlying image has changed. The original captures remain uncleared and already exist in public main history; the PR does not import unpublished intermediate v2 history. Website publication remains conditional. See [provenance](IMAGE-PROVENANCE.md) and [remaining validation](REMAINING-VALIDATION.md).
+
+AI assisted ideation, critique, writing iteration and implementation. Final concept selection, case construction, design decisions, editing and authorship remain with Tanishk Salagame. All test reasons in this presentation are synthetic. No commercial impact or independent endorsement is claimed.
+
+## The learning
+
+Preserving a verdict is easy. Preserving the evidence, uncertainty and competing interpretations that gave rise to it is the design work. The useful outcome is a trace another person can question, rather than a score that claims to settle the argument.

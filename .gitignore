@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+/output/
+/SnapchatImage.png
+/arcimage.png
+/ioscalendar.png
+/.claude/

@@ -58,7 +58,10 @@
   color: var(--text-secondary);
   font: 500 13px/1 var(--font-body);
   cursor: pointer;
-  transition: border-color var(--duration-fast), color var(--duration-fast), background var(--duration-fast);
+  transition:
+    border-color var(--duration-fast),
+    color var(--duration-fast),
+    background var(--duration-fast);
 }
 
 .lens:hover {
@@ -119,14 +122,14 @@
   display: block;
   width: 100%;
   object-fit: cover;
-  filter: saturate(.96) contrast(1.02);
+  filter: saturate(0.96) contrast(1.02);
 }
 
 .vignette {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(9, 8, 10, .24), transparent 18%);
+  background: linear-gradient(to top, rgba(9, 8, 10, 0.24), transparent 18%);
 }
 
 .pointerPreview,
@@ -145,7 +148,7 @@
   width: 30px;
   height: 30px;
   border: 1px solid var(--active-lens-color);
-  background: rgba(9, 8, 10, .72);
+  background: rgba(9, 8, 10, 0.72);
   color: var(--active-lens-color);
   font: 500 17px/1 var(--font-body);
 }
@@ -154,7 +157,7 @@
   width: 30px;
   height: 30px;
   border: 2px solid var(--amber);
-  background: rgba(9, 8, 10, .72);
+  background: rgba(9, 8, 10, 0.72);
 }
 
 .keyboardCursor::before {
@@ -168,17 +171,23 @@
 .mark {
   width: 30px;
   height: 30px;
-  border: 2px solid rgba(255, 255, 255, .82);
+  border: 2px solid rgba(255, 255, 255, 0.82);
   background: var(--mark-color);
   color: #0b0a0c;
   font: 700 10px/1 var(--font-mono);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .42);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.42);
   animation: markerEnter 180ms var(--ease-out) both;
 }
 
 @keyframes markerEnter {
-  from { opacity: 0; scale: .72; }
-  to { opacity: 1; scale: 1; }
+  from {
+    opacity: 0.65;
+    scale: 0.94;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
 }
 
 .exhibitLabel {
@@ -187,7 +196,7 @@
   bottom: var(--space-3);
   padding: 6px 9px;
   border-radius: var(--radius-sm);
-  background: rgba(9, 8, 10, .78);
+  background: rgba(9, 8, 10, 0.78);
   color: var(--text-secondary);
   font: 500 12px/1.2 var(--font-body);
 }
@@ -235,7 +244,7 @@
 }
 
 .target:disabled {
-  opacity: .45;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
@@ -278,7 +287,11 @@
   background: transparent;
   padding: 10px 0;
   color: var(--text-primary);
-  font: 400 var(--t-body-sm)/1.4 var(--font-body);
+  font: 400 var(--t-body-sm) / 1.4 var(--font-body);
+  width: 100%;
+  resize: vertical;
+  min-height: 64px;
+  overflow-wrap: anywhere;
 }
 
 .note:focus {
@@ -306,7 +319,9 @@
 }
 
 @media (hover: none) {
-  .pointerPreview { display: none; }
+  .pointerPreview {
+    display: none;
+  }
 }
 
 @media (max-width: 640px) {
@@ -330,4 +345,252 @@
   .target {
     flex: 1 1 100%;
   }
+}
+
+/* Phase 2: the exhibit is a working surface, controls are a compact tool rail. */
+.root {
+  min-width: 0;
+  gap: 14px;
+}
+.eyebrow {
+  font-size: 24px;
+  font-weight: 500;
+}
+.instruction {
+  font-size: 14px;
+  max-width: 55ch;
+}
+.lenses {
+  gap: 0;
+  border-bottom: 1px solid var(--border-default);
+}
+.lens {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  padding: 10px 15px;
+  background: transparent;
+}
+.lensActive {
+  border-bottom-color: var(--lens-color);
+  background: transparent;
+}
+.lensDot {
+  width: 5px;
+  height: 5px;
+}
+.viewerWrap {
+  background: var(--surface);
+  padding: 24px;
+}
+.portraitWrap {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+.portraitWrap .viewer {
+  width: min(100%, calc(59vh * 375 / 812));
+}
+.viewer {
+  border: 0;
+  border-radius: 0;
+  touch-action: none;
+}
+.image {
+  filter: none;
+}
+.vignette {
+  display: none;
+}
+.pointerPreview {
+  border-radius: 0;
+  width: 28px;
+  height: 28px;
+  background: var(--bg);
+  color: var(--text-primary);
+  border: 1px solid var(--text-primary);
+}
+.viewer:hover:not(:disabled) {
+  cursor: crosshair;
+}
+.exhibitLabel {
+  display: none;
+}
+.ledgerRow {
+  border: 0;
+  border-top: 1px solid var(--border-default);
+  background: transparent;
+  box-shadow: none;
+  padding-left: 0;
+}
+.ledgerNumber {
+  min-height: 44px;
+  color: var(--mark-color);
+}
+.note {
+  font-size: 14px;
+}
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid var(--border-default);
+  padding-top: 12px;
+  flex-wrap: wrap;
+}
+.tools span {
+  font: 10px var(--font-mono);
+  color: var(--text-secondary);
+  margin-right: 10px;
+}
+.tools span:last-child {
+  margin-left: auto;
+  margin-right: 0;
+}
+.tools button {
+  padding: 10px 14px;
+  min-height: 44px;
+  border: 1px solid var(--border-default);
+  font-size: 13px;
+}
+.tools button[aria-pressed='true'] {
+  background: var(--text-primary);
+  color: var(--bg);
+  border-color: var(--text-primary);
+}
+.region {
+  position: absolute;
+  border: 2px solid var(--mark-color, var(--amber));
+  background: color-mix(
+    in srgb,
+    var(--mark-color, var(--amber)) 12%,
+    transparent
+  );
+  color: #0b0d10;
+  font: 700 12px var(--font-mono);
+  text-shadow: 0 1px 2px white;
+  pointer-events: none;
+  z-index: 4;
+}
+.selectedMark {
+  outline: 2px solid white;
+  outline-offset: 3px;
+}
+.geometry {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-top: 1px solid var(--border-default);
+}
+.geometry label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font: 11px var(--font-mono);
+  color: var(--text-secondary);
+  width: 76px;
+}
+.geometry input {
+  min-height: 44px;
+  width: 100%;
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+  padding: 8px;
+  font: 14px var(--font-mono);
+}
+.accessibleTools summary {
+  min-height: 44px;
+  padding: 10px 0;
+}
+.count {
+  font-size: 10px;
+}
+@media (max-width: 640px) {
+  .lens {
+    flex: 1 0 auto;
+    padding: 10px 9px;
+    font-size: 12px;
+  }
+  .mapHeader {
+    gap: 10px;
+  }
+  .eyebrow {
+    font-size: 23px;
+  }
+  .tools span:last-child {
+    width: 100%;
+    margin-left: 0;
+    font-size: 10px;
+  }
+  .viewerWrap {
+    padding: 16px;
+  }
+  .portraitWrap .viewer {
+    width: min(100%, 250px);
+  }
+  .ledgerRow {
+    grid-template-columns: 30px minmax(0, 1fr) 44px;
+    gap: 4px;
+  }
+  .ledgerLens {
+    grid-column: 2;
+  }
+  .note {
+    grid-column: 2;
+    grid-row: 2;
+    min-height: 44px;
+  }
+  .remove {
+    grid-column: 3;
+    grid-row: 1 / 3;
+  }
+  .ledgerNumber {
+    grid-row: 1 / 3;
+  }
+  .viewer:hover {
+    cursor: crosshair;
+  }
+}
+
+.geometry {
+  flex-wrap: wrap;
+}
+.classification {
+  flex: 1 0 100%;
+  max-width: 300px;
+  min-width: 220px;
+}
+.classification select {
+  min-height: 44px;
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
+  font: 14px var(--font-body);
+  padding: 8px;
+}
+.ledgerRow:hover {
+  background: var(--surface);
+}
+.ledgerRow:focus-within {
+  border-top-color: var(--mark-color);
+}
+.editor { min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.editor .ledgerRow { grid-template-columns: 30px minmax(0, 1fr) 44px; gap: 4px; }
+.editor .ledgerLens { grid-column: 2; }
+.editor .note { grid-column: 2; grid-row: 2; font-size: 16px; min-height: 80px; }
+.editor .remove { grid-column: 3; grid-row: 1 / 3; }
+.editor .ledgerNumber { grid-row: 1 / 3; }
+.editor .geometry { gap: 8px; }
+.inputInstructions { color: var(--text-secondary); font-size: 13px; }
+.inputInstructions summary { cursor: pointer; min-height: 44px; padding: 12px 0; }
+.inputInstructions p { margin: 4px 0 12px; }
+.returnToExhibit { color: var(--amber); text-align: left; font-size: 13px; min-height: 44px; }
+@media (max-width: 800px) {
+  .tools { position: sticky; top: 0; z-index: 8; background: var(--bg); padding-bottom: 10px; }
+  .tools > span { display: none; }
+  .viewerWrap { padding: 8px; }
+  .mapHeader { flex-direction: row; align-items: center; }
+  .mapHeader .eyebrow { font-size: 18px; }
 }
