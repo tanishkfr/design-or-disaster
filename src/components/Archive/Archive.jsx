@@ -1,192 +1,288 @@
 import { useState, useRef } from 'react'
 import { useDesignEye } from '../../hooks/useDesignEye'
+import { CURATED_IDS, investigationFor } from '../../investigation/capabilities'
 import { CASES } from '../../data/cases'
-import ArchiveCard from './ArchiveCard'
 import styles from './Archive.module.css'
 
-function getCaseById(id) {
-  return CASES.find(c => c.id === id) ?? null
+const PREVIEWS = {
+  'case-001': ['When does calm become equal weight?', 'Explore an account, find a refund and try a fictional transfer.'],
+  'case-006': ['What should a shared screen remember?', 'Inspect a form, then test interruption and draft recovery.'],
+  'case-010': ['How much expression helps you see the work?', 'Try optional motion, inspect a project and find its designer’s role.'],
+  'case-012': ['Can density help you find what matters?', 'Filter fictional listings, inspect collection details and save a shortlist.'],
+  'case-015': ['What earns trust beyond the first impression?', 'Inspect a garment, choose a size and try the local bag. A sealed finale.'],
 }
 
-export default function Archive({ onSelectCase, onDesignEye, onAbout, onReset, onStartCurated }) {
-  const { profile, hasSubmittedCase, getSubmission } = useDesignEye()
+export default function Archive({
+  onSelectCase,
+  onLegacyCase,
+  onDesignEye,
+  onAbout,
+  onReset,
+  onStartCurated,
+  onCover,
+  investigationRecords = {},
+  investigationError,
+}) {
+  const { profile, hasSubmittedCase } = useDesignEye()
+  const [selected, setSelected] = useState(CASES[0])
+  const [previewId, setPreviewId] = useState(CURATED_IDS[0])
+  const [expanded, setExpanded] = useState(null)
   const [confirmingReset, setConfirmingReset] = useState(false)
-  const confirmTimer = useRef(null)
-
-  const handleResetClick = () => {
+  const resetButton = useRef(null)
+  const hasLegacyCase = (id) =>
+    profile.submissions.some(
+      (item) => item.caseId === id && !item.investigationId,
+    )
+  const reviewed = CASES.filter((c) => hasLegacyCase(c.id)).length
+  const unlocked = (c) =>
+    c.movement === 1 ||
+    CASES.filter((p) => p.movement === c.movement - 1).every((p) =>
+      hasSubmittedCase(p.id),
+    ) ||
+    hasSubmittedCase(c.id)
+  const labels = [
+    'The opening readings',
+    'The divide',
+    'The landmarks',
+    'The sealed case',
+  ]
+  function reset() {
     if (confirmingReset) {
-      clearTimeout(confirmTimer.current)
-      setConfirmingReset(false)
       onReset()
     } else {
       setConfirmingReset(true)
-      confirmTimer.current = setTimeout(() => setConfirmingReset(false), 3000)
     }
   }
-
-  // The archive is organised as four movements. Each movement opens when the
-  // previous one closes — the investigation escalates rather than browses.
-  const byMovement = (m) => CASES.filter(c => c.movement === m)
-  const movementComplete = (m) => byMovement(m).every(c => hasSubmittedCase(c.id))
-
-  // Stats
-  const totalCases = CASES.length
-  const reviewedCount = CASES.filter(c => hasSubmittedCase(c.id)).length
-
-  // Continue — in-progress case (set when user enters a case file)
-  const inProgressCaseId = profile.inProgressCaseId ?? null
-  const inProgressCase = inProgressCaseId ? getCaseById(inProgressCaseId) : null
-
-  const sections = [
-    {
-      key: 'movement1',
-      label: 'MOVEMENT I — THE CONSENSUS',
-      cases: byMovement(1),
-      locked: false,
-      lockedLine: null,
-    },
-    {
-      key: 'movement2',
-      label: 'MOVEMENT II — THE DIVIDE',
-      cases: byMovement(2),
-      locked: !movementComplete(1),
-      lockedLine: 'Opens when Movement I closes. This is where consensus stops being possible — and stops being the goal.',
-    },
-    {
-      key: 'movement3',
-      label: 'MOVEMENT III — THE LANDMARKS',
-      cases: byMovement(3),
-      locked: !movementComplete(2),
-      lockedLine: 'Opens when Movement II closes. Cases with documented public consequences. These cases add historical consequence without turning speed into a measure of confidence.',
-    },
-    {
-      key: 'finale',
-      label: 'THE SEALED CASE',
-      cases: byMovement(4),
-      locked: !movementComplete(3),
-      lockedLine: 'Opens when Movement III closes. On the final case, no panel verdict is entered.',
-    },
-  ]
-
+  function preview(id, mobile = false) {
+    const item = CASES.find((c) => c.id === id)
+    const record = investigationRecords[id]
+    return (
+      <div className={mobile ? styles.mobilePreview : styles.collectionPreview} id={mobile ? `preview-${id}` : undefined} data-preview-case={id}>
+        <div className={styles.previewCaption}>
+          <span>{item.number} / {id === 'case-015' ? 'SEALED FINALE' : 'SECOND LOOK'}</span>
+          <span>{record?.stage === 'COMPLETE' ? 'Filed' : record ? 'In progress' : 'Unopened'}</span>
+        </div>
+        <div className={styles.collectionImage} data-case={id}>
+          <img key={id} src={`/previews/${id}.png`} alt={`${item.title}: opening ${id === 'case-006' ? 'reconstructed still' : 'working exhibit'}`} width="760" height="650" />
+        </div>
+        <h3>{PREVIEWS[id][0]}</h3>
+        <p>{PREVIEWS[id][1]}</p>
+        <button className={styles.open} onClick={() => onSelectCase(id)}>
+          {record?.stage === 'COMPLETE' ? 'Read investigation record' : record ? 'Resume investigation' : 'Open investigation'} <span>↗</span>
+        </button>
+        <small>Actual exhibit / authored simulation</small>
+      </div>
+    )
+  }
   return (
     <div className={styles.root}>
-
-      {/* ── Header ───────────────────────────────────── */}
       <header className={styles.header}>
-        <span className={styles.wordmark}>D/D</span>
-        <div className={styles.headerRight}>
-          <span className={styles.headerProgress}>{reviewedCount} / {totalCases}</span>
-          <button className={styles.designEyeBtn} onClick={onAbout}>
-            About
-          </button>
-          <button className={styles.designEyeBtn} onClick={onDesignEye}>
-            Design Eye ▸
-          </button>
-          <button
-            className={`${styles.resetBtn} ${confirmingReset ? styles.resetBtnConfirm : ''}`}
-            onClick={handleResetClick}
-          >
+        <button
+          className={styles.wordmark}
+          onClick={onCover}
+          aria-label="Return to cover"
+        >
+          D/D
+        </button>
+        <nav className={styles.navigation} aria-label="Main navigation">
+          <button onClick={onAbout}>About</button>
+          <button onClick={onDesignEye}>Your Design Eye ↗</button>
+          <button ref={resetButton} onClick={reset}>
             {confirmingReset ? 'Erase progress?' : 'Reset'}
           </button>
-        </div>
+        </nav>
       </header>
-
-      {/* ── Archive intro ─────────────────────────────── */}
+      {confirmingReset && (
+        <div className={styles.resetNotice}>
+          <p role="status">
+            Erase all local judgments, evidence and demo entries? Choose Erase
+            progress to confirm, or Cancel reset to keep them. Downloaded exports
+            remain on your device.
+          </p>
+          <button onClick={() => {
+            setConfirmingReset(false)
+            requestAnimationFrame(() => resetButton.current?.focus())
+          }}>Cancel reset</button>
+        </div>
+      )}
       <div className={styles.intro}>
-        <h1 className={styles.archiveTitle}>Investigation Archive</h1>
-        <p className={styles.subtitle}>
-          Commit to a verdict before the panel disagrees.<br />
-          The point is not whether you were right. The point is which lens your judgment used.
-        </p>
-        <p className={styles.stats}>
-          {totalCases} Cases in Four Movements
-          {' · '}{reviewedCount} Closed
-        </p>
-        <div className={styles.exhibitCta}>
-          <button className={styles.exhibitBtn} onClick={onStartCurated}>
-            Start the five-minute version <span aria-hidden="true">→</span>
+        <h1>
+          The case
+          <br />
+          <em>index.</em>
+        </h1>
+        <div className={styles.introCopy}>
+          <p>
+            One interface can hold
+            <br />
+            more than one truth.
+          </p>
+          <span>
+            {
+              CURATED_IDS.filter(
+                (id) => investigationRecords[id]?.stage === 'COMPLETE',
+              ).length
+            }{' '}
+            / 5 Second Look investigations filed
+          </span>
+          <button className={styles.quick} onClick={onStartCurated}>
+            Take the five-minute path ↗
           </button>
-          <p>Two focused cases, then your Design Eye summary. The full archive remains below.</p>
+          <small className={styles.quickNote}>Original single-look route / two cases</small>
+          {profile.inProgressCaseId && (
+            <button onClick={() => onLegacyCase(profile.inProgressCaseId)}>
+              Resume your investigation →
+            </button>
+          )}
         </div>
       </div>
-
-      {/* ── Sections ──────────────────────────────────── */}
-      <div className={styles.sections}>
-
-        {/* Continue — only when Phase 4 sets an in-progress case */}
-        {inProgressCase && (
-          <section
-            className={styles.section}
-            style={{ animationDelay: '0ms' }}
-          >
-            <div className={styles.sectionHeader}>
-              <span className={styles.sectionHeaderText}>── CONTINUE</span>
-              <div className={styles.sectionHeaderRule} aria-hidden="true" />
-            </div>
-            <button
-              className={styles.continueCard}
-              onClick={() => onSelectCase(inProgressCase.id)}
-            >
-              <span className={styles.caseNumber}>{inProgressCase.number}</span>
-              <span className={styles.continuePrompt}>
-                Resume where you left off →
-              </span>
-            </button>
-          </section>
-        )}
-
-        {/* Movement sections */}
-        {sections.map(({ key, label, cases, locked, lockedLine }, idx) => {
-          // If Continue is showing, stagger offset by 1
-          const staggerIndex = inProgressCase ? idx + 1 : idx
+      {investigationError && (
+        <p role="alert">
+          {investigationError} Existing records have been kept untouched.
+        </p>
+      )}
+      <section
+        className={styles.collection}
+        aria-label="Second Look collection"
+      >
+        <h2>Five exhibits. Two looks. Your judgment.</h2>
+        <p>
+          Each working exhibit is an authored simulation. Begin anywhere; the
+          sealed case closes the suggested sequence.
+        </p>
+        <div className={styles.collectionLayout}>
+        <div className={styles.collectionRows}>
+        {CURATED_IDS.map((id, index) => {
+          const item = CASES.find((c) => c.id === id),
+            config = investigationFor(item),
+            record = investigationRecords[id]
           return (
-            <section
-              key={key}
-              className={styles.section}
-              style={{ animationDelay: `${staggerIndex * 80}ms` }}
-            >
-              <div className={styles.sectionHeader}>
-                <span className={styles.sectionHeaderText}>── {label}</span>
-                <div className={styles.sectionHeaderRule} aria-hidden="true" />
+            <div key={id} className={`${styles.collectionItem} ${previewId === id ? styles.activeCase : ''}`} data-catalogue-case={id} onPointerMove={(event) => {
+              // Scrolling can place another row under a stationary pointer.
+              // Only intentional pointer movement should replace a focused case.
+              if (event.pointerType === 'mouse' && (event.movementX || event.movementY)) setPreviewId(id)
+            }} onFocus={() => setPreviewId(id)}>
+            <button className={styles.caseEntry} onClick={() => onSelectCase(id)}>
+              <span>0{index + 1}</span>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{config.theme}</p>
               </div>
-              {locked ? (
-                <p className={styles.lockedLine}>{lockedLine}</p>
-              ) : (
-                <div className={styles.cardGrid}>
-                  {cases.map(c => (
-                    <ArchiveCard
-                      key={c.id}
-                      caseData={c}
-                      isReviewed={hasSubmittedCase(c.id)}
-                      submission={getSubmission(c.id)}
-                      onClick={() => onSelectCase(c.id)}
-                    />
-                  ))}
-                </div>
-              )}
-            </section>
+              <strong>
+                {record
+                  ? record.stage === 'COMPLETE'
+                    ? 'Read record'
+                    : 'Resume'
+                  : 'Investigate'}{' '}
+                ↗
+              </strong>
+            </button>
+            <button className={styles.previewToggle} aria-label={`Preview ${item.title}`} aria-expanded={expanded === id} aria-controls={`preview-${id}`} onClick={() => {
+              setPreviewId(id)
+              setExpanded(expanded === id ? null : id)
+            }}>{expanded === id ? 'Close preview −' : 'Preview +'}</button>
+            {expanded === id && preview(id, true)}
+            </div>
           )
         })}
-
-      </div>
-
+        </div>
+        {preview(previewId)}
+        </div>
+      </section>
+      <details className={styles.legacyArchive}>
+        <summary>
+          Original ten-case archive / {reviewed} single-look rulings
+        </summary>
+        <p>
+          Original single-look route. These judgments are retained separately
+          from Second Look.
+        </p>
+        <div className={styles.catalogue}>
+          <div className={styles.rows}>
+            {[1, 2, 3, 4].map((m) => (
+              <section key={m} className={styles.movement}>
+                <h2>
+                  <span>0{m}</span>
+                  {labels[m - 1]}
+                </h2>
+                {CASES.filter((c) => c.movement === m).map((c) => (
+                  <button
+                    key={c.id}
+                    className={`${styles.row} ${selected.id === c.id ? styles.selected : ''}`}
+                    onMouseEnter={() => setSelected(c)}
+                    onFocus={() => setSelected(c)}
+                    onClick={() => unlocked(c) && onLegacyCase(c.id)}
+                    aria-disabled={!unlocked(c)}
+                  >
+                    <span className={styles.number}>
+                      {c.number.replace('CASE #', '')}
+                    </span>
+                    <span className={styles.rowTitle}>
+                      {c.title}
+                      <small>
+                        {c.category}
+                        {investigationFor(c) ? ' / Second Look available' : ''}
+                      </small>
+                    </span>
+                    <span className={styles.state}>
+                      {hasLegacyCase(c.id)
+                        ? 'Filed ↗'
+                        : investigationRecords[c.id]?.stage === 'COMPLETE'
+                          ? 'Second Look saved'
+                          : unlocked(c)
+                            ? 'Open ↗'
+                            : 'Locked'}
+                    </span>
+                  </button>
+                ))}
+              </section>
+            ))}
+          </div>
+          <aside className={styles.preview}>
+            <div className={styles.previewHead}>
+              <span>SELECTED EXHIBIT</span>
+              <span>{selected.number}</span>
+            </div>
+            <div className={styles.imageWell}>
+              <img
+                key={selected.id}
+                src={selected.screenshot}
+                alt={selected.screenshotDescription}
+              />
+            </div>
+            <h2>{selected.title}</h2>
+            <p>{selected.context}</p>
+            <button
+              className={styles.open}
+              disabled={!unlocked(selected)}
+              onClick={() => onLegacyCase(selected.id)}
+            >
+              {hasLegacyCase(selected.id)
+                ? 'Read your filed single-look ruling'
+                : unlocked(selected)
+                  ? 'Investigate this interface'
+                  : `Complete ${labels[selected.movement - 2]} to unlock`}{' '}
+              <span>↗</span>
+            </button>
+          </aside>
+        </div>
+      </details>
       <footer className={styles.footer}>
-        <p className={styles.methodology}>
-          <span className={styles.methodologyLabel}>── Methodology</span>
-          The five jurors are authored voices, each holding one critical lens; their verdicts
-          are one panel's position, not settled fact. No crowd telemetry or correctness score is implied.
-          Case imagery combines authored reconstructions with recognizable historical captures; the archive claims the critique, not the source interface.
+        <p>
+          The five jurors are authored voices. Their perspectives are
+          interpretations, not settled fact. Case imagery uses authored
+          reconstructions. Three formerly supplied captures now have original
+          fictional replacements. See About for provenance and older-record limits.
+          Your record stays in this browser.
         </p>
         <a
           href="https://github.com/tanishkfr/design-or-disaster"
           target="_blank"
           rel="noopener noreferrer"
-          className={styles.footerLink}
         >
-          github.com/tanishkfr/design-or-disaster
+          View source ↗
         </a>
       </footer>
-
     </div>
   )
 }

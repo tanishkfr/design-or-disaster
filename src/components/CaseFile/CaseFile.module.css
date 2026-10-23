@@ -1,6 +1,10 @@
 @keyframes caseFileEnter {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ─── Root ────────────────────────────────────────── */
@@ -185,3 +189,102 @@
     padding: var(--space-4);
   }
 }
+
+.caseHeading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 40px 48px 16px;
+  max-width: 1600px;
+  width: 100%;
+  margin: auto;
+}
+.caseHeading p {
+  font: 11px var(--font-mono);
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+.caseHeading h1 {
+  font: 600 clamp(30px, 3.4vw, 50px) / 1.1 var(--font-body);
+  letter-spacing: -0.03em;
+}
+.caseHeading a {
+  font-size: 13px;
+  white-space: nowrap;
+  color: var(--amber);
+  padding: 14px 0;
+}
+.body {
+  grid-template-columns: minmax(0, 1fr) 320px;
+  max-width: 1600px;
+  padding: 24px 48px 64px;
+  gap: 48px;
+}
+.right {
+  border-top: 1px solid var(--text-secondary);
+  padding-top: 20px;
+  scroll-margin-top: 90px;
+}
+.inspectorTitle {
+  font: italic 34px var(--font-editorial);
+  margin-bottom: 24px;
+}
+.header {
+  min-height: 76px;
+  padding: 12px 48px;
+}
+.backBtn {
+  min-height: 44px;
+}
+.left {
+  min-width: 0;
+}
+.caseContext {
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.6;
+}
+@media (max-width: 1000px) {
+  .body {
+    grid-template-columns: minmax(0, 1fr) 270px;
+    gap: 24px;
+    padding: 24px 28px;
+  }
+  .caseHeading {
+    padding: 30px 28px 10px;
+  }
+  .right {
+    position: static;
+  }
+  .header {
+    padding-inline: 28px;
+  }
+}
+@media (max-width: 750px) {
+  .body {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 20px;
+  }
+  .caseHeading {
+    padding: 28px 20px 10px;
+    align-items: start;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .caseHeading h1 {
+    font-size: 32px;
+  }
+  .header {
+    padding: 10px 20px;
+    gap: 12px;
+  }
+  .right {
+    padding-top: 20px;
+  }
+  .inspectorTitle {
+    margin-bottom: 20px;
+  }
+}
+.imageNotice { font-size: 13px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 20px; max-width: 75ch; }

@@ -1,14 +1,15 @@
 // cases.js — Design or Disaster
 //
 // Ten cases in four movements:
-//   Movement I   — Consensus (3): the lenses are learned on cases the jury agreed on
+//   Movement I   — Opening readings (3): authored voices introduce the lenses
 //   Movement II  — The Divide (3): contested cases; the safety net is removed
-//   Movement III — The Landmarks (3): cases with documented public consequences
+//   Movement III — The Landmarks (3): legacy visual-history debates; outcomes are not measured here
 //   Finale       — The Sealed Case (1): no panel verdict is entered; yours is the ruling of record
 //
 // These are authored projections, not live telemetry — declared in the methodology note.
 //
-// All product names are fictional to avoid brand references.
+// Case names are fictional; three former supplied captures now use original fictional reconstructions.
+// Images and authored readings do not establish product history or user outcomes.
 // Annotations coordinates (x, y, width, height as % of image dimensions).
 //
 // Voice rules (locked after Phase 7 validation pass):
@@ -26,7 +27,7 @@ export const CASES = [
     id: 'case-001',
     number: 'CASE #001',
     title: 'Mobile Banking Dashboard',
-    context: 'Personal finance app, iOS, 2022',
+    context: 'Authored finance scenario / mobile',
     category: 'Visual Hierarchy',
     movement: 1,
 
@@ -41,10 +42,10 @@ export const CASES = [
     ],
 
     officialVerdict: 'needs_revision',
-    caseStatus: 'consensus',
+    caseStatus: 'contested',
     contestedSummary: null,
 
-    curatorNote: 'Selected as the cold open case because it divides precisely: two jurors see professional restraint, two see a failed hierarchy, one sees both simultaneously. It is the case most likely to reveal the visitor\'s default orientation within the first thirty seconds.',
+    curatorNote: 'Selected as the cold open case because it divides precisely: two jurors see professional restraint, two see a failed hierarchy, one sees both simultaneously. The split is authored and does not diagnose the visitor.',
 
     jurorRulings: [
       {
@@ -57,13 +58,13 @@ export const CASES = [
         juror: 'accessibility',
         ruling: 'mixed',
         reasoning:
-          'Transaction metadata — category labels and dates — renders at approximately 2.5:1 contrast against white; below the 4.5:1 WCAG AA threshold at this size; functional in ideal conditions and a real cost in ambient light or for users with reduced contrast sensitivity.',
+          "The secondary transaction labels look faint relative to the primary text. This is an authored readability concern, not a measured contrast ratio or a conformance finding.",
       },
       {
         juror: 'usability',
         ruling: 'guilty',
         reasoning:
-          'Send Money is the primary task on a banking dashboard; it appears in the first position of a flat four-item row with no visual distinction from the three actions beside it; the repeat-user model is correct and the first-use experience pays for it.',
+          "If sending money is the task, its position in the equal-weight action row offers little distinction from the actions beside it. A refund search would give the same hierarchy a different test.",
       },
       {
         juror: 'trust',
@@ -88,19 +89,19 @@ export const CASES = [
       },
       {
         x: 4, y: 38, width: 92, height: 12,
-        label: 'Four actions at equal visual weight — a spatial grid organized for return-use navigation; after three sessions the positions are memorized and the scan stops; correct for the user who already knows the product',
+        label: "Four actions share visual weight. Stable positions may help a returning visitor; no learning-time or repeat-use result is established by this image.",
         juror: 'hierarchy',
         type: 'not_guilty',
       },
       {
         x: 4, y: 39, width: 22, height: 11,
-        label: 'Send Money — the primary task for most users, at identical visual weight to Manage Cards; on day one there is no affordance distinguishing frequency of use; the repeat-user model pays its cost at first contact',
+        label: "Send Money has similar visual weight to Manage Cards. Whether it deserves priority depends on the task; no population task-frequency data is supplied.",
         juror: 'usability',
         type: 'guilty',
       },
       {
         x: 18, y: 58, width: 42, height: 7,
-        label: 'Category and date labels — approximately 2.5:1 contrast against white; fails WCAG AA at this size; functional in optimal conditions; a real cost for users with reduced contrast sensitivity or high-ambient-light environments',
+        label: "Secondary category and date labels: inspect their legibility against the primary transaction text. No contrast ratio has been measured for this capture.",
         juror: 'accessibility',
         type: 'mixed',
       },
@@ -121,7 +122,7 @@ export const CASES = [
     id: 'case-004',
     number: 'CASE #002',
     title: 'The Broadsheet App',
-    context: 'Editorial news application, iOS, 2022',
+    context: 'Authored news-app reading / mobile',
     category: 'Visual Hierarchy',
     movement: 1,
 
@@ -136,7 +137,7 @@ export const CASES = [
     ],
 
     officialVerdict: 'strong_design',
-    caseStatus: 'consensus',
+    caseStatus: 'contested',
     contestedSummary: null,
 
     curatorNote: 'Included as a counterweight to the archive\'s failures. The type scale does the work that most interfaces delegate to icons, colours, and progressive disclosure. What makes it useful as a case is not just that it succeeds, but that its success is legible — the decisions are visible and the reasoning is traceable without needing to know anything about the product\'s history.',
@@ -158,7 +159,7 @@ export const CASES = [
         juror: 'usability',
         ruling: 'not_guilty',
         reasoning:
-          'The task of reaching a specific story completes in one tap from the home view; the hierarchy is doing the navigation work that the user would otherwise need to perform manually.',
+          "Visible story headings suggest direct routes to articles. The hierarchy may reduce searching, but the image cannot establish the behavior or tap count of those routes.",
       },
       {
         juror: 'trust',
@@ -195,7 +196,7 @@ export const CASES = [
       },
       {
         x: 0, y: 38, width: 100, height: 58,
-        label: 'Every story in the visible surface is one tap away; the hierarchy does the navigation work the user would otherwise perform manually — stories do not need to be searched for, filtered, or clicked through; the task of reaching specific content completes at the first viewport',
+        label: "Story headings expose possible article routes directly. Their destinations and interaction cost cannot be verified from this captured surface.",
         juror: 'usability',
         type: 'not_guilty',
       },
@@ -216,7 +217,7 @@ export const CASES = [
     id: 'case-006',
     number: 'CASE #003',
     title: 'The Benefits Form',
-    context: 'Government welfare services, desktop web, 2022',
+    context: 'Authored assistance scenario / desktop',
     category: 'Accessibility',
     movement: 1,
 
@@ -234,32 +235,32 @@ export const CASES = [
     caseStatus: 'consensus',
     contestedSummary: null,
 
-    curatorNote: 'The session timeout was set by the IT security team for a legitimate reason: preventing data exposure on shared public computers in libraries and job centres. The form was designed by a different team. No integration specification existed to reconcile the two requirements. This case was included not as an example of bad intention, but as a study in what happens when design responsibility is distributed without coordination across an organisation.',
+    curatorNote: "Authored scenario: a shared-computer privacy requirement and an application task may conflict. The screenshot does not establish who set a timeout or how a real organisation coordinated its teams. The working Second Look reconstruction lets you test an illustrative interruption and recovery.",
 
     jurorRulings: [
       {
         juror: 'hierarchy',
         ruling: 'guilty',
         reasoning:
-          'The form distributes forty-three input fields across a continuous scroll without semantic grouping, visual progress indication, or any spatial signal of how much of the task remains.',
+          "The visible fields form a continuous vertical sequence. The image does not establish the full field count, completion time, or grouping below the captured area.",
       },
       {
         juror: 'accessibility',
         ruling: 'guilty',
         reasoning:
-          'The people this form exists to serve — those in financial crisis, with elevated cognitive load, potentially navigating it in a second language or without prior experience of government digital systems — encounter its highest barriers: no inline validation, no contextual help, no ability to save and return.',
+          "A person seeking assistance may be working under pressure or reading in another language. The visible error summary offers correction links; the image cannot establish inline validation or whether saving and returning is possible.",
       },
       {
         juror: 'usability',
         ruling: 'guilty',
         reasoning:
-          'The session timeout is shorter than the time the form requires to complete; a user who is interrupted, pauses to gather a document, or simply reads slowly loses their work and must begin again.',
+          "A timeout warning raises a recovery question: what happens if the applicant pauses? A static image cannot establish the timeout duration, task time, or whether work is lost.",
       },
       {
         juror: 'trust',
         ruling: 'guilty',
         reasoning:
-          'A welfare application that discourages completion through design complexity reduces the number of successful claims without requiring an explicit policy decision to do so; the interface performs administrative work that policy cannot.',
+          "Complexity may discourage an applicant. This authored concern is not evidence of reduced claims, institutional intent, or an observed policy outcome.",
       },
       {
         juror: 'delight',
@@ -272,31 +273,31 @@ export const CASES = [
     annotations: [
       {
         x: 0, y: 13, width: 100, height: 6,
-        label: 'Session expires in 8 minutes — a 43-field welfare application takes 19 to 26 minutes to complete; the timeout was configured by IT security to protect session data on shared computers in libraries and job centres; the form was designed by a different team; no integration test documented whether the two requirements were compatible',
+        label: "The session warning introduces a possible conflict between shared-computer privacy and retaining work. No completion-time study or organisational history is supplied for this scenario.",
         juror: 'usability',
         type: 'guilty',
       },
       {
         x: 6, y: 24, width: 88, height: 7,
-        label: 'No progress indicator — the form names the task but not its scope; at this point the applicant has completed 6 of 43 required fields; this information is not available anywhere in the interface; on a second submission attempt with 8 minutes remaining the applicant cannot calculate whether completing the form is achievable before session expiry',
+        label: "No progress indicator is visible in this capture. The full task length and remaining work cannot be established from the image.",
         juror: 'hierarchy',
         type: 'guilty',
       },
       {
         x: 6, y: 34, width: 88, height: 21,
-        label: '9 errors surface simultaneously at the moment of first submission — none appeared during entry; the error summary satisfies WCAG 2.1 SC 3.3.1 Error Identification; it does not satisfy the purpose of that requirement; inline validation at the point of entry is the accessible pattern; deferring all errors to submission concentrates the correction task at the moment of maximum session pressure and minimum remaining time',
+        label: "The linked error summary makes correction routes visible. This capture does not establish when validation occurs or whether the interface meets an accessibility standard.",
         juror: 'accessibility',
         type: 'guilty',
       },
       {
         x: 6, y: 57, width: 88, height: 29,
-        label: 'Each error requires the applicant to locate the field, read the requirement, and re-enter valid data; the intersection of 9 simultaneous errors with 8 minutes on the clock is not the outcome of a policy decision; it is the residue of separate decisions made by separate teams with no shared specification; the interface performs administrative filtering that no policy document explicitly authorised',
+        label: "Error messages ask the applicant to revisit fields. The image cannot establish the time cost, coordination between teams, or an administrative outcome.",
         juror: 'trust',
         type: 'guilty',
       },
       {
         x: 6, y: 88, width: 88, height: 5,
-        label: '37 more fields below — the form does not distinguish between a routine renewal and a first application submitted by someone in acute financial distress; it processes both identically; the clinical efficiency is not restraint; it is the design\'s failure to consider the range of people it was built to serve',
+        label: "The image shows only part of a form. Consider what it communicates about scope; no unseen field count or claimant population is established.",
         juror: 'delight',
         type: 'guilty',
       },
@@ -312,7 +313,7 @@ export const CASES = [
     id: 'case-005',
     number: 'CASE #004',
     title: 'The Hamburger Navigation',
-    context: 'Travel booking, desktop web, 2020',
+    context: 'Authored travel-booking reading / desktop',
     category: 'Navigation',
     movement: 2,
 
@@ -330,9 +331,9 @@ export const CASES = [
     caseStatus: 'contested',
 
     contestedSummary:
-      'The hamburger menu is among the most empirically tested patterns in interface design, and the evidence remains genuinely divided. Usability studies consistently measure lower first-visit navigation engagement with collapsed menus. Product teams at major technology companies reversed their implementations after analysing conversion. Yet some of the highest-traffic products on the internet maintain collapsed navigation without measurable harm. The Advocate and The Skeptic hold that the pattern is now culturally literate and reduces persistent visual complexity. The majority hold that any navigation requiring an action to reveal has already failed the first moment of orientation — and that this failure is more costly on desktop, where surface area is not the constraint.',
+      "In this authored debate, one position values visible navigation and another values reduced visual complexity. Whether a collapsed menu helps depends on the task and the available routes. No study results or conversion measurements are supplied for this case.",
 
-    curatorNote: 'The contested verdict reflects genuine disagreement among researchers and practitioners. The hamburger menu has been tested extensively, reversed by major organisations, and defended by others with equivalent conviction. This case exists in the archive to demonstrate that some design questions do not resolve — they develop. The jury\'s 3/2 split mirrors the state of the literature.',
+    curatorNote: "The split records disagreement among authored voices. It is not a summary of research literature or evidence of decisions made by real product teams.",
 
     jurorRulings: [
       {
@@ -345,7 +346,7 @@ export const CASES = [
         juror: 'accessibility',
         ruling: 'not_guilty',
         reasoning:
-          'Collapsing navigation to a single trigger reduces the number of persistent interactive elements on screen, which benefits users with attention regulation difficulties and creates a simpler keyboard navigation path through an otherwise dense page.',
+          "A single navigation trigger reduces the persistent controls shown. It may simplify the surface, while adding a reveal action. Keyboard behavior and effects on attention would require testing.",
       },
       {
         juror: 'usability',
@@ -357,7 +358,7 @@ export const CASES = [
         juror: 'trust',
         ruling: 'not_guilty',
         reasoning:
-          'The hamburger is among the most widely recognised interface conventions currently in use; invoking discoverability concerns for a pattern this culturally established attributes naivety to an audience that encounters it on every device they own.',
+          "A familiar menu trigger can be a reasonable compact route. Familiarity still varies, and the image supplies no evidence that every visitor recognizes it or knows what it contains.",
       },
       {
         juror: 'delight',
@@ -388,7 +389,7 @@ export const CASES = [
       },
       {
         x: 0, y: 5, width: 100, height: 9,
-        label: 'By 2020, the hamburger icon appeared on streaming services, news platforms, productivity tools, and mobile operating systems encountered daily by the population this product serves; the pattern recognition gap that made collapsed navigation costly when the pattern was novel had largely closed; the Skeptic holds that invoking discoverability concerns for a convention this culturally established overestimates user naivety',
+        label: "A familiar-looking menu icon may be recognizable to some visitors. This image does not establish familiarity across a population or remove discoverability concerns.",
         juror: 'trust',
         type: 'not_guilty',
       },
@@ -410,7 +411,7 @@ export const CASES = [
     id: 'case-010',
     number: 'CASE #005',
     title: 'The Animated Portfolio',
-    context: 'Personal designer portfolio, desktop, 2023',
+    context: 'Authored portfolio scenario / desktop',
     category: 'Delight vs Usability Tradeoffs',
     movement: 2,
 
@@ -428,34 +429,34 @@ export const CASES = [
     caseStatus: 'contested',
 
     contestedSummary:
-      "Portfolio sites sit at the exact point where usability principles and expressive design come into direct conflict. The case for animation is that, for this specific product type, demonstrating capability is the task — the interface does not exist to help a user complete an errand, it exists to answer a question about the designer's range. The Operator and The Romantic hold that the animated portfolio answers that question more honestly than a static grid. The majority hold that an interface controlling the user's attention pace is failing on its own terms — and that the more important question, whether this designer knows when restraint serves the work better, is the one the portfolio refuses to answer.",
+      "These authored positions disagree about expression and retrieval. The Operator and Romantic treat visual character as evidence of capability; the Scanner and Advocate ask what a visitor can read and control. A still image cannot establish animation timing or scroll behavior. The working Second Look exhibit offers a separate, finite and optional motion sequence.",
 
-    curatorNote: 'The contested verdict was 3/2, with The Operator and The Romantic on opposite sides of the same argument — that demonstrating capability is the task on a portfolio site, and therefore friction is the proof of concept. The Romantic\'s ruling is the one most likely to surprise: the juror who most defends expressive design is also the one most precise about when expression is honest and when it is performance.',
+    curatorNote: "Three authored positions favor revision; the Operator and Romantic defend expressive demonstration. This constructed split is not an expert vote or evidence of actual motion behavior. A compelling image and an operable portfolio are related questions, not interchangeable proof.",
 
     jurorRulings: [
       {
         juror: 'hierarchy',
         ruling: 'guilty',
         reasoning:
-          'Hierarchy requires a reading surface that is at rest; this interface is never still, and the eye cannot evaluate what it is being shown while it is occupied tracking what is still arriving.',
+          "The oversized headline commands the opening. If motion delays its reading, expression could compete with hierarchy; this still image cannot establish whether or how long that happens.",
       },
       {
         juror: 'accessibility',
         ruling: 'guilty',
         reasoning:
-          "Scroll-jacking removes the user's control over their own navigation pace, which causes physical discomfort for users with vestibular conditions and breaks the standard navigation model for keyboard users and assistive technology without providing an alternative.",
+          "The scroll cue makes control worth investigating. This image cannot demonstrate scroll hijacking, keyboard access or reduced-motion behavior; those require a working interface.",
       },
       {
         juror: 'usability',
         ruling: 'not_guilty',
         reasoning:
-          'A portfolio is not a utility — it is a demonstration, and a designer who ships motion this precise is showing their capability at a fidelity no static case study can replicate; the friction is the proof of concept.',
+          "A portfolio also demonstrates visual judgment. The composition can be relevant evidence of that capability, while timing and task friction remain questions for a working version.",
       },
       {
         juror: 'trust',
         ruling: 'guilty',
         reasoning:
-          'Every animation is executed; none appears considered — the interface demonstrates technical capability while leaving the more important question entirely unanswered: whether this person knows when not to do this.',
+          "A polished image alone cannot establish whether the designer knows when to stop moving. I would look for pacing controls and explicit project responsibilities before treating expression as proof of judgment.",
       },
       {
         juror: 'delight',
@@ -468,25 +469,25 @@ export const CASES = [
     annotations: [
       {
         x: 5, y: 20, width: 68, height: 13,
-        label: 'Headline mid-reveal — the reading surface has not settled; the eye is tracking arrival rather than evaluating what arrived; hierarchy requires stillness before it can operate',
+        label: "The headline dominates the composition. A captured pose cannot tell us whether its arrival delays reading.",
         juror: 'hierarchy',
         type: 'guilty',
       },
       {
         x: 5, y: 45, width: 28, height: 7,
-        label: 'Scroll indicator implies scroll-jacked navigation — the user\'s control over their navigation pace has been removed; vestibular impact is real; keyboard navigation path is broken without an alternative',
+        label: "A scroll cue invites exploration but does not prove scroll hijacking. Keyboard and motion behavior need a working implementation to evaluate.",
         juror: 'accessibility',
         type: 'guilty',
       },
       {
         x: 5, y: 57, width: 90, height: 40,
-        label: 'Four simultaneous entrance animations — the precision required to coordinate these is non-trivial; the Operator holds that this is capability demonstrated at viewport scale; a static grid cannot replicate the fidelity of this proof of concept',
+        label: "The project field makes expression part of the work on display. The image records its composition, not simultaneous animation or technical execution.",
         juror: 'usability',
         type: 'not_guilty',
       },
       {
         x: 0, y: 0, width: 100, height: 58,
-        label: 'The continuous motion demonstrates execution, but never shows that the designer can recognize when the work needs stillness.',
+        label: "The expressive surface prompts a question about restraint. Continuous motion cannot be established from this image.",
         juror: 'trust',
         type: 'guilty',
       },
@@ -508,7 +509,8 @@ export const CASES = [
     id: 'case-011',
     number: 'CASE #006',
     title: 'The Identity Form',
-    context: 'Dating platform profile setup, mobile, 2014',
+    context: 'Original fictional identity form / reconstruction',
+    imageNotice: 'This original fictional reconstruction replaces a supplied capture. Earlier saved observations and coordinates are retained unchanged and may describe the former image. No historical screenshot or personal response is reproduced.',
     category: 'Accessibility',
     movement: 2,
 
@@ -526,32 +528,32 @@ export const CASES = [
     contestedSummary:
       'Three jurors rule for the design without reservation. Two hold genuine positions — one that the tradeoff is real even if the outcome is correct, one that principled design and strategic timing are not always separable and that the distinction matters. The majority verdict is Strong Design. The minority is not wrong to ask the question.',
 
-    curatorNote: 'Included as a case about structural decisions and their downstream effects. The form\'s merit is not the addition of options — adding options to a form is trivial. The merit is the structural decision to separate gender identity, sexual orientation, and pronouns into distinct fields, treating them as distinct variables rather than variations of a single category. That structural decision has implications for how any downstream system — matching algorithm, marketing segmentation, research data — receives and processes the information.',
+    curatorNote: "This visual reading asks how a form represents identity. The capture shows selectors and a set of options, not a complete data model. It does not establish separate pronoun fields, matching accuracy or downstream processing.",
 
     jurorRulings: [
       {
         juror: 'hierarchy',
         ruling: 'not_guilty',
         reasoning:
-          'The expanded form uses three discrete fields where the original used one — gender identity, sexual orientation, and pronouns occupy separate rows in the profile setup flow. Splitting what the previous interface had collapsed communicates that these are distinct variables rather than variations of the same variable; that structural decision has downstream consequences for how the matching system receives and processes the data.',
+          "The selectors and option list make a more specific vocabulary visible than a single binary choice. The capture does not establish a prior form, separate pronoun fields or the matching system behind it.",
       },
       {
         juror: 'accessibility',
         ruling: 'not_guilty',
         reasoning:
-          'The binary gender field on a dating platform does not merely fail to represent non-binary users — it forces a choice between misrepresentation and invisibility. A user who selects Male or Female when neither is accurate receives match results calibrated to an identity they do not have. The cost is not friction at the form; it is the product\'s core function operating incorrectly for that population.',
+          "A binary-only choice can leave someone without an accurate way to describe themselves. This expanded vocabulary offers more possibilities; whether these options meet individual needs still requires listening to the people using them.",
       },
       {
         juror: 'usability',
         ruling: 'mixed',
         reasoning:
-          'The task is finding a match. A form that collects accurate identity data produces more accurate matches. The expanded field set introduces real complexity at intake but reduces mismatch downstream — this is friction that does work, which is a different category from friction that does not. The tradeoff is real; it is not equal.',
+          "More options introduce reading and selection work while potentially allowing a more accurate self-description. Any effect on matching remains untested; extra fields do not prove a better result.",
       },
       {
         juror: 'trust',
         ruling: 'mixed',
         reasoning:
-          'The expanded identity fields arrived when binary swiping had established itself as the default model for mobile dating. Whether this is a principled commitment to accurate user representation or a differentiation strategy aimed at a specific demographic segment — those two explanations are not mutually exclusive, which is precisely the question worth holding.',
+          "Specific identity language communicates a product position. Whether it reflects principle, differentiation or both is an interpretive question; the image cannot establish the team motives or release history.",
       },
       {
         juror: 'delight',
@@ -564,19 +566,19 @@ export const CASES = [
     annotations: [
       {
         x: 3, y: 3, width: 58, height: 32,
-        label: 'Multi-select dropdown — not a radio button, not a binary toggle; the structural choice communicates that the variable being collected is a spectrum, not a category; this distinction has direct consequences for how downstream systems process the data',
+        label: "The visible selector and option list suggest a broader vocabulary. Their selection rules and downstream data processing require a working implementation to verify.",
         juror: 'hierarchy',
         type: 'not_guilty',
       },
       {
         x: 3, y: 35, width: 93, height: 62,
-        label: 'Twenty-two discrete options across three distinct fields — gender identity, sexual orientation, pronouns separated structurally; the form encodes that these are not variations of a single variable but three independently meaningful attributes; the matching algorithm receives three distinct inputs rather than one collapsed field',
+        label: "The visible option set expands the vocabulary available for self-description. No complete field schema or matching algorithm is established by this image.",
         juror: 'accessibility',
         type: 'not_guilty',
       },
       {
         x: 18, y: 0, width: 58, height: 100,
-        label: 'Additional fields create intake friction, but the information they collect prevents more costly mismatches later in the product.',
+        label: "Additional choices require intake effort. Whether they prevent later mismatches is a question for research, not a finding from this capture.",
         juror: 'usability',
         type: 'mixed',
       },
@@ -597,20 +599,20 @@ export const CASES = [
 
 
   // ─── CASE #002 ───────────────────────────────────────────────────────────────
-  // Landmark. A social messaging app merged friend Stories with Discover content
-  // into a single algorithmically sorted feed. A user petition reached over a
-  // million signatures. The company partially reversed the redesign months later.
+  // Fictional ranked-contact scenario. No historical rollout or public outcome
+  // is established. The former supplied capture is not part of this artifact.
   {
     id: 'case-002',
     number: 'CASE #007',
-    title: "Flare's 2018 Redesign",
-    context: 'Social messaging, iOS, 2018',
+    title: 'Flare — Ranked Friends',
+    context: 'Original fictional social feed / reconstruction',
+    imageNotice: 'This original fictional reconstruction uses invented contacts and replaces a supplied capture. Earlier saved observations and coordinates are retained unchanged and may describe the former image. No real contact names, avatars or historical product claims are reproduced.',
     category: 'Wildcard / Controversial',
     movement: 3,
 
     screenshot: '/screenshots/case-002.jpg',
     screenshotAspect: '249/576',
-    screenshotDescription: 'A mobile social feed showing a blue Friends header, a vertically ranked list of contacts with activity metadata, and a floating action control.',
+    screenshotDescription: 'An original fictional social feed with a purple Friends header, eight invented numbered contacts with activity metadata, and a floating compose control.',
     evidenceTargets: [
       { x: 50, y: 7, label: 'Friends header' },
       { x: 48, y: 38, label: 'Upper contact list' },
@@ -622,69 +624,69 @@ export const CASES = [
     caseStatus: 'landmark',
     contestedSummary: null,
 
-    curatorNote: 'One of the few cases where a design decision produced a public measurable response — over a million signatures, a partial reversal, and a documented decline in daily active users. Included not because the design was straightforwardly wrong, but because the jury\'s minority position deserves a fair hearing: the redesign was trying to solve a real problem about separating personal content from media content, and the failure was in the execution, not necessarily the intention.',
+    curatorNote: "This legacy exhibit is an authored debate about separating personal and publisher content. Its fictional product name is not a historical source. No petition total, business metric, or causal outcome is established by this case.",
 
     jurorRulings: [
       {
         juror: 'hierarchy',
         ruling: 'guilty',
         reasoning:
-          'The original spatial grammar encoded social distance directly — friends left, world right, camera centre — and the redesign replaced that legible axis with a single algorithmically sorted stream where friend content and media content competed without distinction.',
+          "The ranked contact list raises a question about social proximity versus activity. The capture does not show a previous navigation model or establish a merged publisher feed.",
       },
       {
         juror: 'accessibility',
         ruling: 'guilty',
         reasoning:
-          'Algorithmic ranking applied to a peer-content feed introduces systemic inequality: users with smaller networks see their content deprioritised, and the people most likely to feel abandoned first are the casual users who kept the platform social.',
+          "Ranking could make quieter contacts less visible. This image cannot establish how the ranking works, whose content is deprioritized, or effects on smaller networks.",
       },
       {
         juror: 'usability',
         ruling: 'guilty',
         reasoning:
-          'Users had accumulated precise spatial memory across years of use — swipe left, swipe right, camera centre; invalidating that vocabulary without a migration path is not a redesign cost, it is a relearning tax levied on every existing user at once.',
+          "A changed navigation model may require relearning. No prior-use study, migration history or measured relearning cost is supplied with this image.",
       },
       {
         juror: 'trust',
         ruling: 'guilty',
         reasoning:
-          'Flare stated the redesign would separate friends from media content, then applied algorithmic ranking — the primary mechanism of media distribution — to the friends feed, making the stated rationale and the implemented system direct contradictions.',
+          "The Friends heading promises a personal space. Whether that promise matches the ranking is worth investigating; this archive establishes no company statement or algorithm.",
       },
       {
         juror: 'delight',
         ruling: 'mixed',
         reasoning:
-          'The original platform understood ephemerality as an intimacy mechanism — not a feature but a social contract between people who trusted each other with unpolished moments; the redesign was trying to protect that contract, and the failure deserves more considered reading than the petition gave it.',
+          "The personal contact list can be read as an attempt to foreground intimate sharing. That is an interpretation of the surface, not a verified product intention or public response.",
       },
     ],
 
     annotations: [
       {
         x: 5, y: 12, width: 90, height: 32,
-        label: 'Friend messages merged with media content — algorithmic ranking applied where social proximity had previously determined order; the signal of who sent this is structurally equivalent to the signal of what Discover recommends',
+        label: "Contact names and activity metadata share a ranked list. The image cannot establish the algorithm or a merger with publisher content.",
         juror: 'hierarchy',
         type: 'guilty',
       },
       {
         x: 5, y: 62, width: 90, height: 20,
-        label: 'Story update merged with direct messages — broadcast content treated as chat; the original spatial separation of these two modes was the product\'s core navigational argument, encoded into left-right swipe vocabulary built over years',
+        label: "Different contact activities share the same list. Prior swipe behavior and the cost of changing it are not established here.",
         juror: 'usability',
         type: 'guilty',
       },
       {
         x: 4, y: 10, width: 92, height: 78,
-        label: 'Algorithmic ranking makes quieter or smaller social networks less visible, concentrating the redesign cost on already marginal participants.',
+        label: "Ranking invites a question about whose activity becomes visible. Effects on smaller networks require evidence beyond this capture.",
         juror: 'accessibility',
         type: 'guilty',
       },
       {
         x: 0, y: 0, width: 100, height: 20,
-        label: 'The stated separation of friends and media conflicts with a friends feed organized by the same ranking logic used for media.',
+        label: "The Friends heading frames expectations of a personal space. No company rationale or ranking implementation is supplied.",
         juror: 'trust',
         type: 'guilty',
       },
       {
         x: 4, y: 12, width: 92, height: 74,
-        label: 'The redesign tries to protect intimate sharing from publisher content; the intention survives even though the new structure does not.',
+        label: "The contact-focused surface may suggest intimacy. The archive offers an interpretation, not evidence of product intent.",
         juror: 'delight',
         type: 'mixed',
       },
@@ -700,7 +702,7 @@ export const CASES = [
     id: 'case-009',
     number: 'CASE #008',
     title: 'Nova OS 7',
-    context: 'Mobile operating system, 2013',
+    context: 'Legacy operating-system reading / supplied capture',
     category: 'Visual Hierarchy',
     movement: 3,
 
@@ -718,38 +720,38 @@ export const CASES = [
     caseStatus: 'landmark',
     contestedSummary: null,
 
-    curatorNote: 'Included as a landmark because it is the case where the verdict most requires temporal context. Evaluating a 2013 design decision against current standards misses the argument: at the time of release, this was the most significant visual shift in mobile operating system design in a decade. The industry\'s wholesale adoption of the flat visual language in the years that followed confirmed the direction was right even where the first execution was not.',
+    curatorNote: "Included as an authored comparison of changing visual conventions. A captured image can support a visual reading, but it cannot establish industry adoption, a historical ranking, or a design direction being proved correct.",
 
     jurorRulings: [
       {
         juror: 'hierarchy',
         ruling: 'guilty',
         reasoning:
-          'The transition to a flat visual language removed the depth cues that had distinguished interactive elements from static content — buttons, labels, and navigation items became visually equivalent, and the surface offered no information about which elements responded to touch.',
+          "The flat icon treatment reduces simulated depth. Whether its shapes and labels remain recognizable actions is a question to investigate, not proof that all controls became indistinguishable.",
       },
       {
         juror: 'accessibility',
         ruling: 'guilty',
         reasoning:
-          'The ultralight typeface at small sizes in outdoor and high-ambient-light conditions produced contrast failures across multiple core applications; the manufacturer issued a system-wide type weight and size correction within six months of release.',
+          "Ultralight text can be difficult to read in some conditions. This authored reading does not establish measured contrast failures or a manufacturer correction timeline.",
       },
       {
         juror: 'usability',
         ruling: 'guilty',
         reasoning:
-          'Users had to develop an entirely new model of interface legibility — any text element might also be a button — which is a high interpretive cost distributed simultaneously across every person using an operating system serving hundreds of millions of devices.',
+          "Text-only controls may ask visitors to distinguish a label from an action. The scale of that interpretive cost across a population has not been measured here.",
       },
       {
         juror: 'trust',
         ruling: 'mixed',
         reasoning:
-          "The manufacturer shipped a visual language that required an OS-level accessibility correction within six months; whether this reflects inadequate real-world testing or a decision to ship and revise is a question the timeline raises without answering.",
+          "A restrained visual language can still ask a lot of its labels. This image does not establish manufacturer testing, an accessibility correction or a release timeline.",
       },
       {
         juror: 'delight',
         ruling: 'not_guilty',
         reasoning:
-          'Nova OS 7 dismantled a visual language that had become a shared vernacular and replaced it with something genuinely new; the problems were real, the courage was also real, and the industry\'s wholesale adoption of the flat visual language in the years that followed confirmed the direction was right even where the first execution was not.',
+          "The flat visual language departs from simulated physical controls. Its expressive ambition and readability can be considered independently; subsequent adoption would not itself prove a correct design decision.",
       },
     ],
 
@@ -768,13 +770,13 @@ export const CASES = [
       },
       {
         x: 4, y: 17, width: 92, height: 54,
-        label: 'Systematic colour language — twenty objects sharing grammar, palette, and squircle form. The industry adopted this visual direction wholesale within two years.',
+        label: "The icons share color, outline and shape conventions. No industry adoption timeline is established by this capture.",
         juror: 'delight',
         type: 'not_guilty',
       },
       {
         x: 4, y: 78, width: 92, height: 7,
-        label: 'Ultralight labels at 11px — contrast failure in ambient and outdoor conditions; the manufacturer issued an OS-level type correction within six months of release',
+        label: "Ultralight labels raise a readability concern. Exact text size, contrast compliance, and manufacturer response have not been verified here.",
         juror: 'accessibility',
         type: 'guilty',
       },
@@ -786,7 +788,7 @@ export const CASES = [
       },
       {
         x: 2, y: 4, width: 96, height: 90,
-        label: 'A system-wide correction within months of release makes the launch feel like an experiment conducted at operating-system scale.',
+        label: "The image raises questions about recognition and readability; it cannot establish a system-wide correction or the conditions of release.",
         juror: 'trust',
         type: 'mixed',
       },
@@ -802,7 +804,8 @@ export const CASES = [
     id: 'case-012',
     number: 'CASE #009',
     title: 'Bulletin',
-    context: 'Classifieds marketplace, desktop web, 2024',
+    context: 'Authored classifieds scenario / desktop',
+    imageNotice: 'This original fictional category directory replaces a supplied classifieds capture. Earlier saved observations and coordinates are retained unchanged and may describe the former image. The working Second Look Bulletin is a separate authored exhibit.',
     category: 'Wildcard / Controversial',
     movement: 3,
 
@@ -820,7 +823,7 @@ export const CASES = [
     caseStatus: 'landmark',
     contestedSummary: null,
 
-    curatorNote: 'The counterintuitive verdict. Bulletin violates nearly every current design convention — no visual hierarchy, default browser typography, link-based navigation, no onboarding — and remains one of the most-visited sites in its category. The case exists in the archive because the verdict challenges the assumption that design quality tracks with visual sophistication. The bluntness is the personality. The personality is honest.',
+    curatorNote: "The authored readings challenge the assumption that visual sophistication guarantees a useful interface. Density and direct text links may aid retrieval, while readability and trust remain open questions. No traffic ranking is claimed.",
 
     jurorRulings: [
       {
@@ -833,50 +836,50 @@ export const CASES = [
         juror: 'accessibility',
         ruling: 'mixed',
         reasoning:
-          'Default link contrast falls below WCAG AA and type sizes are smaller than current guidance, but the interface imposes no patterns to learn and no progressive disclosure to navigate — the accessibility trade-off runs in both directions.',
+          "Small, densely packed text raises a readability question. No contrast measurement or conformance test is supplied. Familiar text links may also provide a direct navigation model.",
       },
       {
         juror: 'usability',
         ruling: 'not_guilty',
         reasoning:
-          'Post a listing, search a category, contact a seller — every transaction Bulletin facilitates completes in fewer steps than on any modern classifieds platform that has attempted to improve on it.',
+          "The visible links suggest direct category routes. This capture cannot establish transaction step counts or superiority to other marketplaces.",
       },
       {
         juror: 'trust',
         ruling: 'mixed',
         reasoning:
-          'Bulletin provides no verification mechanism, no safety signal, and no dispute path — this is not an oversight but a deliberate product position that places trust entirely between the two parties, which functions in low-stakes transactions and fails in high-stakes ones.',
+          "No verification or dispute route is visible in this capture. That absence raises a trust question, but does not establish what the full service provides or how real transactions fare.",
       },
       {
         juror: 'delight',
         ruling: 'not_guilty',
         reasoning:
-          'Bulletin is almost alone among high-traffic consumer products in refusing to perform — no dark patterns, no manufactured scarcity, no algorithmic manipulation of attention; the bluntness is the personality, and the personality is an honest one.',
+          "The blunt text treatment can feel direct and unperformed. This is an authored interpretation of expression, not evidence about traffic, algorithms, or the absence of dark patterns.",
       },
     ],
 
     annotations: [
       {
         x: 23, y: 5, width: 57, height: 10,
-        label: 'Category headers — no visual hierarchy beyond text weight; no nesting, no progressive disclosure; the scan completes without a mechanism to direct it; the interface trusts the user to find the category faster than any navigation system would',
+        label: "Category headings and text weight offer a simple scanning structure. Its speed relative to other navigation systems has not been measured.",
         juror: 'hierarchy',
         type: 'not_guilty',
       },
       {
         x: 23, y: 5, width: 57, height: 88,
-        label: 'Every transaction accessible in two clicks — no login required to search, no onboarding to navigate, no account to create before contacting a seller; the task completes without friction because no friction was added',
+        label: "Visible links expose several possible routes. The image does not establish transaction depth, account requirements, or end-to-end task friction.",
         juror: 'usability',
         type: 'not_guilty',
       },
       {
         x: 23, y: 52, width: 22, height: 14,
-        label: 'Blue link text at default browser size — contrast below WCAG AA; type sizes below current guidance; the interface imposes no patterns to learn but the accessibility baseline is not met',
+        label: "Compact blue text raises a readability question. Its contrast and accessibility conformance have not been measured here.",
         juror: 'accessibility',
         type: 'mixed',
       },
       {
         x: 1, y: 1, width: 98, height: 96,
-        label: 'The site offers almost no verification, safety signaling, or dispute path; trust is delegated entirely to individual transactions.',
+        label: "No verification or dispute route is visible here. The screenshot does not establish their absence from the full service.",
         juror: 'trust',
         type: 'mixed',
       },
@@ -898,7 +901,7 @@ export const CASES = [
     id: 'case-015',
     number: 'CASE #010',
     title: 'Brutalist Fashion Store',
-    context: 'Independent fashion retail, desktop, 2023',
+    context: 'Authored fashion scenario / desktop',
     category: 'Delight vs Usability Tradeoffs',
     movement: 4,
 

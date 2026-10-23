@@ -1,10 +1,20 @@
+import { useState } from 'react'
 import { CASES } from '../../data/cases'
 import { generateFinalReportContent } from '../../utils/reportInsights'
 import styles from './FinalReport.module.css'
 
-const closedDate = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+const closedDate = new Date().toLocaleDateString('en-US', {
+  month: 'long',
+  year: 'numeric',
+})
 
-export default function FinalReport({ profile, onRestart, onBack, isQuickPathComplete = false }) {
+export default function FinalReport({
+  profile,
+  onRestart,
+  onBack,
+  isQuickPathComplete = false,
+}) {
+  const [confirmReset, setConfirmReset] = useState(false)
   const content = profile ? generateFinalReportContent(profile, CASES) : null
 
   // Fallback prose for zero-submission edge case
@@ -12,33 +22,70 @@ export default function FinalReport({ profile, onRestart, onBack, isQuickPathCom
     return (
       <div className={styles.page}>
         <div className={styles.container}>
+          <button className={styles.topBack} onClick={onBack}>
+            ← Case index
+          </button>
+          <h1 className={styles.recordTitle}>
+            The investigation
+            <br />
+            record.
+          </h1>
           <header className={styles.header}>
-            <span className={styles.docLabel}>Design Eye · Investigation Record</span>
+            <span className={styles.docLabel}>
+              Design Eye · Investigation Record
+            </span>
             <span className={styles.docMeta}>No cases reviewed</span>
           </header>
           <p className={styles.opening}>No cases have been reviewed yet.</p>
           <section className={`${styles.block} ${styles.closing}`}>
             <p className={styles.closingLine}>The record is empty.</p>
-            <p className={styles.question}>Return to the archive to begin an investigation.</p>
+            <p className={styles.question}>
+              Return to the archive to begin an investigation.
+            </p>
           </section>
           <div className={styles.actions}>
-            <button className={styles.backBtn} onClick={onBack}>← Archive</button>
+            <button className={styles.backBtn} onClick={onBack}>
+              ← Archive
+            </button>
           </div>
         </div>
       </div>
     )
   }
 
-  const { opening, paragraphs, closingLine, question, total, rulingQuote, sealedRuling, lean } = content
+  const {
+    opening,
+    paragraphs,
+    closingLine,
+    question,
+    total,
+    rulingQuote,
+    sealedRuling,
+    lean,
+  } = content
 
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-
+        <button className={styles.topBack} onClick={onBack}>
+          ← Case index
+        </button>
+        <h1 className={styles.recordTitle}>
+          The investigation
+          <br />
+          record.
+        </h1>
         <header className={styles.header}>
-          <span className={styles.docLabel}>Design Eye · Investigation Record</span>
+          <span className={styles.docLabel}>
+            Design Eye · Investigation Record
+          </span>
           <span className={styles.docMeta}>
-            {isQuickPathComplete ? 'Five-minute version complete' : total >= CASES.length - 1 ? 'Investigation complete' : `${total} rulings filed`} · {closedDate}
+            {isQuickPathComplete
+              ? 'Five-minute version complete'
+              : total >= CASES.length
+                ? 'Investigation complete'
+                : `${total} ${total === 1 ? 'ruling' : 'rulings'} filed`}{' '}
+            · {closedDate}
           </span>
         </header>
 
@@ -48,16 +95,20 @@ export default function FinalReport({ profile, onRestart, onBack, isQuickPathCom
           {lean ? (
             <>
               <div className={styles.cardFigure}>
-                <span className={styles.cardLensName}>{lean.strongest.title}</span>
+                <span className={styles.cardLensName}>
+                  {lean.strongest.title}
+                </span>
               </div>
               <p className={styles.cardMeta}>
                 {lean.balanced
-                  ? `All five lenses entered the record equally across ${total} rulings.`
-                  : `You marked ${lean.strongest.title.toLowerCase()} evidence in ${lean.strongest.count} cases. Least visible: ${lean.weakest.title}.`}
+                  ? `All five lenses entered the record equally across ${total} ${total === 1 ? 'ruling' : 'rulings'}.`
+                  : `You marked ${lean.strongest.title.toLowerCase()} evidence in ${lean.strongest.count} ${lean.strongest.count === 1 ? 'case' : 'cases'}. Least visible: ${lean.weakest.title}.`}
               </p>
             </>
           ) : (
-            <p className={styles.cardMeta}>Not enough rulings yet to name a lean.</p>
+            <p className={styles.cardMeta}>
+              Not enough rulings yet to name a lean.
+            </p>
           )}
         </div>
 
@@ -65,7 +116,9 @@ export default function FinalReport({ profile, onRestart, onBack, isQuickPathCom
 
         <section className={styles.block}>
           {paragraphs.map((p, i) => (
-            <p key={i} className={styles.prose}>{p}</p>
+            <p key={i} className={styles.prose}>
+              {p}
+            </p>
           ))}
         </section>
 
@@ -77,7 +130,9 @@ export default function FinalReport({ profile, onRestart, onBack, isQuickPathCom
               <span className={styles.quoteLabel}>
                 On {rulingQuote.caseNumber}, {rulingQuote.caseTitle}, you wrote
               </span>
-              <blockquote className={styles.quote}>"{rulingQuote.text}"</blockquote>
+              <blockquote className={styles.quote}>
+                "{rulingQuote.text}"
+              </blockquote>
               <p className={styles.quoteOutcome}>
                 This is the evidence you chose to make visible.
               </p>
@@ -91,10 +146,15 @@ export default function FinalReport({ profile, onRestart, onBack, isQuickPathCom
             <div className={styles.rule} />
             <section className={styles.quoteBack}>
               <span className={styles.quoteLabel}>
-                On {sealedRuling.caseNumber}, {sealedRuling.caseTitle}, the panel entered no verdict. You ruled
+                On {sealedRuling.caseNumber}, {sealedRuling.caseTitle}, the
+                panel entered no verdict. You ruled
               </span>
-              <blockquote className={styles.quote}>"{sealedRuling.text}"</blockquote>
-              <p className={styles.quoteOutcome}>Yours is the only ruling on record.</p>
+              <blockquote className={styles.quote}>
+                "{sealedRuling.text}"
+              </blockquote>
+              <p className={styles.quoteOutcome}>
+                Yours is the only ruling on record.
+              </p>
             </section>
           </>
         )}
@@ -110,15 +170,23 @@ export default function FinalReport({ profile, onRestart, onBack, isQuickPathCom
           <button className={styles.backBtn} onClick={onBack}>
             ← Archive
           </button>
-          <button className={styles.restartBtn} onClick={onRestart}>
-            Restart Investigation
+          <button
+            className={styles.restartBtn}
+            onClick={() => {
+              if (confirmReset) onRestart()
+              else setConfirmReset(true)
+            }}
+          >
+            {confirmReset
+              ? 'Erase progress and restart?'
+              : 'Restart Investigation'}
           </button>
         </div>
 
         <p className={styles.stamp}>
-          {isQuickPathComplete ? 'Quick path complete' : 'Investigation closed'} · {total} rulings filed · {closedDate}
+          {isQuickPathComplete ? 'Quick path complete' : total >= CASES.length ? 'Investigation closed' : 'Record in progress'}{' '}
+          · {total} rulings filed · {closedDate}
         </p>
-
       </div>
     </div>
   )

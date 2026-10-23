@@ -9,7 +9,7 @@ const VERDICTS = [
   { key: 'design_disaster', label: 'Design Disaster', color: 'var(--guilty)' },
 ]
 
-export default function ColdOpen({ onComplete }) {
+export default function ColdOpen({ onComplete, onBack }) {
   const [marks, setMarks] = useState([])
   const [writtenRuling, setWrittenRuling] = useState('')
   const [selectedVerdict, setSelectedVerdict] = useState(null)
@@ -19,31 +19,55 @@ export default function ColdOpen({ onComplete }) {
   useEffect(() => () => transitionTimers.current.forEach(clearTimeout), [])
 
   const caseData = CASES[0]
-  const evidenceReady = marks.length > 0 && marks.every((mark) => mark.note.trim())
-  const ready = evidenceReady && writtenRuling.trim() && selectedVerdict && phase === 'idle'
+  const evidenceReady =
+    marks.length > 0 && marks.every((mark) => mark.note.trim())
+  const ready =
+    evidenceReady && writtenRuling.trim() && selectedVerdict && phase === 'idle'
 
   const handleSubmit = () => {
     if (!ready) return
-    setPhase('fading')
-    transitionTimers.current = [
-      setTimeout(() => setPhase('interstitial'), 200),
-      setTimeout(() => setPhase('interstitialOut'), 2600),
-      setTimeout(() => onComplete({
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      onComplete({
         verdict: selectedVerdict,
         evidenceMap: marks,
         evidenceTags: [...new Set(marks.map((mark) => mark.lens))],
         writtenRuling: writtenRuling.trim(),
         timestamp: Date.now(),
-      }), 2900),
+      })
+      return
+    }
+    setPhase('fading')
+    transitionTimers.current = [
+      setTimeout(() => setPhase('interstitial'), 200),
+      setTimeout(() => setPhase('interstitialOut'), 350),
+      setTimeout(
+        () =>
+          onComplete({
+            verdict: selectedVerdict,
+            evidenceMap: marks,
+            evidenceTags: [...new Set(marks.map((mark) => mark.lens))],
+            writtenRuling: writtenRuling.trim(),
+            timestamp: Date.now(),
+          }),
+        500,
+      ),
     ]
   }
 
   return (
     <div className={styles.root}>
-      <span className={styles.wordmark} aria-hidden="true">D/D</span>
+      <button
+        className={styles.wordmark}
+        onClick={onBack}
+        aria-label="Return to cover"
+      >
+        D/D
+      </button>
       <header className={styles.projectHeader}>
         <span className={styles.projectLabel}>Start with the evidence.</span>
-        <span className={styles.projectSub}>Case 001 ? Mark what matters before you decide</span>
+        <span className={styles.projectSub}>
+          Case 001 / Mark what matters before you decide
+        </span>
       </header>
 
       <div className={styles.evidenceShell}>
@@ -71,18 +95,38 @@ export default function ColdOpen({ onComplete }) {
 
         <div className={styles.verdictRow} role="group" aria-label="Verdict">
           {VERDICTS.map(({ key, label, color }) => (
-            <button key={key} className={`${styles.verdictCard} ${selectedVerdict === key ? styles.verdictCardSelected : ''}`} style={selectedVerdict === key ? { '--vc': color } : undefined} onClick={() => setSelectedVerdict(key)} aria-pressed={selectedVerdict === key}>
-              <span className={styles.verdictCardAccent} aria-hidden="true" />{label}
+            <button
+              key={key}
+              className={`${styles.verdictCard} ${selectedVerdict === key ? styles.verdictCardSelected : ''}`}
+              style={selectedVerdict === key ? { '--vc': color } : undefined}
+              onClick={() => setSelectedVerdict(key)}
+              aria-pressed={selectedVerdict === key}
+            >
+              <span className={styles.verdictCardAccent} aria-hidden="true" />
+              {label}
             </button>
           ))}
         </div>
 
-        {!evidenceReady && <p className={styles.readiness}>Add at least one marker and describe what it shows.</p>}
-        <button className={`${styles.submitBtn} ${ready ? styles.submitBtnActive : ''}`} onClick={handleSubmit} disabled={!ready}>Submit your verdict</button>
+        {!evidenceReady && (
+          <p className={styles.readiness}>
+            Add at least one marker and describe what it shows.
+          </p>
+        )}
+        <button
+          className={`${styles.submitBtn} ${ready ? styles.submitBtnActive : ''}`}
+          onClick={handleSubmit}
+          disabled={!ready}
+        >
+          Submit your verdict
+        </button>
       </div>
 
       {(phase === 'interstitial' || phase === 'interstitialOut') && (
-        <div className={`${styles.interstitial} ${phase === 'interstitialOut' ? styles.interstitialOut : styles.interstitialIn}`} aria-live="polite">
+        <div
+          className={`${styles.interstitial} ${phase === 'interstitialOut' ? styles.interstitialOut : styles.interstitialIn}`}
+          aria-live="polite"
+        >
           <p>Your evidence is saved.</p>
           <p>Now see what the panel noticed.</p>
         </div>

@@ -1,0 +1,69 @@
+import { chromium } from 'playwright'
+import { spawn } from 'node:child_process'
+import { mkdirSync, writeFileSync } from 'node:fs'
+import assert from 'node:assert/strict'
+
+const out='output/final-fixes/mobile'
+mkdirSync(out,{recursive:true})
+const server=spawn(process.execPath,['node_modules/vite/bin/vite.js','preview','--host','127.0.0.1','--port','5213','--strictPort'],{stdio:'pipe',windowsHide:true})
+const browser=await chromium.launch({channel:'chrome'})
+const results=[]
+try{
+ await new Promise((resolve,reject)=>{server.stdout.on('data',d=>d.toString().includes('Local:')&&resolve());server.on('error',reject)})
+ for(const width of [320,375,390,430,768]){
+  console.log('START width',width)
+  const page=await browser.newPage({viewport:{width,height:844},hasTouch:true,reducedMotion:'reduce'})
+  await page.goto('http://127.0.0.1:5213/#view=archive')
+  await page.getByRole('button').filter({has:page.getByRole('heading',{name:'Mobile Banking Dashboard',exact:true})}).click()
+  const summary=page.locator('[class*="stageDisclosure"] > summary')
+  await summary.click()
+  assert.ok((await summary.innerText()).includes('Close stages'))
+  assert.equal(await page.getByRole('button',{name:'01 First look',exact:true}).getAttribute('aria-current'),'step')
+  await summary.click()
+  assert.ok((await summary.innerText()).includes('All stages'))
+  await page.getByRole('button',{name:'Mark',exact:true}).click()
+  const viewer=page.getByRole('button',{name:/Mark unclassified evidence/})
+  await viewer.focus()
+  await viewer.press('Enter')
+  const note=page.getByRole('textbox',{name:'Marker 1 observation'})
+  await note.fill('This lower evidence should be visible when I return from its corresponding observation.')
+  await page.getByRole('spinbutton',{name:'Evidence y percent',exact:true}).fill('90')
+  await page.getByRole('button',{name:'Return to exhibit ↑',exact:true}).click()
+  const mark=viewer.locator('[class*="selectedMark"]')
+  const box=await mark.boundingBox()
+  assert.ok(box.y>=0&&box.y+box.height<=844,`Selected lower point visible at ${width}`)
+  assert.ok(await viewer.evaluate(el=>el===document.activeElement))
+  const stored=await page.evaluate(()=>JSON.parse(localStorage.getItem('design-disaster-investigations-v1')).records['case-001'].firstLook.marks[0])
+  await page.evaluate(()=>{
+   window.reviewEvents=[]
+   for(const type of ['pointerdown','pointerup','keydown','click']) document.addEventListener(type,e=>window.reviewEvents.push({type,key:e.key,x:e.clientX,y:e.clientY,target:e.target.tagName,scrollY}),true)
+  })
+  writeFileSync(`${out}/${width}-before-tap.json`,JSON.stringify({box,viewer:await viewer.boundingBox(),scroll:await page.evaluate(()=>scrollY)},null,2))
+  await page.screenshot({path:`${out}/${width}-before-tap.png`})
+  await page.touchscreen.tap(box.x+box.width/2,box.y+box.height/2)
+  writeFileSync(`${out}/${width}-after-tap.json`,JSON.stringify(await page.evaluate(()=>({events:window.reviewEvents,focus:document.activeElement.outerHTML.slice(0,300),scrollY,viewport:innerHeight,marks:JSON.parse(localStorage.getItem('design-disaster-investigations-v1')).records['case-001'].firstLook.marks})),null,2))
+  await page.waitForFunction(()=>document.activeElement?.getAttribute('aria-label')==='Marker 1 observation',{},{timeout:3000})
+  assert.ok(await note.evaluate(el=>el===document.activeElement))
+  assert.equal(await page.getByRole('textbox',{name:/Marker \d observation/}).count(),1)
+  await page.setViewportSize({width,height:430})
+  await note.evaluate(el=>el.scrollIntoView({block:'center',behavior:'instant'}))
+  await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))))
+  const input=await note.boundingBox()
+  writeFileSync(`${out}/${width}-resized-input.json`,JSON.stringify(input))
+  await page.screenshot({path:`${out}/${width}-resized-input.png`})
+  assert.ok(input.y>=0&&input.y+input.height<=430,'Editor remains visible in resized viewport; not a real keyboard test')
+  await page.setViewportSize({width,height:844})
+  assert.equal(await page.getByRole('spinbutton',{name:'Evidence y percent',exact:true}).inputValue(),'90')
+  await page.screenshot({path:`${out}/${width}-editor.png`,fullPage:true})
+  await page.getByRole('button',{name:'Return to exhibit ↑',exact:true}).click()
+  await page.screenshot({path:`${out}/${width}-selected-evidence.png`})
+  const after=await page.evaluate(()=>JSON.parse(localStorage.getItem('design-disaster-investigations-v1')).records['case-001'].firstLook.marks[0])
+  assert.deepEqual(after,stored)
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth))
+  results.push({width,selectedEvidenceVisible:true,noteFocus:true,geometryUnchanged:true,compactStages:true})
+  writeFileSync(`${out}/progress.json`,JSON.stringify(results,null,2))
+  await page.close()
+ }
+ writeFileSync(`${out}/results.json`,JSON.stringify({browser:browser.version(),scope:'Touch emulation and viewport resizing; no physical phone, software keyboard or actual screen reader',results},null,2))
+ console.log(JSON.stringify(results,null,2))
+}finally{await browser.close();server.kill()}

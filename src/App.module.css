@@ -2,25 +2,22 @@
 
 @keyframes viewEnter {
   from {
-    opacity: 0;
-    transform: translateY(10px);
+    opacity: 0.75;
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
 .viewWrap {
-  animation: viewEnter 380ms var(--ease-out) both;
+  animation: viewEnter 280ms var(--ease-out) both;
   transition:
-    opacity 200ms var(--ease-in),
-    transform 200ms var(--ease-in);
+    opacity 120ms var(--ease-in);
 }
 
 .viewExiting {
+  animation: none;
   opacity: 0;
-  transform: translateY(-6px);
   pointer-events: none;
 }
 
@@ -37,7 +34,7 @@
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-sm);
   background: var(--amber);
-  color: var(--bg-primary);
+  color: var(--bg);
   font-family: var(--font-body);
   font-weight: 700;
   transition: transform var(--duration-fast) var(--ease-out);
@@ -45,4 +42,7 @@
 
 .skipLink:focus {
   transform: translateY(0);
+}
+.skipLink:not(:focus) {
+  clip-path: inset(50%);
 }

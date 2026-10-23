@@ -30,7 +30,8 @@
 .verdictCard {
   position: relative;
   width: 100%;
-  padding: var(--space-4) var(--space-4) var(--space-4) calc(var(--space-4) + 8px);
+  padding: var(--space-4) var(--space-4) var(--space-4)
+    calc(var(--space-4) + 8px);
   background: transparent;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
@@ -67,9 +68,15 @@
 }
 
 @keyframes cardLock {
-  0%   { transform: scale(1); }
-  40%  { transform: scale(0.97); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.97);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* Corner-lock bracket — a viewfinder reticle snapping onto the chosen verdict */
@@ -81,7 +88,10 @@
   right: 8px;
   background-color: var(--vc, transparent);
   opacity: 0;
-  transition: width 150ms var(--ease-out), height 150ms var(--ease-out), opacity 150ms var(--ease-out);
+  transition:
+    width 150ms var(--ease-out),
+    height 150ms var(--ease-out),
+    opacity 150ms var(--ease-out);
 }
 
 .verdictCard::before {
@@ -178,19 +188,35 @@
   background-color: var(--amber-dim);
   transform: translateY(-1px);
   /* Outer amber ring locks in with a brief delay — evidence deposited */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--amber);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.35),
+    0 0 0 1px var(--amber);
   animation: tagDeposit 250ms 60ms var(--ease-out) both;
 }
 
 @keyframes tagDeposit {
-  from { box-shadow: 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0px var(--amber); }
-  to   { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--amber); }
+  from {
+    box-shadow:
+      0 0 0 rgba(0, 0, 0, 0),
+      0 0 0 0px var(--amber);
+  }
+  to {
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.35),
+      0 0 0 1px var(--amber);
+  }
 }
 
 @keyframes tagPulse {
-  0%   { opacity: 1; }
-  35%  { opacity: 0.2; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  35% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .tagPulse {
@@ -346,7 +372,7 @@
   color: var(--text-tertiary);
   background: none;
   border: 1px solid transparent;
-  border-radius: 20px;
+  border-radius: 0;
   min-height: var(--target-min);
   padding: var(--space-2) var(--space-4);
   cursor: default;
@@ -369,4 +395,94 @@
 
 .recordActionReady:hover {
   background-color: var(--amber-dim);
+}
+
+.panel {
+  gap: 24px;
+}
+.verdictList {
+  gap: 0;
+}
+.verdictCard {
+  border: 0;
+  border-bottom: 1px solid var(--border-default);
+  padding: 18px 8px;
+  min-height: 54px;
+  color: var(--text-secondary);
+}
+.verdictCardSelected {
+  color: var(--vc);
+  border-bottom-color: var(--vc);
+  animation: none;
+}
+.verdictCardDimmed {
+  opacity: 1;
+  color: var(--text-secondary);
+}
+.verdictCard::before,
+.verdictCard::after,
+.verdictAccent {
+  display: none;
+}
+.verdictCard:active {
+  transform: none;
+}
+.rulingInput {
+  font: 400 16px/1.6 var(--font-body);
+  min-height: 110px;
+  background: var(--surface);
+  padding: 12px;
+}
+.inferredNote {
+  text-transform: none;
+  font: 13px/1.5 var(--font-body);
+  letter-spacing: 0;
+}
+.confidenceColumn {
+  gap: 0;
+}
+.confidenceOption {
+  font: 14px var(--font-body);
+  min-height: 44px;
+  text-align: left;
+  color: var(--text-secondary);
+}
+.confidenceSelected {
+  color: var(--text-primary);
+  background: var(--surface);
+}
+.rulingLabel {
+  letter-spacing: 0.04em;
+}
+.recordAction {
+  min-height: 52px;
+  font: 600 14px var(--font-body);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  border: 1px solid var(--border-default);
+  padding: 14px;
+}
+.recordActionReady {
+  background: var(--amber);
+  color: var(--bg);
+}
+.findingStatement {
+  font: italic 22px/1.3 var(--font-editorial);
+}
+
+.recordAction {
+  opacity: 1;
+  pointer-events: auto;
+  color: var(--text-secondary);
+  cursor: not-allowed;
+}
+.recordActionReady {
+  color: var(--bg);
+  cursor: pointer;
+}
+.rulingInput::placeholder {
+  font-style: normal;
 }

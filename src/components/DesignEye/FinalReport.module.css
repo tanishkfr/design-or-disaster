@@ -280,3 +280,110 @@
   opacity: 0.7;
   animation: closingEnter var(--duration-slow) var(--ease-out) 2200ms both;
 }
+
+.page {
+  background: var(--bg);
+  padding: 48px;
+}
+.container {
+  max-width: 1040px;
+  border: 0;
+  padding: 24px 0 64px;
+}
+.header {
+  border-top: 1px solid var(--text-secondary);
+  padding-top: 20px;
+  gap: 12px;
+}
+.docMeta {
+  opacity: 1;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.verdictCard {
+  border: 0;
+  border-bottom: 1px solid var(--border-default);
+  background: none;
+  padding: 12px 0 40px;
+  border-radius: 0;
+  animation: none;
+}
+.cardLabel {
+  font: 500 20px var(--font-body);
+  text-transform: none;
+  color: var(--text-primary);
+  letter-spacing: 0;
+}
+.cardLensName {
+  font: italic clamp(54px, 7vw, 100px) / 1.05 var(--font-editorial);
+  color: var(--text-primary);
+}
+.cardMeta {
+  max-width: 580px;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.opening {
+  font: 500 clamp(23px, 3vw, 36px) / 1.4 var(--font-body);
+  max-width: 850px;
+}
+.block {
+  max-width: 700px;
+}
+.prose {
+  font-size: 17px;
+  line-height: 1.85;
+}
+.quoteBack {
+  max-width: 800px;
+}
+.quote {
+  font-size: 36px;
+}
+.actions,
+.closing,
+.stamp {
+  animation: none;
+}
+.actions {
+  flex-wrap: wrap;
+}
+.actions button {
+  min-height: 44px;
+}
+.stamp {
+  line-height: 1.8;
+}
+.recordTitle {
+  font: 700 clamp(48px, 7vw, 96px) / 1 var(--font-body);
+  letter-spacing: -0.04em;
+  margin-bottom: 40px;
+}
+.topBack {
+  min-height: 44px;
+  color: var(--amber);
+  margin-bottom: 24px;
+}
+.question {
+  font-size: 32px;
+}
+@media (max-width: 650px) {
+  .page {
+    padding: 24px 20px;
+  }
+  .container {
+    padding-top: 0;
+  }
+  .recordTitle {
+    font-size: 54px;
+  }
+  .quote {
+    font-size: 28px;
+  }
+  .prose {
+    font-size: 16px;
+  }
+  .cardLensName {
+    font-size: 58px;
+  }
+}

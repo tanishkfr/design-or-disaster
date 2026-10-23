@@ -1,0 +1,568 @@
+.bank,
+.bulletin,
+.portfolio,
+.fashion {
+  width: 100%;
+  text-align: left;
+  overflow: hidden;
+}
+.bank {
+  background: #f5f7fa;
+  color: #192b48;
+  font:
+    16px/1.5 Arial,
+    sans-serif;
+}
+.bank header {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+}
+.bank header strong {
+  font-size: 28px;
+  letter-spacing: -0.04em;
+}
+.bank header span {
+  font-size: 10px;
+}
+.bank nav {
+  display: flex;
+  border-block: 1px solid #ccd3dc;
+}
+.bank nav button {
+  flex: 1;
+  padding: 14px;
+  min-height: 44px;
+}
+.bank nav button[aria-pressed='true'] {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  font-weight: 700;
+}
+.bankBody {
+  padding: 24px;
+}
+.balance {
+  background: #204b9d;
+  color: white;
+  padding: 28px;
+  margin-bottom: 24px;
+}
+.balance p {
+  font-size: 13px;
+}
+.balance strong {
+  font-size: 42px;
+  display: block;
+  margin-block: 8px;
+}
+.balance span {
+  font-size: 12px;
+}
+.quick {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.quick button {
+  background: white;
+  border: 1px solid #b6c4d7;
+  flex: 1;
+  min-height: 64px;
+  padding: 12px;
+  font-size: 13px;
+}
+.bank h2 {
+  font-weight: 700;
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+.transaction {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  border-bottom: 1px solid #ced5df;
+  padding: 18px 0;
+  text-align: left;
+  min-height: 60px;
+}
+.transaction small {
+  display: block;
+  color: #546174;
+  font-size: 12px;
+}
+.bankDetail {
+  padding: 20px;
+  background: #e2e9f4;
+  margin-top: 16px;
+  font-size: 14px;
+}
+.bank form,
+.bank label {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.bank form {
+  gap: 24px;
+}
+.bank input {
+  min-height: 46px;
+  padding: 10px;
+  border: 1px solid #7a899d;
+  background: white;
+  color: #192b48;
+  font: 16px Arial;
+  width: 100%;
+  border-radius: 0;
+}
+.bankSubmit {
+  background: #204b9d;
+  color: white;
+  padding: 14px 20px;
+  min-height: 46px;
+  margin-top: 16px;
+}
+.error {
+  color: #9f211b;
+  font-size: 14px;
+}
+.bank footer {
+  padding: 20px 24px;
+  font-size: 12px;
+  border-top: 1px solid #ced5df;
+}
+.bank :focus-visible {
+  outline: 3px solid #142e57;
+  outline-offset: 3px;
+}
+.portfolio {
+  background: #e7e4dc;
+  color: #17191a;
+  font: 16px/1.6 var(--font-body);
+}
+.portfolio header {
+  padding: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid #8c8e88;
+  font-size: 13px;
+}
+.portfolio header button {
+  min-height: 44px;
+  text-decoration: underline;
+}
+.portfolio nav {
+  display: flex;
+  gap: 24px;
+  padding: 10px 22px;
+  border-bottom: 1px solid #8c8e88;
+}
+.portfolio nav button {
+  min-height: 44px;
+  text-transform: capitalize;
+}
+.portfolio nav button[aria-pressed='true'] {
+  text-decoration: underline;
+  text-underline-offset: 8px;
+}
+.portfolioHero {
+  padding: 34px 24px;
+  background: #d1c7e4;
+  position: relative;
+}
+.portfolioHero > p {
+  font-size: 12px;
+}
+.portfolioHero h2 {
+  font: 600 42px/0.98 var(--font-body);
+  letter-spacing: -0.04em;
+  margin: 36px 0 24px;
+  position: relative;
+  z-index: 1;
+}
+.portfolioHero h2 em {
+  font: italic 1.1em var(--font-editorial);
+}
+.portfolioHero button {
+  border-block: 1px solid #17191a;
+  min-height: 54px;
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin-top: 28px;
+  padding: 12px 0;
+  font-size: 14px;
+}
+.kinetic {
+  height: 190px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow: hidden;
+}
+.kinetic span {
+  display: block;
+  font: 700 180px/0.8 var(--font-body);
+  letter-spacing: -0.1em;
+  color: #55456a;
+  transform: rotate(-10deg);
+}
+.motion .kinetic span {
+  animation: tilt 4s ease-in-out 2 alternate;
+}
+.motion .kinetic span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.motion .kinetic span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.work,
+.contact {
+  padding: 28px 24px;
+}
+.projectTabs {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.projectTabs button {
+  min-height: 44px;
+  padding: 10px;
+  border-bottom: 1px solid transparent;
+  font-size: 12px;
+}
+.projectTabs button[aria-pressed='true'] {
+  border-color: #17191a;
+}
+.projectArtwork {
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  font: 700 44px/0.95 var(--font-body);
+  letter-spacing: -0.04em;
+  overflow: hidden;
+}
+.projectArtwork span {
+  font-size: 140px;
+}
+.work h2,
+.contact h2 {
+  font-size: 32px;
+  font-weight: 600;
+  margin-block: 24px;
+}
+.work p,
+.contact p {
+  margin-top: 14px;
+  font-size: 15px;
+}
+.contact {
+  min-height: 400px;
+}
+.contact button {
+  min-height: 44px;
+  text-decoration: underline;
+  margin-top: 24px;
+}
+.portfolio footer {
+  border-top: 1px solid #8c8e88;
+  padding: 18px 22px;
+  font-size: 11px;
+}
+.portfolio :focus-visible {
+  outline: 3px solid #17191a;
+  outline-offset: 3px;
+}
+.bulletin {
+  font:
+    15px/1.5 Georgia,
+    serif;
+  background: #f5f3e9;
+  color: #1e2453;
+}
+.bulletin header {
+  padding: 20px;
+  border-bottom: 1px solid #aaa999;
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.bulletin header strong {
+  font-size: 38px;
+  color: #414576;
+  letter-spacing: -0.04em;
+}
+.bulletin header span {
+  font-size: 13px;
+}
+.bulletin nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  padding: 8px 16px;
+  border-bottom: 1px solid #aaa999;
+}
+.bulletin nav button {
+  min-height: 44px;
+  padding: 10px;
+  text-decoration: underline;
+  color: #222a72;
+}
+.bulletin nav button[aria-pressed='true'] {
+  font-weight: bold;
+}
+.bulletinBody {
+  padding: 24px 20px;
+}
+.search {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.search label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 160px;
+}
+.search input {
+  font: 16px Arial;
+  min-height: 44px;
+  padding: 8px;
+  background: white;
+  border: 1px solid #6b6f80;
+  color: #121a35;
+  width: 100%;
+  border-radius: 0;
+}
+.listing {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 16px;
+  width: 100%;
+  text-align: left;
+  border-bottom: 1px solid #b6b6a7;
+  padding: 15px 0;
+  min-height: 70px;
+}
+.listing strong {
+  font-weight: 400;
+  text-decoration: underline;
+  color: #252c79;
+}
+.listing span:last-child {
+  font-size: 12px;
+  grid-column: 1 / 3;
+}
+.bulletin aside {
+  padding: 20px 0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.bulletin article > button {
+  min-height: 44px;
+  text-decoration: underline;
+}
+.bulletin article h2 {
+  font-size: 30px;
+  margin: 24px 0;
+}
+.bulletin article h3 {
+  font-weight: 700;
+  margin-top: 32px;
+}
+.bulletin article p {
+  margin-block: 16px;
+}
+.listingPrice {
+  font-size: 22px;
+}
+.save {
+  background: #e3e2d5;
+  border: 1px solid #7b7b6d;
+  padding: 12px 16px;
+  margin-top: 24px;
+}
+.bulletin footer {
+  padding: 18px 20px;
+  border-top: 1px solid #aaa999;
+  font-size: 12px;
+}
+.bulletin :focus-visible {
+  outline: 3px solid #222a72;
+  outline-offset: 3px;
+}
+.fashion {
+  background: #deded7;
+  color: #101310;
+  font: 15px/1.5 var(--font-body);
+}
+.fashion header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid #101310;
+  padding: 16px 20px;
+  gap: 16px;
+}
+.fashion header button {
+  min-height: 44px;
+  font-weight: 700;
+  font-size: 14px;
+}
+.storeManifesto {
+  font: 800 34px/0.92 var(--font-body);
+  letter-spacing: -0.04em;
+  padding: 30px 20px;
+  border-bottom: 2px solid #101310;
+}
+.storeManifesto em {
+  font-style: normal;
+  color: #3b4f2e;
+}
+.products {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.products > button {
+  border-right: 1px solid #101310;
+  border-bottom: 1px solid #101310;
+  min-width: 0;
+  text-align: left;
+  padding: 18px 10px;
+  display: flex;
+  flex-direction: column;
+}
+.products strong {
+  font-size: 12px;
+  margin-top: 14px;
+}
+.products span {
+  font-size: 11px;
+  margin-top: 6px;
+}
+.garment {
+  display: grid;
+  place-items: center;
+  background: #c8c9c0;
+  width: 100%;
+  min-width: 0;
+}
+.garment svg {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  display: block;
+}
+.productDetail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 24px 20px;
+}
+.productDetail section {
+  min-width: 0;
+}
+.productDetail h2 {
+  font: 700 28px/1 var(--font-body);
+  margin: 20px 0;
+}
+.productDetail p {
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 16px 0;
+}
+.productDetail button,
+.bag button {
+  min-height: 44px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.productDetail label {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+}
+.productDetail select {
+  min-height: 46px;
+  width: 100%;
+  border: 1px solid #101310;
+  background: transparent;
+  color: #101310;
+  padding: 10px;
+  font: 16px var(--font-body);
+  border-radius: 0;
+}
+.add {
+  padding: 14px;
+  width: 100%;
+  background: #172515;
+  color: #fff;
+  margin-top: 20px;
+}
+.bag {
+  padding: 28px 20px;
+  min-height: 350px;
+}
+.bag h2 {
+  font: 700 30px var(--font-body);
+  margin-bottom: 24px;
+}
+.bag > div {
+  border-block: 1px solid #797e72;
+  padding: 18px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+.bag > p {
+  margin: 24px 0;
+}
+.fashion footer {
+  border-top: 2px solid #101310;
+  padding: 18px 20px;
+  font-size: 11px;
+}
+.fashion :focus-visible {
+  outline: 3px solid #101310;
+  outline-offset: 3px;
+}
+@keyframes tilt {
+  from {
+    transform: rotate(-10deg) translateY(8px);
+  }
+  to {
+    transform: rotate(8deg) translateY(-8px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .motion .kinetic span {
+    animation: none;
+  }
+}
+
+.fashion {
+  container-type: inline-size;
+}
+@container (max-width:480px) {
+  .productDetail {
+    grid-template-columns: 1fr;
+  }
+  .productDetail > .garment {
+    max-width: 280px;
+    margin-inline: auto;
+  }
+}

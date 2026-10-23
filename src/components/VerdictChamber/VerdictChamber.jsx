@@ -12,74 +12,152 @@ const TINT_COLOR = {
 }
 
 const SPLIT_OFFSET = { guilty: -32, not_guilty: 32, mixed: 0 }
-const VERDICT_TO_RULING = { strong_design: 'not_guilty', needs_revision: 'mixed', design_disaster: 'guilty' }
+const VERDICT_TO_RULING = {
+  strong_design: 'not_guilty',
+  needs_revision: 'mixed',
+  design_disaster: 'guilty',
+}
 
-export default function VerdictChamber({ caseData, submission, onNext, onBack, isFinalCase }) {
+export default function VerdictChamber({
+  caseData,
+  submission,
+  onNext,
+  onBack,
+  isFinalCase,
+  onReflection,
+}) {
   const sealed = caseData.caseStatus === 'sealed'
   const contested = caseData.caseStatus === 'contested'
-  const jurorRulings = useMemo(() => (sealed ? [] : caseData.jurorRulings), [caseData.jurorRulings, sealed])
-  const [arrivedCount, setArrivedCount] = useState(0)
+  const jurorRulings = useMemo(
+    () => (sealed ? [] : caseData.jurorRulings),
+    [caseData.jurorRulings, sealed],
+  )
+  const reducedMotion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)',
+  ).matches
+  const [arrivedCount, setArrivedCount] = useState(() =>
+    reducedMotion ? jurorRulings.length : 0,
+  )
   const [showVerdict, setShowVerdict] = useState(sealed)
   const [complete, setComplete] = useState(false)
   const [openedPerspective, setOpenedPerspective] = useState(false)
 
   useEffect(() => {
     if (sealed) {
-      const timer = setTimeout(() => setComplete(true), 900)
+      const timer = setTimeout(() => setComplete(true), reducedMotion ? 0 : 300)
       return () => clearTimeout(timer)
     }
 
     const timers = jurorRulings.map((_, index) =>
-      setTimeout(() => setArrivedCount((current) => Math.max(current, index + 1)), 500 + index * 650),
+      setTimeout(
+        () => setArrivedCount((current) => Math.max(current, index + 1)),
+        reducedMotion ? 0 : 100 + index * 140,
+      ),
     )
     return () => {
       timers.forEach(clearTimeout)
     }
-  }, [jurorRulings, sealed])
+  }, [jurorRulings, sealed, reducedMotion])
 
   useEffect(() => {
-    if (sealed || !openedPerspective || arrivedCount < jurorRulings.length) return
-    const verdictTimer = setTimeout(() => setShowVerdict(true), 500)
-    const completeTimer = setTimeout(() => setComplete(true), 1700)
-    return () => { clearTimeout(verdictTimer); clearTimeout(completeTimer) }
-  }, [arrivedCount, jurorRulings.length, openedPerspective, sealed])
+    if (sealed || !openedPerspective || arrivedCount < jurorRulings.length)
+      return
+    const verdictTimer = setTimeout(
+      () => setShowVerdict(true),
+      reducedMotion ? 0 : 160,
+    )
+    const completeTimer = setTimeout(
+      () => setComplete(true),
+      reducedMotion ? 0 : 300,
+    )
+    return () => {
+      clearTimeout(verdictTimer)
+      clearTimeout(completeTimer)
+    }
+  }, [
+    arrivedCount,
+    jurorRulings.length,
+    openedPerspective,
+    sealed,
+    reducedMotion,
+  ])
 
-  const availableLenses = jurorRulings.slice(0, arrivedCount).map((ruling) => ruling.juror)
+  const availableLenses = jurorRulings
+    .slice(0, arrivedCount)
+    .map((ruling) => ruling.juror)
   const investigatorRuling = VERDICT_TO_RULING[submission.verdict] ?? 'mixed'
 
   return (
     <div className={styles.root}>
       {!sealed && showVerdict && (
-        <div className={`${styles.screenTint} ${styles.screenTintVisible}`} style={{ '--tint': TINT_COLOR[caseData.officialVerdict] }} aria-hidden="true" />
+        <div
+          className={`${styles.screenTint} ${styles.screenTintVisible}`}
+          style={{ '--tint': TINT_COLOR[caseData.officialVerdict] }}
+          aria-hidden="true"
+        />
       )}
 
       <header className={styles.header}>
-        <button className={styles.backBtn} onClick={onBack} aria-label="Return to archive">← Archive</button>
+        <button
+          className={styles.backBtn}
+          onClick={onBack}
+          aria-label="Return to archive"
+        >
+          ← Archive
+        </button>
         <span className={styles.caseNumber}>{caseData.number}</span>
-        <span className={`${styles.chamberLabel} ${styles.chamberLabelVisible}`}>{sealed ? 'SEALED CASE' : 'PANEL COMPARISON'}</span>
+        <span
+          className={`${styles.chamberLabel} ${styles.chamberLabelVisible}`}
+        >
+          {sealed ? 'SEALED CASE' : 'PANEL COMPARISON'}
+        </span>
       </header>
 
       <div className={styles.content}>
+        {caseData.imageNotice && <p className={styles.caseContext}>{caseData.imageNotice}</p>}
+        {onReflection && (
+          <div>
+            <p className={styles.caseContext}>
+              This authored-panel comparison uses your first judgment and marks
+              on the original image. Your Second Look decisions remain in their
+              separate record.
+            </p>
+            <button className={styles.backBtn} onClick={onReflection}>
+              Return to Second Look record →
+            </button>
+          </div>
+        )}
         <OverlaidJury
           src={caseData.screenshot}
           aspectRatio={caseData.screenshotAspect ?? '4/3'}
           objectPosition={caseData.screenshotPosition ?? 'top center'}
           description={caseData.screenshotDescription}
-          visitorMarks={submission.evidenceMap ?? submission.evidencePlate ?? []}
-          annotations={sealed ? [] : caseData.annotations ?? []}
+          visitorMarks={
+            submission.evidenceMap ?? submission.evidencePlate ?? []
+          }
+          annotations={sealed ? [] : (caseData.annotations ?? [])}
           availableLenses={availableLenses}
           sealed={sealed}
           onOpenPerspective={() => setOpenedPerspective(true)}
         />
 
-        {!sealed && arrivedCount >= jurorRulings.length && !openedPerspective && (
-          <p className={styles.caseContext}>Open at least one panel perspective. The ruling will appear after you compare what someone else noticed.</p>
-        )}
+        {!sealed &&
+          arrivedCount >= jurorRulings.length &&
+          !openedPerspective && (
+            <p className={styles.caseContext}>
+              Open at least one panel perspective. The ruling will appear after
+              you compare what someone else noticed.
+            </p>
+          )}
 
         <div className={styles.caseIdentity}>
           <div className={styles.caseTitleRow}>
             <h1 className={styles.caseTitle}>{caseData.title}</h1>
-            <span className={`${styles.categoryTag} ${styles.categoryTagVisible}`}>{caseData.category}</span>
+            <span
+              className={`${styles.categoryTag} ${styles.categoryTagVisible}`}
+            >
+              {caseData.category}
+            </span>
           </div>
           <p className={styles.caseContext}>{caseData.context}</p>
         </div>
@@ -87,17 +165,29 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
         {!sealed && (
           <>
             <div className={styles.divider} aria-hidden="true" />
-            <section className={styles.deliberation} aria-label="Jury deliberation">
+            <section
+              className={styles.deliberation}
+              aria-label="Jury deliberation"
+            >
               <div className={styles.deliberationHeader}>
-                <span className={styles.deliberationLabel}>Five perspectives · incompatible evidence</span>
+                <span className={styles.deliberationLabel}>
+                  Five perspectives · incompatible evidence
+                </span>
                 {arrivedCount < jurorRulings.length && (
-                  <button className={styles.revealAllBtn} type="button" onClick={() => setArrivedCount(jurorRulings.length)}>
+                  <button
+                    className={styles.revealAllBtn}
+                    type="button"
+                    onClick={() => setArrivedCount(jurorRulings.length)}
+                  >
                     Show all five
                   </button>
                 )}
                 <div className={styles.jurorDots} aria-hidden="true">
                   {jurorRulings.map((ruling, index) => (
-                    <div key={ruling.juror} className={`${styles.jurorDot} ${index < arrivedCount ? styles[`jurorDot_${ruling.ruling}`] : ''}`} />
+                    <div
+                      key={ruling.juror}
+                      className={`${styles.jurorDot} ${index < arrivedCount ? styles[`jurorDot_${ruling.ruling}`] : ''}`}
+                    />
                   ))}
                 </div>
               </div>
@@ -109,7 +199,9 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
                     ruling={ruling.ruling}
                     reasoning={ruling.reasoning}
                     arrived={index < arrivedCount}
-                    splitOffset={contested && showVerdict ? SPLIT_OFFSET[ruling.ruling] : 0}
+                    splitOffset={
+                      contested && showVerdict ? SPLIT_OFFSET[ruling.ruling] : 0
+                    }
                   />
                 ))}
                 <JurorEntry
@@ -117,7 +209,11 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
                   ruling={investigatorRuling}
                   reasoning={submission.writtenRuling}
                   arrived={arrivedCount >= jurorRulings.length}
-                  splitOffset={contested && showVerdict ? SPLIT_OFFSET[investigatorRuling] : 0}
+                  splitOffset={
+                    contested && showVerdict
+                      ? SPLIT_OFFSET[investigatorRuling]
+                      : 0
+                  }
                   isInvestigator
                 />
               </div>
@@ -128,7 +224,13 @@ export default function VerdictChamber({ caseData, submission, onNext, onBack, i
         {showVerdict && (
           <>
             <div className={styles.divider} aria-hidden="true" />
-            <FinalVerdictBlock caseData={caseData} submission={submission} showNext={complete} onNext={onNext} isFinalCase={isFinalCase} />
+            <FinalVerdictBlock
+              caseData={caseData}
+              submission={submission}
+              showNext={complete}
+              onNext={onNext}
+              isFinalCase={isFinalCase}
+            />
           </>
         )}
         <div className={styles.bottomSpacer} />
